@@ -1,15 +1,11 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
-from .models import Profile
+from .models import Contenido
 
-
-class AnimalTestCase(TestCase):
+# Test de Contenido
+class ContenidoTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(
-            username="testuser", password="password"
-        )
-        self.profile = Profile.objects.create(user=self.user)
+        Contenido.objects.create(titulo="Hola Mundo", descripcion="Este es un contenido de ejemplo", likes=5)
 
-    def test_profile(self):
-        profile = Profile.objects.get(user=self.user)
-        self.assertEqual(profile.user, self.user)
+    def test_contenido(self):
+        contenido = Contenido.objects.get(titulo="Hola Mundo")
+        self.assertEqual(contenido.get_likes(), 5)
