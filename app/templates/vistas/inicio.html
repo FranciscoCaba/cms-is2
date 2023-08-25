@@ -1,4 +1,9 @@
 {% extends "base.html" %}
 {% block contenido %}
-    <h1>Hola Mundo!</h1>
+    {% if request.user.is_authenticated %}
+        <h1>Bienvenido {{ request.user.username }}</h1>
+        <h5>{{ group_name|capfirst }}</h5>
+    {% else %}
+        <h1>Bienvenido Visitante</h1>
+    {% endif %}
 {% endblock %}

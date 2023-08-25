@@ -3,6 +3,7 @@
 {% block contenido %}
     <div class="container my-3">
         <div class="row">
+            {% if request.user.is_authenticated %}
             <div class="col-md-4">
                 <div class="card bourder rounded-2 shadow p-3 mb-3">
                     <div class="card-body">
@@ -10,8 +11,8 @@
                         <h5>{{ group_name|capfirst }}</h5>
                         <p><strong>Nombre de usuario: </strong>{{ user.username}}</p>
                         <hr>
-                        <a class="btn btn-outline-secondary" href="">Editar Perfil</a>
-                        <a class="btn btn-danger" href="">Cerrar Sesion</a>
+                        <a class="btn btn-outline-secondary" href="#">Editar Perfil</a>
+                        <a class="btn btn-danger" href="{% url 'logout' %}">Cerrar Sesion</a>
                     </div> 
                 </div>
             </div>
@@ -26,6 +27,9 @@
                     </div> 
                 </div>
             </div>
+            {% else %}
+                {% include 'profile/visitante.html' %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

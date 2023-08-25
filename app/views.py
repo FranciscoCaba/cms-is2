@@ -24,9 +24,14 @@ class ProfileView(CustomTemplateView):
         context =  super().get_context_data(**kwargs)
         user=self.request.user
         return context
-      
-def index(request):
-    return render(request, 'vistas/inicio.html')
+    
+class IndexView(CustomTemplateView):
+    template_name= 'vistas/inicio.html'
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        user=self.request.user
+        return context
       
 def exit(request):
     logout(request)
