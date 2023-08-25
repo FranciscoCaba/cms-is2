@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block contenido %}
+<form method="post">
+    {% csrf_token %}
+    <div class="container">
+        <div class="mb-3">
+            <label class="form-label">Nombre de Usuario</label>
+            <input type="text" name="username"
+            class="form-control" placeholder="Nombre de Usuario">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Contrasenha</label>
+            <input type="password" name="password" class="form-control" placeholder="Contrasenha">
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+    </div>
+</form>
+{% endblock %}
