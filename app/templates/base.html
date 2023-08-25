@@ -15,6 +15,22 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand navbar-light bg-light">
+    <ul class="nav navbar-nav">
+    {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'exit' %}">Salir</a>
+      </li>
+    {% else %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Iniciar Sesion</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#">Registrar</a>
+      </li>
+    {% endif %}
+    </ul>
+  </nav>
   {% block contenido %}
   {% endblock %}
 
