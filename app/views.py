@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import logout
 
@@ -59,6 +59,13 @@ def edit(request):
             return redirect('index')
         
     return render(request, 'vistas/edit.html', data)
+
+def delete(request):
+    obj = User.objects.get(id=request.user.id)
+    obj.is_active = False
+    obj.save()
+
+    return redirect('index')
 
 def exit(request):
     logout(request)
