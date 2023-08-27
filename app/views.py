@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import Group
+from .forms import CustomUserCreationForm
 from django.contrib.auth import logout
 
 # Create your views here.
@@ -32,6 +33,19 @@ class IndexView(CustomTemplateView):
         context =  super().get_context_data(**kwargs)
         user=self.request.user
         return context
+    
+def register(request):
+    data = {
+        'form': CustomUserCreationForm()
+    }
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        
+    return render(request, 'registration/register.html', data)
       
 def exit(request):
     logout(request)
