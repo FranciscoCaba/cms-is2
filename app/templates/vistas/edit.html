@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block contenido %}
+{% load crispy_forms_tags %}
+<form method="post">
+    {% csrf_token %}
+    <div class="card mx-auto" style="width: 40%">
+        <div class="card-body">
+            <h4 class="card-title">Complete los campos:</h4>
+            {{ form | crispy }}
+            <button type="submit" class="btn btn-primary float-end">Cambiar</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
