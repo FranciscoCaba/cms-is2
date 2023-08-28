@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Contenido
+from accounts.models import Contenido
 
 # Test de Contenido
 class ContenidoTestCase(TestCase):
