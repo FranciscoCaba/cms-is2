@@ -8,6 +8,7 @@ media
 static
 staticfiles
 
+
 # Backup files # 
 *.bak 
 
