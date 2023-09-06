@@ -56,7 +56,6 @@
 <li class="toctree-l3"><a class="reference internal" href="accounts.html#accounts-apps-module">accounts.apps module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="accounts.html#accounts-models-module">accounts.models module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="accounts.html#accounts-signals-module">accounts.signals module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="accounts.html#accounts-tests-module">accounts.tests module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="accounts.html#accounts-views-module">accounts.views module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="accounts.html#module-contents">Module contents</a></li>
 </ul>
@@ -156,6 +155,25 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="accounts.migrations.0003_remove_profile_address_remove_profile_image_and_more.Migration.operations">
 <span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='profile',</span> <span class="pre">name='address'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='profile',</span> <span class="pre">name='image'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='profile',</span> <span class="pre">name='localidad'&gt;,</span> <span class="pre">&lt;RemoveField</span>&#160; <span class="pre">model_name='profile',</span> <span class="pre">name='telephone'&gt;]</span></em><a class="headerlink" href="#accounts.migrations.0003_remove_profile_address_remove_profile_image_and_more.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="accounts-migrations-0004-contenido-module">
+<h2>accounts.migrations.0004_contenido module<a class="headerlink" href="#accounts-migrations-0004-contenido-module" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-accounts.migrations.0004_contenido">
+<dt class="sig sig-object py" id="accounts.migrations.0004_contenido.Migration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accounts.migrations.0004_contenido.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/accounts/migrations/0004_contenido.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accounts.migrations.0004_contenido.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accounts.migrations.0004_contenido.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('accounts',</span> <span class="pre">'0003_remove_profile_address_remove_profile_image_and_more')]</span></em><a class="headerlink" href="#accounts.migrations.0004_contenido.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accounts.migrations.0004_contenido.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='Contenido',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.AutoField&gt;),</span> <span class="pre">('titulo',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('descripcion',</span> <span class="pre">&lt;django.db.models.fields.TextField&gt;),</span> <span class="pre">('likes',</span> <span class="pre">&lt;django.db.models.fields.IntegerField&gt;)],</span> <span class="pre">options={'verbose_name':</span> <span class="pre">'contenido',</span> <span class="pre">'verbose_name_plural':</span> <span class="pre">'contenido',</span> <span class="pre">'ordering':</span> <span class="pre">['-id']}&gt;]</span></em><a class="headerlink" href="#accounts.migrations.0004_contenido.Migration.operations" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

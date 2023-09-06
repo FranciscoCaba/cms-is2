@@ -28,6 +28,14 @@ accounts.migrations.0003\_remove\_profile\_address\_remove\_profile\_image\_and\
    :undoc-members:
    :show-inheritance:
 
+accounts.migrations.0004\_contenido module
+------------------------------------------
+
+.. automodule:: accounts.migrations.0004_contenido
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

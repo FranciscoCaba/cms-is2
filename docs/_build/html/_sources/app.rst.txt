@@ -28,18 +28,18 @@ app.apps module
    :undoc-members:
    :show-inheritance:
 
-app.models module
------------------
+app.forms module
+----------------
 
-.. automodule:: app.models
+.. automodule:: app.forms
    :members:
    :undoc-members:
    :show-inheritance:
 
-app.tests module
-----------------
+app.models module
+-----------------
 
-.. automodule:: app.tests
+.. automodule:: app.models
    :members:
    :undoc-members:
    :show-inheritance:

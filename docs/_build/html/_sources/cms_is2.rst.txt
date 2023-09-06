@@ -12,6 +12,22 @@ cms\_is2.asgi module
    :undoc-members:
    :show-inheritance:
 
+cms\_is2.desarrollo module
+--------------------------
+
+.. automodule:: cms_is2.desarrollo
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cms\_is2.produccion module
+--------------------------
+
+.. automodule:: cms_is2.produccion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 cms\_is2.settings module
 ------------------------
 

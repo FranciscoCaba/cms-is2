@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="accounts package" href="accounts.html" />
-    <link rel="prev" title="Welcome to cms-is2-eq01’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Welcome to cms-is2-eq01-v.1.0.0’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -89,6 +89,7 @@
 <li class="toctree-l4"><a class="reference internal" href="accounts.migrations.html#accounts-migrations-0001-initial-module">accounts.migrations.0001_initial module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accounts.migrations.html#accounts-migrations-0002-alter-profile-options-alter-profile-localidad-and-more-module">accounts.migrations.0002_alter_profile_options_alter_profile_localidad_and_more module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accounts.migrations.html#accounts-migrations-0003-remove-profile-address-remove-profile-image-and-more-module">accounts.migrations.0003_remove_profile_address_remove_profile_image_and_more module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accounts.migrations.html#accounts-migrations-0004-contenido-module">accounts.migrations.0004_contenido module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accounts.migrations.html#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -135,14 +136,6 @@
 <li class="toctree-l3"><a class="reference internal" href="accounts.html#accounts.signals.add_user_to_suscriptor_group"><code class="docutils literal notranslate"><span class="pre">add_user_to_suscriptor_group()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="accounts.html#accounts-tests-module">accounts.tests module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="accounts.html#accounts.tests.ContenidoTestCase"><code class="docutils literal notranslate"><span class="pre">ContenidoTestCase</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="accounts.html#accounts.tests.ContenidoTestCase.setUp"><code class="docutils literal notranslate"><span class="pre">ContenidoTestCase.setUp()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="accounts.html#accounts.tests.ContenidoTestCase.test_contenido"><code class="docutils literal notranslate"><span class="pre">ContenidoTestCase.test_contenido()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="accounts.html#accounts-views-module">accounts.views module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="accounts.html#module-contents">Module contents</a></li>
 </ul>
@@ -165,8 +158,25 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#app-forms-module">app.forms module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.html#app.forms.CustomUserChangeForm"><code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserChangeForm.Meta"><code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserChangeForm.base_fields"><code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserChangeForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserChangeForm.media"><code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserChangeForm.password"><code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm.password</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.html#app.forms.CustomUserCreationForm"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserCreationForm.Meta"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserCreationForm.base_fields"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserCreationForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.html#app.forms.CustomUserCreationForm.media"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="app.html#app-models-module">app.models module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="app.html#app-tests-module">app.tests module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.html#app-urls-module">app.urls module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.html#app-views-module">app.views module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.html#app.views.CustomTemplateView"><code class="docutils literal notranslate"><span class="pre">CustomTemplateView</span></code></a><ul>
@@ -196,6 +206,8 @@
 <li class="toctree-l1"><a class="reference internal" href="cms_is2.html">cms_is2 package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cms_is2.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cms_is2.html#cms-is2-asgi-module">cms_is2.asgi module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cms_is2.html#cms-is2-desarrollo-module">cms_is2.desarrollo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cms_is2.html#cms-is2-produccion-module">cms_is2.produccion module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cms_is2.html#cms-is2-settings-module">cms_is2.settings module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="cms_is2.html#cms_is2.settings.SECRET_KEY"><code class="docutils literal notranslate"><span class="pre">SECRET_KEY</span></code></a></li>
 </ul>
@@ -217,7 +229,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to cms-is2-eq01’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to cms-is2-eq01-v.1.0.0’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="accounts.html" class="btn btn-neutral float-right" title="accounts package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
