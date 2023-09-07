@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'app',
+    'contenido',
+    'ckeditor',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACK = 'bootstrap5'
