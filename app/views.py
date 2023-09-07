@@ -1,8 +1,12 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import Group, User
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm
 from django.contrib.auth import logout
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 # Create your views here.
 class CustomTemplateView(TemplateView):
@@ -43,6 +47,7 @@ def register(request):
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
+            
             return redirect('index')
         
     return render(request, 'registration/register.html', data)
@@ -70,3 +75,65 @@ def delete(request):
 def exit(request):
     logout(request)
     return redirect('index')
+
+class UserListView(ListView):
+    model = User
+    template_name = 'user_list.html'
+    context_object_name = 'users'
+
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'user_detail.html'
+    context_object_name = 'user'
+
+class UserCreateView(CreateView):
+    model = User
+    form_class = CustomAdminUserCreationForm
+    template_name = 'user_form.html'
+    success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios después de la creación exitosa
+    
+    # Funcion para validar el formulario
+    def form_valid(self, form):
+        user = form.save()
+        groups = form.cleaned_data.get('groups')
+        if groups:
+            user.groups.set(groups)
+        return super().form_valid(form)
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    form_class = CustomUserChangeForm
+    template_name = 'user_form.html'
+    success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios después de la actualización exitosa
+
+
+class DesactivarUsuarioView(DetailView):
+    model = User
+    template_name = 'desactivar_usuario.html'  # Nombre del archivo HTML que extiende de base.html
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Cambiar el estado del usuario a inactivo
+        self.object.is_active = False
+        self.object.save()
+        
+        # Puedes agregar un mensaje de éxito si lo deseas
+        messages.success(request, f"El usuario {self.object.username} ha sido desactivado.")
+        return redirect('user-list')  # Cambia 'lista_usuarios' al nombre de tu vista de lista de usuarios
+
+'''
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = 'user_confirm_delete.html'
+    success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios después de la eliminación exitosa
+
+
+    def delete(self, request, *args, **kwargs):
+        # Marca al usuario como inactivo en lugar de eliminarlo
+        user = self.get_object()
+        user.is_active = False
+        user.save()
+        
+        return HttpResponseRedirect(self.success_url)
+'''

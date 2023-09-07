@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+  <h1>Detalles de Usuario</h1>
+  <p><strong>Username:</strong> {{ user.username }}</p>
+  <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+  <a href="{% url 'user-update' user.pk %}">Editar Usuario</a>
+  <a href="{% url 'desactivar-usuario' user.pk %}">Desactivar Usuario</a>
+  <a href="{% url 'user-list' %}">Volver a la Lista de Usuarios</a>
+{% endblock %}
