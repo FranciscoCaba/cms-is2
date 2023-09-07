@@ -8,4 +8,3 @@ cms-is2
    app
    cms_is2
    contenido
-   manage

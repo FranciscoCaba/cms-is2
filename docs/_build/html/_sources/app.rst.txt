@@ -4,13 +4,20 @@ app package
 Submodules
 ----------
 
-app.admin module
-----------------
+app.urls module
+---------------
 
-.. automodule:: app.admin
-   :members:
-   :undoc-members:
-   :show-inheritance:
+::
+   
+   urlpatterns = [
+      path('', IndexView.as_view(), name='index'),
+      path('profile/', login_required(ProfileView.as_view()), name='profile'),
+      path('register/', views.register, name='register'),
+      path('edit/', views.edit, name='edit'),
+      path('delete/', views.delete, name='delete'),
+      path('logout/', views.exit, name='exit'),
+   ]
+
 
 app.apps module
 ---------------
@@ -28,22 +35,7 @@ app.forms module
    :undoc-members:
    :show-inheritance:
 
-app.models module
------------------
-
-.. automodule:: app.models
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-app.urls module
----------------
-
-.. automodule:: app.urls
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+  
 app.views module
 ----------------
 La clase ``class CustomTemplateView(TemplateView):`` es una vista base cuyo proposito es darle contexto a las vistas del usuario logeado.
@@ -60,8 +52,7 @@ La clase ``class IndexView(CustomTemplateView):`` muestra la pagina principal
 
 
 
-Module contents
----------------
+
 
 .. automodule:: app
    :members:

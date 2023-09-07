@@ -49,7 +49,7 @@
 <li class="toctree-l2"><a class="reference internal" href="accounts.html">accounts package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">app package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.admin">app.admin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app-urls-module">app.urls module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-app.apps">app.apps module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#app.apps.AppConfig"><code class="docutils literal notranslate"><span class="pre">AppConfig</span></code></a></li>
 </ul>
@@ -59,8 +59,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#app.forms.CustomUserCreationForm"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.models">app.models module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.urls">app.urls module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#app-views-module">app.views module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#app.views.CustomTemplateView"><code class="docutils literal notranslate"><span class="pre">CustomTemplateView</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#app.views.IndexView"><code class="docutils literal notranslate"><span class="pre">IndexView</span></code></a></li>
@@ -71,10 +69,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#app.views.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cms_is2.html">cms_is2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contenido.html">contenido package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
 </ul>
 </li>
@@ -110,8 +108,18 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-app.admin">
-<span id="app-admin-module"></span><h2>app.admin module<a class="headerlink" href="#module-app.admin" title="Link to this heading"></a></h2>
+<section id="app-urls-module">
+<h2>app.urls module<a class="headerlink" href="#app-urls-module" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">IndexView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;profile/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">ProfileView</span><span class="o">.</span><span class="n">as_view</span><span class="p">()),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;profile&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;register/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">register</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;register&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;edit/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">edit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edit&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;delete/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">delete</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;delete&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;logout/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">exit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;exit&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
 </section>
 <section id="module-app.apps">
 <span id="app-apps-module"></span><h2>app.apps module<a class="headerlink" href="#module-app.apps" title="Link to this heading"></a></h2>
@@ -218,12 +226,6 @@
 </dd></dl>
 
 </section>
-<section id="module-app.models">
-<span id="app-models-module"></span><h2>app.models module<a class="headerlink" href="#module-app.models" title="Link to this heading"></a></h2>
-</section>
-<section id="module-app.urls">
-<span id="app-urls-module"></span><h2>app.urls module<a class="headerlink" href="#module-app.urls" title="Link to this heading"></a></h2>
-</section>
 <section id="app-views-module">
 <h2>app.views module<a class="headerlink" href="#app-views-module" title="Link to this heading"></a></h2>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">CustomTemplateView(TemplateView):</span></code> es una vista base cuyo proposito es darle contexto a las vistas del usuario logeado.</p>
@@ -297,10 +299,7 @@
 <span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.register" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-</section>
-<section id="module-app">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-app" title="Link to this heading"></a></h2>
-</section>
+<span class="target" id="module-app"></span></section>
 </section>
 
 

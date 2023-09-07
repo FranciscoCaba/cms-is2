@@ -4,14 +4,6 @@ accounts package
 Submodules
 ----------
 
-accounts.admin module
----------------------
-
-.. automodule:: accounts.admin
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 accounts.apps module
 --------------------
 
@@ -36,16 +28,9 @@ accounts.signals module
    :undoc-members:
    :show-inheritance:
 
-accounts.views module
----------------------
 
-.. automodule:: accounts.views
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
-Module contents
----------------
+
 
 .. automodule:: accounts
    :members:

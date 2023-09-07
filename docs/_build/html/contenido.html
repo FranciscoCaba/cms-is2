@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="manage module" href="manage.html" />
+    <link rel="prev" title="cms_is2 package" href="cms_is2.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,8 +44,36 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">cms-is2</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">cms-is2</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accounts.html">accounts package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html">app package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cms_is2.html">cms_is2 package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">contenido package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-contenido.apps">contenido.apps module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#contenido.apps.ContenidoConfig"><code class="docutils literal notranslate"><span class="pre">ContenidoConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#contenido-forms-module">contenido.forms module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#formularios-de-contenido">Formularios de Contenido</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#contenido-models-module">contenido.models module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#modelos-de-contenido">Modelos de Contenido</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#contenido-urls-module">contenido.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-contenido.views">contenido.views module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#contenido.views.CategoriaFormView"><code class="docutils literal notranslate"><span class="pre">CategoriaFormView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#contenido.views.ContenidoFormView"><code class="docutils literal notranslate"><span class="pre">ContenidoFormView</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -60,6 +90,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">cms-is2</a></li>
       <li class="breadcrumb-item active">contenido package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/contenido.rst.txt" rel="nofollow"> View page source</a>
@@ -74,9 +105,6 @@
 <h1>contenido package<a class="headerlink" href="#contenido-package" title="Link to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
-<section id="module-contenido.admin">
-<span id="contenido-admin-module"></span><h2>contenido.admin module<a class="headerlink" href="#module-contenido.admin" title="Link to this heading"></a></h2>
 </section>
 <section id="module-contenido.apps">
 <span id="contenido-apps-module"></span><h2>contenido.apps module<a class="headerlink" href="#module-contenido.apps" title="Link to this heading"></a></h2>
@@ -97,8 +125,57 @@
 </dd></dl>
 
 </section>
-<section id="module-contenido.forms">
-<span id="contenido-forms-module"></span><h2>contenido.forms module<a class="headerlink" href="#module-contenido.forms" title="Link to this heading"></a></h2>
+<section id="contenido-forms-module">
+<h2>contenido.forms module<a class="headerlink" href="#contenido-forms-module" title="Link to this heading"></a></h2>
+<section id="formularios-de-contenido">
+<h3>Formularios de Contenido<a class="headerlink" href="#formularios-de-contenido" title="Link to this heading"></a></h3>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidoForm</span></code> importa una libreria llamada
+<code class="docutils literal notranslate"><span class="pre">CKEditorWidget</span></code> que nos permite utilizar texto enriquecido
+La clase <code class="docutils literal notranslate"><span class="pre">CategoriaForm</span></code> posee un campo de moderacion</p>
+<dl class="py class" id="module-contenido.forms">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.forms.</span></span><span class="sig-name descname"><span class="pre">CategoriaForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/forms.html#CategoriaForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.forms.CategoriaForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/contenido/forms.html#CategoriaForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.forms.CategoriaForm.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['nombre',</span> <span class="pre">'moderada']</span></em><a class="headerlink" href="#contenido.forms.CategoriaForm.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#contenido.forms.CategoriaForm.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#contenido.models.Categoria" title="contenido.models.Categoria"><code class="xref py py-class docutils literal notranslate"><span class="pre">Categoria</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm.Meta.widgets">
+<span class="sig-name descname"><span class="pre">widgets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'moderada':</span> <span class="pre">&lt;django.forms.widgets.CheckboxInput</span> <span class="pre">object&gt;,</span> <span class="pre">'nombre':</span> <span class="pre">&lt;django.forms.widgets.TextInput</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#contenido.forms.CategoriaForm.Meta.widgets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'moderada':</span> <span class="pre">&lt;django.forms.fields.BooleanField</span> <span class="pre">object&gt;,</span> <span class="pre">'nombre':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#contenido.forms.CategoriaForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#contenido.forms.CategoriaForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="contenido.forms.CategoriaForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#contenido.forms.CategoriaForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="contenido.forms.ContenidoForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.forms.</span></span><span class="sig-name descname"><span class="pre">ContenidoForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/forms.html#ContenidoForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.forms.ContenidoForm" title="Link to this definition"></a></dt>
@@ -144,11 +221,82 @@
 </dd></dl>
 
 </section>
-<section id="module-contenido.models">
-<span id="contenido-models-module"></span><h2>contenido.models module<a class="headerlink" href="#module-contenido.models" title="Link to this heading"></a></h2>
+</section>
+<section id="contenido-models-module">
+<h2>contenido.models module<a class="headerlink" href="#contenido-models-module" title="Link to this heading"></a></h2>
+<section id="modelos-de-contenido">
+<h3>Modelos de Contenido<a class="headerlink" href="#modelos-de-contenido" title="Link to this heading"></a></h3>
+<p>Creamos 2 clases <code class="docutils literal notranslate"><span class="pre">Categoria</span></code> y <code class="docutils literal notranslate"><span class="pre">Contenido</span></code> con sus respectivos campos
+la clase <code class="docutils literal notranslate"><span class="pre">Cotenido</span></code> importa RichTextField de CKEditorWidget para el texto enriquecido</p>
+<dl class="py class" id="module-contenido.models">
+<dt class="sig sig-object py" id="contenido.models.Categoria">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.models.</span></span><span class="sig-name descname"><span class="pre">Categoria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moderada</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/models.html#Categoria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.models.Categoria" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="contenido.models.Categoria.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#contenido.models.Categoria.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="contenido.models.Categoria.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#contenido.models.Categoria.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Categoria.categoria">
+<span class="sig-name descname"><span class="pre">categoria</span></span><a class="headerlink" href="#contenido.models.Categoria.categoria" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Categoria.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#contenido.models.Categoria.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Categoria.is_active">
+<span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#contenido.models.Categoria.is_active" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Categoria.moderada">
+<span class="sig-name descname"><span class="pre">moderada</span></span><a class="headerlink" href="#contenido.models.Categoria.moderada" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Categoria.nombre">
+<span class="sig-name descname"><span class="pre">nombre</span></span><a class="headerlink" href="#contenido.models.Categoria.nombre" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Categoria.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#contenido.models.Categoria.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="contenido.models.Contenido">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.models.</span></span><span class="sig-name descname"><span class="pre">Contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">likes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/models.html#Contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.models.Contenido" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.models.</span></span><span class="sig-name descname"><span class="pre">Contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">likes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/models.html#Contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.models.Contenido" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="contenido.models.Contenido.DoesNotExist">
@@ -163,6 +311,24 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Contenido.categoria">
+<span class="sig-name descname"><span class="pre">categoria</span></span><a class="headerlink" href="#contenido.models.Contenido.categoria" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Contenido.categoria_id">
+<span class="sig-name descname"><span class="pre">categoria_id</span></span><a class="headerlink" href="#contenido.models.Contenido.categoria_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="contenido.models.Contenido.descripcion">
 <span class="sig-name descname"><span class="pre">descripcion</span></span><a class="headerlink" href="#contenido.models.Contenido.descripcion" title="Link to this definition"></a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
@@ -172,6 +338,13 @@ object the first time, the query is executed.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="contenido.models.Contenido.id">
 <span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#contenido.models.Contenido.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Contenido.is_active">
+<span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#contenido.models.Contenido.is_active" title="Link to this definition"></a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -216,11 +389,46 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 </dd></dl>
 
 </section>
-<section id="module-contenido.urls">
-<span id="contenido-urls-module"></span><h2>contenido.urls module<a class="headerlink" href="#module-contenido.urls" title="Link to this heading"></a></h2>
+</section>
+<section id="contenido-urls-module">
+<h2>contenido.urls module<a class="headerlink" href="#contenido-urls-module" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;crear&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">ContenidoFormView</span><span class="o">.</span><span class="n">as_view</span><span class="p">())</span> <span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;crear&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;categoria/crear&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">CategoriaFormView</span><span class="o">.</span><span class="n">as_view</span><span class="p">()),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;categoria/crear&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
 </section>
 <section id="module-contenido.views">
 <span id="contenido-views-module"></span><h2>contenido.views module<a class="headerlink" href="#module-contenido.views" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="contenido.views.CategoriaFormView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">CategoriaFormView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#CategoriaFormView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.CategoriaFormView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.views.CategoriaFormView.form_class">
+<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#contenido.views.CategoriaFormView.form_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#contenido.forms.CategoriaForm" title="contenido.forms.CategoriaForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">CategoriaForm</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contenido.views.CategoriaFormView.form_valid">
+<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#CategoriaFormView.form_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.CategoriaFormView.form_valid" title="Link to this definition"></a></dt>
+<dd><p>If the form is valid, save the associated model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.views.CategoriaFormView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/'</span></em><a class="headerlink" href="#contenido.views.CategoriaFormView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.views.CategoriaFormView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'categoria.html'</span></em><a class="headerlink" href="#contenido.views.CategoriaFormView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="contenido.views.ContenidoFormView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">ContenidoFormView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#ContenidoFormView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.ContenidoFormView" title="Link to this definition"></a></dt>
@@ -249,16 +457,16 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 
 </dd></dl>
 
-</section>
-<section id="module-contenido">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-contenido" title="Link to this heading"></a></h2>
-</section>
+<span class="target" id="module-contenido"></span></section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cms_is2.html" class="btn btn-neutral float-left" title="cms_is2 package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="manage.html" class="btn btn-neutral float-right" title="manage module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -38,7 +38,6 @@ extensions = [
 ]
 
 templates_path = ['_templates']
-lenguage = 'es'
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 pygments_style = "sphinx"
@@ -49,7 +48,6 @@ pygments_style = "sphinx"
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = []
-
 
 latex_documents = [
     (
