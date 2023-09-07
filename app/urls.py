@@ -9,5 +9,6 @@ urlpatterns = [
     path('edit/', views.edit, name='edit'),
     path('delete/', views.delete, name='delete'),
     path('logout/', views.exit, name='exit'),
-    path('create_group/', views.create_group, name='create_group'),
+    path('create_group/', login_required(views.create_group), name='create_group'),
+    path('deactivate_groups/', views.deactivate_groups, name='deactivate_groups'),
 ]

@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import Group, User, Permission
-from .forms import CustomUserCreationForm, CustomUserChangeForm, GroupCreationForm
+from .models import CustomGroup
+from .forms import CustomUserCreationForm, CustomUserChangeForm, GroupCreationForm, UnsubscribeFromGroupsForm
 from django.contrib.auth import logout
 
 # Create your views here.
@@ -87,3 +88,19 @@ def create_group(request):
         form = GroupCreationForm()
     
     return render(request, 'group/create_group.html', data)
+
+def deactivate_groups(request):
+    if request.method == 'POST':
+        form = UnsubscribeFromGroupsForm(request.POST)
+        if form.is_valid():
+            group_ids_to_deactivate = form.cleaned_data.get('groups')
+            CustomGroup.objects.filter(id__in=group_ids_to_deactivate).update(is_active=False)
+            return redirect('profile')  
+        
+    else:
+        form = UnsubscribeFromGroupsForm()
+
+    groups = CustomGroup.objects.filter(is_active=True)
+
+    return render(request, 'group/deactivate_groups.html', {'groups': groups, 'form': form})
+

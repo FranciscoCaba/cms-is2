@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User, Group, Permission
 from django import forms
+from .models import CustomGroup 
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -21,5 +22,12 @@ class GroupCreationForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Group
-        fields = ['name','permissions']
+        model = CustomGroup  
+        fields = ['name', 'permissions']  
+
+class UnsubscribeFromGroupsForm(forms.Form):
+    groups = forms.ModelMultipleChoiceField(
+        queryset=CustomGroup.objects.filter(is_active=True),  # Retrieve only active groups
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
