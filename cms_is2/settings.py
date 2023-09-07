@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-3@83r2(*0+$g332h5y^sdsjazqu&ovuea^_w^3-=bl@^!&4#$)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 '''
-ALLOWED_HOSTS = ['localhost', 'cms.local']
+ALLOWED_HOSTS = ['localhost', 'cms.local', '127.0.0.1']
 
 
 # Application definition
@@ -42,10 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'app',
-    'usuario',
+    'contenido',
+    'ckeditor',
 ]
-
-AUTH_USER_MODEL = 'usuario.User'
 
 CRISPY_ALLOWED_TEMPLATE_PACK = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
@@ -119,7 +118,7 @@ STORAGES = {
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-DEBUG = False
+DEBUG = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
