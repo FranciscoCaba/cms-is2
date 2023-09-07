@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, User, Permission
 from .forms import CustomUserCreationForm, CustomUserChangeForm, GroupCreationForm
 from django.contrib.auth import logout
 
@@ -72,8 +72,11 @@ def exit(request):
     return redirect('index')
 
 def create_group(request):
+    data = {
+        'form': GroupCreationForm()
+    }
     if request.method == 'POST':
-        form = GroupCreationForm(request.POST)
+        form = GroupCreationForm(data=request.POST)
         if form.is_valid():
             group = form.save(commit=False)
             group.save()
@@ -83,4 +86,4 @@ def create_group(request):
     else:
         form = GroupCreationForm()
     
-    return render(request, 'group/create_group.html', {'form': form})
+    return render(request, 'group/create_group.html', data)
