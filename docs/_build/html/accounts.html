@@ -54,7 +54,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-accounts.models">accounts.models module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#accounts.models.Contenido"><code class="docutils literal notranslate"><span class="pre">Contenido</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#accounts.models.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#accounts.models.create_user_profile"><code class="docutils literal notranslate"><span class="pre">create_user_profile()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#accounts.models.save_user_profile"><code class="docutils literal notranslate"><span class="pre">save_user_profile()</span></code></a></li>
@@ -140,62 +139,6 @@
 </section>
 <section id="module-accounts.models">
 <span id="accounts-models-module"></span><h2>accounts.models module<a class="headerlink" href="#module-accounts.models" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="accounts.models.Contenido">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accounts.models.</span></span><span class="sig-name descname"><span class="pre">Contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">likes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/accounts/models.html#Contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accounts.models.Contenido" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="accounts.models.Contenido.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#accounts.models.Contenido.DoesNotExist" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="accounts.models.Contenido.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#accounts.models.Contenido.MultipleObjectsReturned" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="accounts.models.Contenido.descripcion">
-<span class="sig-name descname"><span class="pre">descripcion</span></span><a class="headerlink" href="#accounts.models.Contenido.descripcion" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="accounts.models.Contenido.get_likes">
-<span class="sig-name descname"><span class="pre">get_likes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/accounts/models.html#Contenido.get_likes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accounts.models.Contenido.get_likes" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="accounts.models.Contenido.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#accounts.models.Contenido.id" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="accounts.models.Contenido.likes">
-<span class="sig-name descname"><span class="pre">likes</span></span><a class="headerlink" href="#accounts.models.Contenido.likes" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="accounts.models.Contenido.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#accounts.models.Contenido.objects" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="accounts.models.Contenido.titulo">
-<span class="sig-name descname"><span class="pre">titulo</span></span><a class="headerlink" href="#accounts.models.Contenido.titulo" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="accounts.models.Profile">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accounts.models.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/accounts/models.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accounts.models.Profile" title="Link to this definition"></a></dt>
