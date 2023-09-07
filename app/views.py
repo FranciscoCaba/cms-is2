@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.models import Group, User
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm, CustomAdminUserChangeForm
+from django.contrib.auth.models import Group, User, Permission
+from .models import CustomGroup
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm, CustomAdminUserChangeForm, GroupCreationForm, UnsubscribeFromGroupsForm
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -74,6 +75,72 @@ def delete(request):
 def exit(request):
     logout(request)
     return redirect('index')
+
+def create_group(request):
+    data = {
+        'form': GroupCreationForm()
+    }
+    if request.method == 'POST':
+        form = GroupCreationForm(data=request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.save()
+            form.save_m2m()  
+            return redirect('profile')  
+        
+    else:
+        form = GroupCreationForm()
+    
+    return render(request, 'group/create_group.html', data)
+
+def deactivate_groups(request):
+    if request.method == 'POST':
+        form = UnsubscribeFromGroupsForm(request.POST)
+        if form.is_valid():
+            group_ids_to_deactivate = form.cleaned_data.get('groups')
+            CustomGroup.objects.filter(id__in=group_ids_to_deactivate).update(is_active=False)
+            return redirect('profile')  
+        
+    else:
+        form = UnsubscribeFromGroupsForm()
+
+    groups = CustomGroup.objects.filter(is_active=True)
+
+    return render(request, 'group/deactivate_groups.html', {'groups': groups, 'form': form})
+
+
+def create_group(request):
+    data = {
+        'form': GroupCreationForm()
+    }
+    if request.method == 'POST':
+        form = GroupCreationForm(data=request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.save()
+            form.save_m2m()  
+            return redirect('profile')  
+        
+    else:
+        form = GroupCreationForm()
+    
+    return render(request, 'group/create_group.html', data)
+
+def deactivate_groups(request):
+    if request.method == 'POST':
+        form = UnsubscribeFromGroupsForm(request.POST)
+        if form.is_valid():
+            group_ids_to_deactivate = form.cleaned_data.get('groups')
+            CustomGroup.objects.filter(id__in=group_ids_to_deactivate).update(is_active=False)
+            return redirect('profile')  
+        
+    else:
+        form = UnsubscribeFromGroupsForm()
+
+    groups = CustomGroup.objects.filter(is_active=True)
+
+    return render(request, 'group/deactivate_groups.html', {'groups': groups, 'form': form})
+
 
 class UserListView(ListView):
     model = User

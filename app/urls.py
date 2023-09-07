@@ -16,4 +16,6 @@ urlpatterns = [
     path('user/<int:pk>/update/', UserUpdateView.as_view(), name='user-update'),
     path('desactivar_usuario/<int:pk>/', DesactivarUsuarioView.as_view(), name='desactivar-usuario'),
     path('activar_usuario/<int:pk>/', ActivarUsuarioView.as_view(), name='activar-usuario'),
+    path('create_group/', login_required(views.create_group), name='create_group'),
+    path('deactivate_groups/', views.deactivate_groups, name='deactivate_groups'),
 ]
