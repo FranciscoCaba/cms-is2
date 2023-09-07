@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import Group, User, Permission
 from .models import CustomGroup
-from .forms import CustomUserCreationForm, CustomUserChangeForm, GroupCreationForm, UnsubscribeFromGroupsForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm, CustomAdminUserChangeForm, GroupCreationForm, UnsubscribeFromGroupsForm
 from django.contrib.auth import logout
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 # Create your views here.
 class CustomTemplateView(TemplateView):
@@ -44,6 +47,7 @@ def register(request):
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
+            
             return redirect('index')
         
     return render(request, 'registration/register.html', data)
@@ -104,3 +108,96 @@ def deactivate_groups(request):
 
     return render(request, 'group/deactivate_groups.html', {'groups': groups, 'form': form})
 
+
+def create_group(request):
+    data = {
+        'form': GroupCreationForm()
+    }
+    if request.method == 'POST':
+        form = GroupCreationForm(data=request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.save()
+            form.save_m2m()  
+            return redirect('profile')  
+        
+    else:
+        form = GroupCreationForm()
+    
+    return render(request, 'group/create_group.html', data)
+
+def deactivate_groups(request):
+    if request.method == 'POST':
+        form = UnsubscribeFromGroupsForm(request.POST)
+        if form.is_valid():
+            group_ids_to_deactivate = form.cleaned_data.get('groups')
+            CustomGroup.objects.filter(id__in=group_ids_to_deactivate).update(is_active=False)
+            return redirect('profile')  
+        
+    else:
+        form = UnsubscribeFromGroupsForm()
+
+    groups = CustomGroup.objects.filter(is_active=True)
+
+    return render(request, 'group/deactivate_groups.html', {'groups': groups, 'form': form})
+
+
+class UserListView(ListView):
+    model = User
+    template_name = 'user_list.html'
+    context_object_name = 'users'
+
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'user_detail.html'
+    context_object_name = 'user'
+
+class UserCreateView(CreateView):
+    model = User
+    form_class = CustomAdminUserCreationForm
+    template_name = 'user_form.html'
+    success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios después de la creación exitosa
+    
+    # Funcion para validar el formulario
+    def form_valid(self, form):
+        user = form.save()
+        groups = form.cleaned_data.get('groups')
+        if groups:
+            user.groups.set(groups)
+        return super().form_valid(form)
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    form_class = CustomAdminUserChangeForm
+    template_name = 'user_form.html'
+    success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios después de la actualización exitosa
+
+
+class DesactivarUsuarioView(DetailView):
+    model = User
+    template_name = 'desactivar_usuario.html'  # Nombre del archivo HTML que extiende de base.html
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Cambiar el estado del usuario a inactivo
+        self.object.is_active = False
+        self.object.save()
+        
+        # Puedes agregar un mensaje de éxito si lo deseas
+        messages.success(request, f"El usuario {self.object.username} ha sido desactivado.")
+        return redirect('user-list')  # Cambia 'lista_usuarios' al nombre de tu vista de lista de usuarios
+
+class ActivarUsuarioView(DetailView):
+    model = User
+    template_name = 'activar_usuario.html'  # Nombre del archivo HTML que extiende de base.html
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Cambiar el estado del usuario a activo
+        self.object.is_active = True
+        self.object.save()
+        
+        # Puedes agregar un mensaje de éxito si lo deseas
+        messages.success(request, f"El usuario {self.object.username} ha sido activado.")
+        return redirect('user-list')  # Cambia 'lista_usuarios' al nombre de tu vista de lista de usuarios

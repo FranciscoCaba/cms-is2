@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+  <h2>Confirmación de Desactivación de Usuario</h2>
+  <p>¿Estás seguro de que deseas desactivar al usuario {{ object.username }}?</p>
+  
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Desactivar">
+  </form>
+  
+  <p><a href="{% url 'lista_usuarios' %}">Volver a la lista de usuarios</a></p>
+{% endblock %}
