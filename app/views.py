@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import Group, User
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm, CustomAdminUserChangeForm
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -103,7 +103,7 @@ class UserCreateView(CreateView):
 
 class UserUpdateView(UpdateView):
     model = User
-    form_class = CustomUserChangeForm
+    form_class = CustomAdminUserChangeForm
     template_name = 'user_form.html'
     success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios después de la actualización exitosa
 

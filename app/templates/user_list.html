@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 
 {% block contenido %}
-  <h1>Lista de Usuarios</h1>
-  <ul>
-    {% for user in users %}
-      {% if user.is_active %}
-      <li><a href="{% url 'user-detail' user.pk %}">{{ user.username }}</a></li>
-      {% endif %}
-    {% empty %}
-    <li>No hay usuarios.</li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'user-create' %}">Crear Usuario</a>
-  <p>holap</p>
+  <div class="text-center">
+    <h1>Lista de Usuarios</h1>
+    <div class="d-flex justify-content-center mb-3"> <!-- Ajusta la altura según tus necesidades -->
+      <ul class="list-group">
+        {% for user in users %}
+          {% if user.is_active %}
+          <li class="list-group-item"><a href="{% url 'user-detail' user.pk %}">{{ user.username }}</a></li>
+          {% endif %}
+        {% empty %}
+        <li class="list-group-item">No hay usuarios.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <form action="{% url 'user-create' %}" method="get">
+      <button type="submit" class="btn btn-primary">Crear Usuario</button>
+    </form>
+  </div>
 {% endblock %}

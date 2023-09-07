@@ -1,10 +1,27 @@
 {% extends "base.html" %}
 
 {% block contenido %}
-  <h1>Detalles de Usuario</h1>
-  <p><strong>Username:</strong> {{ user.username }}</p>
-  <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
-  <a href="{% url 'user-update' user.pk %}">Editar Usuario</a>
-  <a href="{% url 'desactivar-usuario' user.pk %}">Desactivar Usuario</a>
-  <a href="{% url 'user-list' %}">Volver a la Lista de Usuarios</a>
+  <div class="card mx-auto" style="width: 30%">
+    <div class="card-body">
+    <h3>Detalles de Usuario</h3>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+    
+    <!-- Cambia los enlaces por botones y alinea horizontalmente -->
+    <div class="btn-group d-flex justify-content-between" role="group" aria-label="Botones de acción">
+      
+      <form action="{% url 'user-update' user.pk %}" method="get">
+        <button type="submit" class="btn btn-primary">Editar</button>
+      </form>
+      
+      <form action="{% url 'desactivar-usuario' user.pk %}" method="get">
+        <button type="submit" class="btn btn-danger">Desactivar</button>
+      </form>
+      
+      <form action="{% url 'user-list' %}" method="get">
+        <button type="submit" class="btn btn-primary">Volver a la lista</button>
+      </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}
