@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
+from django import forms
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -11,3 +12,14 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name']
+
+class GroupCreationForm(forms.ModelForm):
+    permissions = forms.ModelMultipleChoiceField(
+        queryset=Permission.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
+    class Meta:
+        model = Group
+        fields = ['name']

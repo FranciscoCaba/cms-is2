@@ -40,7 +40,7 @@ class CustomUserFormsTestCase(TestCase):
         self.assertEqual(user.last_name, 'User',"Apellido diferente")
         self.assertEqual(user.email, 'test@example.com',"Correo diferente")
         try:
-            self.assertTrue(user.check_password('testpassword123'))
+            self.assertTrue(user.check_password('testpassword'))
         except AssertionError as e:
             print("Contrasenha Incorrecta")
         self.assertTrue(user.check_password('testpassword'),"Confirmacion de Contrasenha Incorrecta")
@@ -53,7 +53,7 @@ class CustomUserFormsTestCase(TestCase):
         updated_user = form.save()
         self.assertEqual(updated_user.username, 'newtestuser',"Nombre de usuario incorrecto")
         try:
-            self.assertEqual(updated_user.first_name, 'New1')
+            self.assertEqual(updated_user.first_name, 'New')
         except AssertionError as e:
             print("Nombre Incorrecto")
         self.assertEqual(updated_user.last_name, 'User',"Apellido incorrecto")

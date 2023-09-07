@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import Group, User
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, GroupCreationForm
 from django.contrib.auth import logout
 
 # Create your views here.
@@ -70,3 +70,17 @@ def delete(request):
 def exit(request):
     logout(request)
     return redirect('index')
+
+def create_group(request):
+    if request.method == 'POST':
+        form = GroupCreationForm(request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.save()
+            form.save_m2m()  
+            return redirect('profile')  
+        
+    else:
+        form = GroupCreationForm()
+    
+    return render(request, 'group/create_group.html', {'form': form})
