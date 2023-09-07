@@ -1,14 +1,6 @@
 app package
 ===========
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   app.migrations
-
 Submodules
 ----------
 
@@ -54,11 +46,19 @@ app.urls module
 
 app.views module
 ----------------
+La clase ``class CustomTemplateView(TemplateView):`` es una vista base cuyo proposito es darle contexto a las vistas del usuario logeado.
+   
+La clase ``class ProfileView(CustomTemplateView):`` muestra el perfil existente del usuario.
+
+   
+La clase ``class IndexView(CustomTemplateView):`` muestra la pagina principal
 
 .. automodule:: app.views
-   :members:
+   :members: 
    :undoc-members:
    :show-inheritance:
+
+
 
 Module contents
 ---------------

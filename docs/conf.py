@@ -13,6 +13,10 @@ sys.path.insert(0, os.path.abspath('..'))
 os.environ['DJANGO_SETTINGS_MODULE']='cms_is2.settings'
 django.setup()
 
+source_suffix = ".rst"
+
+master_doc = "index"
+
 project = 'cms-is2-eq01'
 copyright = '2023, Equipo 01'
 author = 'Equipo 01'
@@ -34,8 +38,10 @@ extensions = [
 ]
 
 templates_path = ['_templates']
+lenguage = 'es'
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+pygments_style = "sphinx"
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -43,3 +49,38 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = []
+
+
+latex_documents = [
+    (
+        "index",
+        "cms-web",
+        "cms-is2-eq01Documentation",
+        "Equipo 01",
+        "manual",
+    )
+]
+
+
+man_pages = [
+    (
+        "index",
+        "cms-web",
+        "cms-is2-eq01 Documentation",
+        ["Equipo 01"],
+        1,
+    )
+]
+
+
+texinfo_documents = [
+    (
+        "index",
+        "cms-web",
+        "cms-is2-eq01 Documentation",
+        "Equipo 01",
+        "cms-web",
+        "one line description of proyect",
+        "Miscellaneous",
+    )
+]
