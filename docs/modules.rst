@@ -7,4 +7,4 @@ cms-is2
    accounts
    app
    cms_is2
-   manage
+   contenido

@@ -1,59 +1,143 @@
 cms\_is2 package
 ================
 
-Submodules
-----------
+::
 
-cms\_is2.asgi module
---------------------
+   from pathlib import Path
+   import os
 
-.. automodule:: cms_is2.asgi
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   # Build paths inside the project like this: BASE_DIR / 'subdir'.
+   BASE_DIR = Path(__file__).resolve().parent.parent
+   
+   DEBUG = True
+   
+   ALLOWED_HOSTS = ['localhost', 'cms.local', '127.0.0.1']
 
-cms\_is2.desarrollo module
---------------------------
+::
 
-.. automodule:: cms_is2.desarrollo
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   # Application definition
 
-cms\_is2.produccion module
---------------------------
+   INSTALLED_APPS = [
+      'crispy_forms',
+      'crispy_bootstrap5',
+      'django.contrib.admin',
+      'django.contrib.auth',
+      'django.contrib.contenttypes',
+      'django.contrib.sessions',
+      'django.contrib.messages',
+      'django.contrib.staticfiles',
+      'accounts.apps.AccountsConfig',
+      'app',
+      'contenido',
+      'ckeditor',
+   ]
 
-.. automodule:: cms_is2.produccion
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Lineas necesarias para que funcione la libreria que se encarga de formatear 
+los formularios::
 
-cms\_is2.settings module
-------------------------
+   CRISPY_ALLOWED_TEMPLATE_PACK = 'bootstrap5'
+   CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-.. automodule:: cms_is2.settings
-   :members:
-   :undoc-members:
-   :show-inheritance:
+El whitenoise es una libreria de django para servir archivos estaticos
+ya que por defecto django no se encarga de servir archivos estaticos 
+en produccion y tiene que ser declarado por debajo del middleware de
+seguridad de django ya que trabaja en conjunto con el::
+   
+   MIDDLEWARE = [
+      'django.middleware.security.SecurityMiddleware',
+      'whitenoise.middleware.WhiteNoiseMiddleware',
+      'django.contrib.sessions.middleware.SessionMiddleware',
+      'django.middleware.common.CommonMiddleware',
+      'django.middleware.csrf.CsrfViewMiddleware',
+      'django.contrib.auth.middleware.AuthenticationMiddleware',
+      'django.contrib.messages.middleware.MessageMiddleware',
+      'django.middleware.clickjacking.XFrameOptionsMiddleware',
+   ]
 
-cms\_is2.urls module
---------------------
+Aqui van las urls del proyecto::
 
-.. automodule:: cms_is2.urls
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   ROOT_URLCONF = 'cms_is2.urls'
 
-cms\_is2.wsgi module
---------------------
+::
 
-.. automodule:: cms_is2.wsgi
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   TEMPLATES = [
+      {
+         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+         'DIRS': [],
+         'APP_DIRS': True,
+         'OPTIONS': {
+               'context_processors': [
+                  'django.template.context_processors.debug',
+                  'django.template.context_processors.request',
+                  'django.contrib.auth.context_processors.auth',
+                  'django.contrib.messages.context_processors.messages',
+               ],
+         },
+      },
+   ]
 
-Module contents
----------------
+Declara la ubic del modulo para la conexion con apache::
+
+   WSGI_APPLICATION = 'cms_is2.wsgi.application'
+
+Contrasenas sin requisitos son posibles gracias al::
+
+   AUTH_PASSWORD_VALIDATORS = []
+
+Cambia el idioma de componentes traducibles del proyecto::
+
+   LANGUAGE_CODE = 'es-es'
+
+::
+
+   TIME_ZONE = 'UTC'
+
+   USE_I18N = True
+
+   USE_TZ = True
+
+Direccion y ruta de archivos estaticos para servir con whitenoise::
+
+   STATIC_URL = 'static/'
+   STATIC_ROOT = BASE_DIR / "staticfiles"
+   STATICFILES_DIRS = [
+      os.path.join(BASE_DIR, "static")
+   ] 
+
+   STORAGES = {
+      "staticfiles": {
+         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+      },
+   }
+
+Direccion y ruta de archivos de media::
+
+   MEDIA_URL = 'media/'
+   MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+   DEBUG = True
+
+::
+
+   DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+VARIABLES DE REDIRECCION EN LOGIN Y LOGOUT::
+
+   LOGIN_REDIRECT_URL = 'index'
+   LOGOUT_REDIRECT_URL = 'index'
+
+Configuracion para la conexion con la base de datos::
+   
+   DATABASES = {
+      'default': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'cms_dev',
+         'USER': 'postgres',
+         'PASSWORD': 'postgres',
+         'HOST': 'localhost',
+         'PORT': '5432',
+      }
+   }
 
 .. automodule:: cms_is2
    :members:
