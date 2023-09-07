@@ -122,18 +122,16 @@ class DesactivarUsuarioView(DetailView):
         messages.success(request, f"El usuario {self.object.username} ha sido desactivado.")
         return redirect('user-list')  # Cambia 'lista_usuarios' al nombre de tu vista de lista de usuarios
 
-'''
-class UserDeleteView(DeleteView):
+class ActivarUsuarioView(DetailView):
     model = User
-    template_name = 'user_confirm_delete.html'
-    success_url = reverse_lazy('user-list')  # Redirige a la lista de usuarios después de la eliminación exitosa
+    template_name = 'activar_usuario.html'  # Nombre del archivo HTML que extiende de base.html
 
-
-    def delete(self, request, *args, **kwargs):
-        # Marca al usuario como inactivo en lugar de eliminarlo
-        user = self.get_object()
-        user.is_active = False
-        user.save()
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Cambiar el estado del usuario a activo
+        self.object.is_active = True
+        self.object.save()
         
-        return HttpResponseRedirect(self.success_url)
-'''
+        # Puedes agregar un mensaje de éxito si lo deseas
+        messages.success(request, f"El usuario {self.object.username} ha sido activado.")
+        return redirect('user-list')  # Cambia 'lista_usuarios' al nombre de tu vista de lista de usuarios
