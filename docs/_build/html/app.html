@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="cms_is2 package" href="cms_is2.html" />
-    <link rel="prev" title="accounts package" href="accounts.html" /> 
+    <link rel="prev" title="cms-is2" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,34 +46,23 @@
               <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">cms-is2</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="accounts.html">accounts package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">app package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#app-urls-module">app.urls module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.apps">app.apps module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#app.apps.AppConfig"><code class="docutils literal notranslate"><span class="pre">AppConfig</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app-urls-module">app.urls module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#urls-del-proyecto">Urls del proyecto</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-app.forms">app.forms module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#app.forms.CustomUserChangeForm"><code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.forms.CustomUserCreationForm"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app-forms-module">app.forms module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#formularios-del-proyecto">Formularios del Proyecto</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#app-views-module">app.views module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#app.views.CustomTemplateView"><code class="docutils literal notranslate"><span class="pre">CustomTemplateView</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.views.IndexView"><code class="docutils literal notranslate"><span class="pre">IndexView</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.views.ProfileView"><code class="docutils literal notranslate"><span class="pre">ProfileView</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.views.delete"><code class="docutils literal notranslate"><span class="pre">delete()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.views.edit"><code class="docutils literal notranslate"><span class="pre">edit()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.views.exit"><code class="docutils literal notranslate"><span class="pre">exit()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#app.views.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vistas-del-proyecto">Vistas del Proyecto</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cms_is2.html">cms_is2 package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contenido.html">contenido package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
 </ul>
 </li>
 </ul>
@@ -105,43 +94,128 @@
              
   <section id="app-package">
 <h1>app package<a class="headerlink" href="#app-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
+<p>Aqui se encuentran toda la gestion de roles y usuarios que maneja el sistema</p>
 <section id="app-urls-module">
 <h2>app.urls module<a class="headerlink" href="#app-urls-module" title="Link to this heading"></a></h2>
+<section id="urls-del-proyecto">
+<h3>Urls del proyecto<a class="headerlink" href="#urls-del-proyecto" title="Link to this heading"></a></h3>
+<p>Estos son los path(caminos) del proyecto</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">IndexView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;profile/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">ProfileView</span><span class="o">.</span><span class="n">as_view</span><span class="p">()),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;profile&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;register/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">register</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;register&#39;</span><span class="p">),</span>
-   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;edit/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">edit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edit&#39;</span><span class="p">),</span>
-   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;delete/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">delete</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;delete&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;edit/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">edit</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edit&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;delete/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">delete</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;delete&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;logout/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">exit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;exit&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;users/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">UserListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">()),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;user-list&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;user/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">UserDetailView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;user-detail&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;user/create/&#39;</span><span class="p">,</span> <span class="n">UserCreateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;user-create&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;user/&lt;int:pk&gt;/update/&#39;</span><span class="p">,</span> <span class="n">UserUpdateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;user-update&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;desactivar_usuario/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">DesactivarUsuarioView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;desactivar-usuario&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;activar_usuario/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">ActivarUsuarioView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;activar-usuario&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;create_group/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">create_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;create_group&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;delete_group/&lt;int:group_id&gt;/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">delete_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;delete_group&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;edit_group/&lt;int:group_id&gt;/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">edit_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edit_group&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;group_list/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">group_list</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;group_list&#39;</span><span class="p">),</span>
+
 <span class="p">]</span>
 </pre></div>
 </div>
 </section>
-<section id="module-app.apps">
-<span id="app-apps-module"></span><h2>app.apps module<a class="headerlink" href="#module-app.apps" title="Link to this heading"></a></h2>
+</section>
+<section id="app-forms-module">
+<h2>app.forms module<a class="headerlink" href="#app-forms-module" title="Link to this heading"></a></h2>
+<section id="formularios-del-proyecto">
+<h3>Formularios del Proyecto<a class="headerlink" href="#formularios-del-proyecto" title="Link to this heading"></a></h3>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code> es un formulario para la creacion de usuario.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm</span></code> es un formulario para la edicion de usuario.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">CustomAdminUserCreationForm</span></code> es un formulario para la creacion de usuario desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">CustomAdminUserChangeForm</span></code> es un formulario para la edicion de usuario desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">GroupCreationForm</span></code> es un formulario para la creacion de roles.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">GroupEditForm</span></code> es un formulario para la edicion de roles.</p>
+<dl class="py class" id="module-app.forms">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.forms.</span></span><span class="sig-name descname"><span class="pre">CustomAdminUserChangeForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/forms.html#CustomAdminUserChangeForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserChangeForm</span></code></p>
 <dl class="py class">
-<dt class="sig sig-object py" id="app.apps.AppConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.apps.</span></span><span class="sig-name descname"><span class="pre">AppConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/apps.html#AppConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.apps.AppConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/app/forms.html#CustomAdminUserChangeForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="app.apps.AppConfig.default_auto_field">
-<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#app.apps.AppConfig.default_auto_field" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['username',</span> <span class="pre">'first_name',</span> <span class="pre">'last_name',</span> <span class="pre">'email',</span> <span class="pre">'groups']</span></em><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm.Meta.fields" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="app.apps.AppConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'app'</span></em><a class="headerlink" href="#app.apps.AppConfig.name" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'email':</span> <span class="pre">&lt;django.forms.fields.EmailField</span> <span class="pre">object&gt;,</span> <span class="pre">'first_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'groups':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'last_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'username':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'groups':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm.password">
+<span class="sig-name descname"><span class="pre">password</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm.password" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</section>
-<section id="module-app.forms">
-<span id="app-forms-module"></span><h2>app.forms module<a class="headerlink" href="#module-app.forms" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserCreationForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.forms.</span></span><span class="sig-name descname"><span class="pre">CustomAdminUserCreationForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/forms.html#CustomAdminUserCreationForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.CustomAdminUserCreationForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserCreationForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserCreationForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/app/forms.html#CustomAdminUserCreationForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.CustomAdminUserCreationForm.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserCreationForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['username',</span> <span class="pre">'first_name',</span> <span class="pre">'last_name',</span> <span class="pre">'email',</span> <span class="pre">'password1',</span> <span class="pre">'password2']</span></em><a class="headerlink" href="#app.forms.CustomAdminUserCreationForm.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserCreationForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.forms.CustomAdminUserCreationForm.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserCreationForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'email':</span> <span class="pre">&lt;django.forms.fields.EmailField</span> <span class="pre">object&gt;,</span> <span class="pre">'first_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'groups':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'last_name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'password1':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'password2':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'username':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.CustomAdminUserCreationForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserCreationForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'groups':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'password1':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'password2':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.CustomAdminUserCreationForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="app.forms.CustomAdminUserCreationForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#app.forms.CustomAdminUserCreationForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="app.forms.CustomUserChangeForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.forms.</span></span><span class="sig-name descname"><span class="pre">CustomUserChangeForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/forms.html#CustomUserChangeForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.CustomUserChangeForm" title="Link to this definition"></a></dt>
@@ -225,13 +299,136 @@
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="app.forms.GroupCreationForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.forms.</span></span><span class="sig-name descname"><span class="pre">GroupCreationForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/forms.html#GroupCreationForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.GroupCreationForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.forms.GroupCreationForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/app/forms.html#GroupCreationForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.GroupCreationForm.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupCreationForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name',</span> <span class="pre">'permissions']</span></em><a class="headerlink" href="#app.forms.GroupCreationForm.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupCreationForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.forms.GroupCreationForm.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupCreationForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'permissions':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.GroupCreationForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupCreationForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'permissions':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.GroupCreationForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="app.forms.GroupCreationForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#app.forms.GroupCreationForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.forms.GroupEditForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.forms.</span></span><span class="sig-name descname"><span class="pre">GroupEditForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/forms.html#GroupEditForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.GroupEditForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.forms.GroupEditForm.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/app/forms.html#GroupEditForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.GroupEditForm.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupEditForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name',</span> <span class="pre">'permissions']</span></em><a class="headerlink" href="#app.forms.GroupEditForm.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupEditForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.forms.GroupEditForm.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupEditForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'permissions':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.GroupEditForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.forms.GroupEditForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'permissions':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#app.forms.GroupEditForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="app.forms.GroupEditForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#app.forms.GroupEditForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 <section id="app-views-module">
 <h2>app.views module<a class="headerlink" href="#app-views-module" title="Link to this heading"></a></h2>
-<p>La clase <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">CustomTemplateView(TemplateView):</span></code> es una vista base cuyo proposito es darle contexto a las vistas del usuario logeado.</p>
-<p>La clase <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">ProfileView(CustomTemplateView):</span></code> muestra el perfil existente del usuario.</p>
-<p>La clase <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">IndexView(CustomTemplateView):</span></code> muestra la pagina principal</p>
+<section id="vistas-del-proyecto">
+<h3>Vistas del Proyecto<a class="headerlink" href="#vistas-del-proyecto" title="Link to this heading"></a></h3>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">CustomTemplateView(TemplateView):</span></code> es una vista base cuyo proposito es darle contexto a las vistas del usuario logeado.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">ProfileView(CustomTemplateView):</span></code> muestra el perfil existente del usuario.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">IndexView(CustomTemplateView):</span></code> muestra la pagina principal</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">register</span></code> es la vista dedicada al registro de usuario, para los visitantes de la pagina.</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">edit</span></code> es la vista dedicada a la modificacion de la informacion del usuario con sesion activa.</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">delete</span></code> es un metodo dedicado para dar de baja a la cuenta del usuario con sesion activa.</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">exit</span></code> es un metodo dedicado para cerrar sesion del usuario con sesion activa.</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">create_group</span></code> es la vista dedicada a la creacion de roles.</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">delete_group</span></code> es un metodo dedicado a dar de baja a un rol.</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">edit_group</span></code> es una vista para actualizar los roles.</p>
+<p>El metodo <code class="docutils literal notranslate"><span class="pre">group_list</span></code> es una vista para listar los roles.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">UserListView</span></code> es la vista dedicada a listar todos los usuarios desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">UserDetailView</span></code> es la vista dedicada a la gestion de detalles de usuarios desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">UserCreateView</span></code> es la vista dedicada a la creacion de usuario desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">UserUpdateView</span></code> es la vista dedicada para actualizar a los usuarios desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">DesactivarUsuarioView</span></code> es la vista dedicada para dar de baja a un usuario desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">ActivarUsuarioView</span></code> es la vista dedicada para reactivar a un usuario desde el panel de administracion.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">PaginaNoEncontradaView</span></code> es la vista que se genera al entrar a una url que no existe (error 404).</p>
 <dl class="py class" id="module-app.views">
+<dt class="sig sig-object py" id="app.views.ActivarUsuarioView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">ActivarUsuarioView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#ActivarUsuarioView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.ActivarUsuarioView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PermissionRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.views.ActivarUsuarioView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#ActivarUsuarioView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.ActivarUsuarioView.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.ActivarUsuarioView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.views.ActivarUsuarioView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.ActivarUsuarioView.permission_required">
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.delete_categoria'</span></em><a class="headerlink" href="#app.views.ActivarUsuarioView.permission_required" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.ActivarUsuarioView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'activar_usuario.html'</span></em><a class="headerlink" href="#app.views.ActivarUsuarioView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="app.views.CustomTemplateView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">CustomTemplateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#CustomTemplateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.CustomTemplateView" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
@@ -243,6 +440,33 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.views.CustomTemplateView.group_name">
 <span class="sig-name descname"><span class="pre">group_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#app.views.CustomTemplateView.group_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.views.DesactivarUsuarioView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">DesactivarUsuarioView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#DesactivarUsuarioView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.DesactivarUsuarioView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PermissionRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.views.DesactivarUsuarioView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#DesactivarUsuarioView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.DesactivarUsuarioView.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.DesactivarUsuarioView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.views.DesactivarUsuarioView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.DesactivarUsuarioView.permission_required">
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.delete_categoria'</span></em><a class="headerlink" href="#app.views.DesactivarUsuarioView.permission_required" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.DesactivarUsuarioView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'desactivar_usuario.html'</span></em><a class="headerlink" href="#app.views.DesactivarUsuarioView.template_name" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -264,6 +488,17 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="app.views.PaginaNoEncontradaView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">PaginaNoEncontradaView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#PaginaNoEncontradaView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.PaginaNoEncontradaView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.views.PaginaNoEncontradaView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#PaginaNoEncontradaView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.PaginaNoEncontradaView.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="app.views.ProfileView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">ProfileView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#ProfileView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.ProfileView" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#app.views.CustomTemplateView" title="app.views.CustomTemplateView"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomTemplateView</span></code></a></p>
@@ -279,9 +514,135 @@
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="app.views.UserCreateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">UserCreateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#UserCreateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.UserCreateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PermissionRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserCreateView.form_class">
+<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#app.views.UserCreateView.form_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#app.forms.CustomAdminUserCreationForm" title="app.forms.CustomAdminUserCreationForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomAdminUserCreationForm</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.views.UserCreateView.form_valid">
+<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#UserCreateView.form_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.UserCreateView.form_valid" title="Link to this definition"></a></dt>
+<dd><p>If the form is valid, save the associated model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserCreateView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.views.UserCreateView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserCreateView.permission_required">
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.add_categoria'</span></em><a class="headerlink" href="#app.views.UserCreateView.permission_required" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserCreateView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/users/'</span></em><a class="headerlink" href="#app.views.UserCreateView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserCreateView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'user_form.html'</span></em><a class="headerlink" href="#app.views.UserCreateView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.views.UserDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">UserDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#UserDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.UserDetailView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserDetailView.context_object_name">
+<span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'user'</span></em><a class="headerlink" href="#app.views.UserDetailView.context_object_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserDetailView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.views.UserDetailView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserDetailView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'user_detail.html'</span></em><a class="headerlink" href="#app.views.UserDetailView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.views.UserListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">UserListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#UserListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.UserListView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserListView.context_object_name">
+<span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'users'</span></em><a class="headerlink" href="#app.views.UserListView.context_object_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserListView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.views.UserListView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserListView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'user_list.html'</span></em><a class="headerlink" href="#app.views.UserListView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="app.views.UserUpdateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">UserUpdateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#UserUpdateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.UserUpdateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PermissionRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserUpdateView.form_class">
+<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#app.views.UserUpdateView.form_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#app.forms.CustomAdminUserChangeForm" title="app.forms.CustomAdminUserChangeForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomAdminUserChangeForm</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserUpdateView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#app.views.UserUpdateView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserUpdateView.permission_required">
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.change_categoria'</span></em><a class="headerlink" href="#app.views.UserUpdateView.permission_required" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserUpdateView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/users/'</span></em><a class="headerlink" href="#app.views.UserUpdateView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.views.UserUpdateView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'user_form.html'</span></em><a class="headerlink" href="#app.views.UserUpdateView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.views.create_group">
+<span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">create_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#create_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.create_group" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="app.views.delete">
 <span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.delete" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.views.delete_group">
+<span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">delete_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#delete_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.delete_group" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -290,8 +651,18 @@
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="app.views.edit_group">
+<span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">edit_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#edit_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.edit_group" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="app.views.exit">
 <span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.exit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.views.group_list">
+<span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">group_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#group_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.group_list" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -301,12 +672,13 @@
 
 <span class="target" id="module-app"></span></section>
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="accounts.html" class="btn btn-neutral float-left" title="accounts package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="cms-is2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="cms_is2.html" class="btn btn-neutral float-right" title="cms_is2 package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

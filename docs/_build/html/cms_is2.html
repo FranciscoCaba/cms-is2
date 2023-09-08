@@ -46,11 +46,13 @@
               <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">cms-is2</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="accounts.html">accounts package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.html">app package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">cms_is2 package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">cms_is2 package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#urls-del-proyecto">Urls del Proyecto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuraciones-del-proyecto">Configuraciones Del proyecto</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="contenido.html">contenido package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
 </ul>
 </li>
 </ul>
@@ -82,6 +84,20 @@
              
   <section id="cms-is2-package">
 <h1>cms_is2 package<a class="headerlink" href="#cms-is2-package" title="Link to this heading"></a></h1>
+<section id="urls-del-proyecto">
+<h2>Urls del Proyecto<a class="headerlink" href="#urls-del-proyecto" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;app.urls&#39;</span><span class="p">)),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;contenido.urls&#39;</span><span class="p">)),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;accounts/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;django.contrib.auth.urls&#39;</span><span class="p">)),</span>
+   <span class="n">re_path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^.*/$&#39;</span><span class="p">,</span> <span class="n">PaginaNoEncontradaView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pagina_no_encontrada&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="configuraciones-del-proyecto">
+<h2>Configuraciones Del proyecto<a class="headerlink" href="#configuraciones-del-proyecto" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -215,7 +231,8 @@ seguridad de django ya que trabaja en conjunto con el:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<span class="target" id="module-cms_is2"></span></section>
+</section>
+</section>
 
 
            </div>

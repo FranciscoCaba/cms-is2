@@ -9,7 +9,7 @@ from ckeditor.fields import CKEditorWidget
 
 class ContenidoForm(forms.ModelForm):
     categoria = forms.ModelChoiceField(
-        queryset=Categoria.objects.all(),
+        queryset=Categoria.objects.filter(is_active=True),
         widget=forms.Select,
         empty_label="Seleccione una categoría",
         required=True,

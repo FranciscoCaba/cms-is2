@@ -1,5 +1,21 @@
 cms\_is2 package
 ================
+Urls del Proyecto
+~~~~~~~~~~~~~~~~~
+
+::
+   
+   urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', include('app.urls')),
+      path('contenido/', include('contenido.urls')),
+      path('accounts/', include('django.contrib.auth.urls')),
+      re_path(r'^.*/$', PaginaNoEncontradaView.as_view(), name='pagina_no_encontrada'),
+   ]
+
+
+Configuraciones Del proyecto
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -138,8 +154,3 @@ Configuracion para la conexion con la base de datos::
          'PORT': '5432',
       }
    }
-
-.. automodule:: cms_is2
-   :members:
-   :undoc-members:
-   :show-inheritance:
