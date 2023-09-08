@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block contenido %}
+{% load crispy_forms_tags %}
+  <div class="card mx-auto" style="width: 30%">
+    <div class="card-body">
+    <h3>Detalles de Usuario</h3>
+    <p><strong>Nombre de Usuario:</strong> {{ user.username }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+    
+    <!-- Cambia los enlaces por botones y alinea horizontalmente -->
+    <div class="btn-group d-flex justify-content-between" role="group" aria-label="Botones de acción">
+      
+      <form action="{% url 'user-update' user.pk %}" method="get">
+        <button type="submit" class="btn btn-primary">Editar</button>
+      </form>
+      {% if user.is_active %}
+      <form action="{% url 'desactivar-usuario' user.pk %}" method="get">
+        <button type="submit" class="btn btn-danger">Inactivar</button>
+      </form>
+      {% else %}
+      <form action="{% url 'activar-usuario' user.pk %}" method="get">
+        <button type="submit" class="btn btn-success">Activar</button>
+      </form>
+      {% endif %}
+      
+      <form action="{% url 'user-list' %}" method="get">
+        <button type="submit" class="btn btn-primary">Volver a la lista</button>
+      </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

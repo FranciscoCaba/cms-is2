@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+    <div class="container">
+        <h1>Error 404 - Página no encontrada</h1>
+        <p>Lo sentimos, la página que estás buscando no se encuentra disponible en este momento.</p>
+        <p>Puedes regresar a <a href="{% url 'index' %}">la página de inicio</a> o utilizar la barra de navegación para encontrar lo que buscas.</p>
+    </div>
+    <!-- Puedes agregar más contenido o elementos HTML según tus necesidades -->
+{% endblock %}

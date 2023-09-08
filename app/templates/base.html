@@ -17,14 +17,44 @@
 <body>
   <nav class="navbar navbar-expand navbar-light bg-light">
     <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+      </li>
     {% if request.user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
       </li>
     {% endif %}
+    {% if perms.auth.change_user %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'index' %}">Inicio</a>
-      </li>
+          <a class="nav-link" href="{% url 'user-list' %}">Administrar usuarios</a>
+        </li>
+    {% endif %}
+    {% if perms.auth.add_group %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_group' %}">Crear grupo</a>
+        </li>
+    {% endif %}
+    {% if perms.auth.change_group and perms.auth.delete_group %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'group_list' %}">Administrar grupos</a>
+        </li>
+    {% endif %}
+    {% if perms.contenido.add_categoria %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'categoria-crear' %}">Crear categoria</a>
+        </li>
+    {% endif %}
+    {% if perms.contenido.change_categoria and perms.contenido.delete_categoria %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'categoria-list' %}">Administrar categorias</a>
+        </li>
+    {% endif %}
+    {% if perms.contenido.add_contenido %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'contenido-crear' %}">Crear contenido</a>
+        </li>
+    {% endif %}
     {% if request.user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'exit' %}">Salir</a>

@@ -3,16 +3,37 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to cms-is2-eq01-v.1.0.0's documentation!
-================================================
+Bienvenido a la documentacion del cms-is2-eq01-v.1.0.0
+======================================================
+
+Para navegar por la documentacion simplemente elija que quiere ver
+------------------------------------------------------------------
+
+app package
+~~~~~~~~~~~
+
+Aqui se encuentran los modulos de roles, permisos y gestion de usuarios.
+   
+
+cms_is2 package
+~~~~~~~~~~~~~~~
+
+Es la configuracion del proyecto.
+
+
+Contenido package
+~~~~~~~~~~~~~~~~~
+
+Aqui estan los modulos de contenido asi como los modulos de categoria.
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contenido:
 
    modules
 
-Indices and tables
+Indices y tables
 ==================
 
 * :ref:`genindex`

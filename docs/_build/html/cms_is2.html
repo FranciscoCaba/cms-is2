@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="manage module" href="manage.html" />
-    <link rel="prev" title="app.migrations package" href="app.migrations.html" /> 
+    <link rel="next" title="contenido package" href="contenido.html" />
+    <link rel="prev" title="app package" href="app.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,26 +43,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">cms-is2</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="accounts.html">accounts package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="app.html">app package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">cms_is2 package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cms-is2-asgi-module">cms_is2.asgi module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cms-is2-desarrollo-module">cms_is2.desarrollo module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cms-is2-produccion-module">cms_is2.produccion module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cms-is2-settings-module">cms_is2.settings module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cms_is2.settings.SECRET_KEY"><code class="docutils literal notranslate"><span class="pre">SECRET_KEY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#urls-del-proyecto">Urls del Proyecto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuraciones-del-proyecto">Configuraciones Del proyecto</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#cms-is2-urls-module">cms_is2.urls module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cms-is2-wsgi-module">cms_is2.wsgi module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-contents">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contenido.html">contenido package</a></li>
 </ul>
 </li>
 </ul>
@@ -94,59 +84,162 @@
              
   <section id="cms-is2-package">
 <h1>cms_is2 package<a class="headerlink" href="#cms-is2-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+<section id="urls-del-proyecto">
+<h2>Urls del Proyecto<a class="headerlink" href="#urls-del-proyecto" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;app.urls&#39;</span><span class="p">)),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;contenido.urls&#39;</span><span class="p">)),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;accounts/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;django.contrib.auth.urls&#39;</span><span class="p">)),</span>
+   <span class="n">re_path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^.*/$&#39;</span><span class="p">,</span> <span class="n">PaginaNoEncontradaView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pagina_no_encontrada&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
 </section>
-<section id="cms-is2-asgi-module">
-<h2>cms_is2.asgi module<a class="headerlink" href="#cms-is2-asgi-module" title="Link to this heading"></a></h2>
-<p id="module-cms_is2.asgi">ASGI config for cms_is2 project.</p>
-<p>It exposes the ASGI callable as a module-level variable named <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
-<p>For more information on this file, see
-<a class="reference external" href="https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/">https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/</a></p>
-</section>
-<section id="cms-is2-desarrollo-module">
-<h2>cms_is2.desarrollo module<a class="headerlink" href="#cms-is2-desarrollo-module" title="Link to this heading"></a></h2>
-</section>
-<section id="cms-is2-produccion-module">
-<span id="module-cms_is2.desarrollo"></span><h2>cms_is2.produccion module<a class="headerlink" href="#cms-is2-produccion-module" title="Link to this heading"></a></h2>
-</section>
-<section id="cms-is2-settings-module">
-<span id="module-cms_is2.produccion"></span><h2>cms_is2.settings module<a class="headerlink" href="#cms-is2-settings-module" title="Link to this heading"></a></h2>
-<p id="module-cms_is2.settings">Django settings for cms_is2 project.</p>
-<p>Generated by ‘django-admin startproject’ using Django 4.2.4.</p>
-<p>For more information on this file, see
-<a class="reference external" href="https://docs.djangoproject.com/en/4.2/topics/settings/">https://docs.djangoproject.com/en/4.2/topics/settings/</a></p>
-<p>For the full list of settings and their values, see
-<a class="reference external" href="https://docs.djangoproject.com/en/4.2/ref/settings/">https://docs.djangoproject.com/en/4.2/ref/settings/</a></p>
-<dl class="py data">
-<dt class="sig sig-object py" id="cms_is2.settings.SECRET_KEY">
-<span class="sig-prename descclassname"><span class="pre">cms_is2.settings.</span></span><span class="sig-name descname"><span class="pre">SECRET_KEY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django-insecure-3&#64;83r2(*0+$g332h5y^sdsjazqu&amp;ovuea^_w^3-=bl&#64;^!&amp;4#$)'</span></em><a class="headerlink" href="#cms_is2.settings.SECRET_KEY" title="Link to this definition"></a></dt>
-<dd><p># SECURITY WARNING: don’t run with debug turned on in production!
-DEBUG = True</p>
-</dd></dl>
+<section id="configuraciones-del-proyecto">
+<h2>Configuraciones Del proyecto<a class="headerlink" href="#configuraciones-del-proyecto" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
+<span class="c1"># Build paths inside the project like this: BASE_DIR / &#39;subdir&#39;.</span>
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;cms.local&#39;</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Application definition</span>
+
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="s1">&#39;crispy_forms&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;crispy_bootstrap5&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;accounts.apps.AccountsConfig&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;app&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;contenido&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;ckeditor&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Lineas necesarias para que funcione la libreria que se encarga de formatear
+los formularios:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CRISPY_ALLOWED_TEMPLATE_PACK</span> <span class="o">=</span> <span class="s1">&#39;bootstrap5&#39;</span>
+<span class="n">CRISPY_TEMPLATE_PACK</span> <span class="o">=</span> <span class="s1">&#39;bootstrap5&#39;</span>
+</pre></div>
+</div>
+<p>El whitenoise es una libreria de django para servir archivos estaticos
+ya que por defecto django no se encarga de servir archivos estaticos
+en produccion y tiene que ser declarado por debajo del middleware de
+seguridad de django ya que trabaja en conjunto con el:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="s1">&#39;django.middleware.security.SecurityMiddleware&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;whitenoise.middleware.WhiteNoiseMiddleware&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.middleware.csrf.CsrfViewMiddleware&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.contrib.messages.middleware.MessageMiddleware&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Aqui van las urls del proyecto:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ROOT_URLCONF</span> <span class="o">=</span> <span class="s1">&#39;cms_is2.urls&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TEMPLATES</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="p">{</span>
+      <span class="s1">&#39;BACKEND&#39;</span><span class="p">:</span> <span class="s1">&#39;django.template.backends.django.DjangoTemplates&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;DIRS&#39;</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s1">&#39;APP_DIRS&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+      <span class="s1">&#39;OPTIONS&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;context_processors&#39;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="s1">&#39;django.template.context_processors.debug&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;django.template.context_processors.request&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;django.contrib.auth.context_processors.auth&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;django.contrib.messages.context_processors.messages&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+      <span class="p">},</span>
+   <span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Declara la ubic del modulo para la conexion con apache:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WSGI_APPLICATION</span> <span class="o">=</span> <span class="s1">&#39;cms_is2.wsgi.application&#39;</span>
+</pre></div>
+</div>
+<p>Contrasenas sin requisitos son posibles gracias al:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AUTH_PASSWORD_VALIDATORS</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Cambia el idioma de componentes traducibles del proyecto:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s1">&#39;es-es&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s1">&#39;UTC&#39;</span>
+
+<span class="n">USE_I18N</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">USE_TZ</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>Direccion y ruta de archivos estaticos para servir con whitenoise:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;static/&#39;</span>
+<span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;staticfiles&quot;</span>
+<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">STORAGES</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s2">&quot;staticfiles&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;BACKEND&quot;</span><span class="p">:</span> <span class="s2">&quot;whitenoise.storage.CompressedManifestStaticFilesStorage&quot;</span><span class="p">,</span>
+   <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Direccion y ruta de archivos de media:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s1">&#39;media/&#39;</span>
+<span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;media/&quot;</span><span class="p">)</span>
+
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEFAULT_AUTO_FIELD</span> <span class="o">=</span> <span class="s1">&#39;django.db.models.BigAutoField&#39;</span>
+</pre></div>
+</div>
+<p>VARIABLES DE REDIRECCION EN LOGIN Y LOGOUT:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOGIN_REDIRECT_URL</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span>
+<span class="n">LOGOUT_REDIRECT_URL</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span>
+</pre></div>
+</div>
+<p>Configuracion para la conexion con la base de datos:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;cms_dev&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </section>
-<section id="cms-is2-urls-module">
-<h2>cms_is2.urls module<a class="headerlink" href="#cms-is2-urls-module" title="Link to this heading"></a></h2>
-</section>
-<section id="cms-is2-wsgi-module">
-<span id="module-cms_is2.urls"></span><h2>cms_is2.wsgi module<a class="headerlink" href="#cms-is2-wsgi-module" title="Link to this heading"></a></h2>
-<p id="module-cms_is2.wsgi">WSGI config for cms_is2 project.</p>
-<p>It exposes the WSGI callable as a module-level variable named <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
-<p>For more information on this file, see
-<a class="reference external" href="https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/">https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/</a></p>
-</section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
-<span class="target" id="module-cms_is2"></span></section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="app.migrations.html" class="btn btn-neutral float-left" title="app.migrations package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="manage.html" class="btn btn-neutral float-right" title="manage module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="app.html" class="btn btn-neutral float-left" title="app package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contenido.html" class="btn btn-neutral float-right" title="contenido package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block contenido %}
+{% load crispy_forms_tags %}
+<form method="post">
+  {% csrf_token %}
+  <div class="card mx-auto" style="width: 40%">
+      <div class="card-body">
+          <h3 class="card-title">{% if form.instance.pk %}Editar Usuario{% else %}Crear Usuario{% endif %}</h3>
+          {{ form | crispy }}
+          <button type="submit" class="btn btn-primary float-end">Guardar</button>
+          <a href="{% url 'user-list' %}">Volver a la Lista de Usuarios</a>
+      </div>
+  </div>
+</form>
+{% endblock %}

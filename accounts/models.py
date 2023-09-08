@@ -2,26 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.core.exceptions import ObjectDoesNotExist
-
-#Contenido
-class Contenido(models.Model):
-    id = models.AutoField(primary_key=True)
-    titulo = models.CharField(max_length=50)
-    descripcion = models.TextField()
-    likes = models.IntegerField(default=0)
-
-    class Meta:
-        verbose_name = 'contenido'
-        verbose_name_plural = 'contenido'
-        ordering = ['-id']
-
-    def __str__(self):
-        return self.titulo
-    
-    def get_likes(self):
-        return self.likes
-
-
 #perfil de usuario
 
 class Profile(models.Model):
