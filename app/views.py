@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
+from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.models import Group, User
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm, CustomAdminUserChangeForm, GroupCreationForm, GroupEditForm
@@ -189,3 +190,7 @@ class ActivarUsuarioView(PermissionRequiredMixin, DetailView):
         # Puedes agregar un mensaje de éxito si lo deseas
         messages.success(request, f"El usuario {self.object.username} ha sido activado.")
         return redirect('user-list')  # Cambia 'lista_usuarios' al nombre de tu vista de lista de usuarios
+    
+class PaginaNoEncontradaView(View):
+    def get(self, request):
+        return render(request, 'no_encontrada.html')

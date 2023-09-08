@@ -2,9 +2,7 @@ from .settings import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost',]
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+ALLOWED_HOSTS = ['cms.local']
 
 DATABASES = {
     'default': {
