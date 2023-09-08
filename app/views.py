@@ -78,7 +78,7 @@ def exit(request):
     logout(request)
     return redirect('index')
 
-@permission_required('app.add_group')
+@permission_required('auth.add_group')
 def create_group(request):
     data = {
         'form': GroupCreationForm()
@@ -96,7 +96,7 @@ def create_group(request):
     
     return render(request, 'group/create_group.html', data)
 
-@permission_required('app.delete_group')
+@permission_required('auth.delete_group')
 def delete_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)
 
@@ -107,7 +107,7 @@ def delete_group(request, group_id):
     groups = Group.objects.all()
     return render(request, 'group/group_list.html', {'groups': groups})
 
-@permission_required('app.change_group')
+@permission_required('auth.change_group')
 def edit_group(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     
@@ -121,7 +121,7 @@ def edit_group(request, group_id):
     
     return render(request, 'group/edit_group.html', {'form': form, 'group': group})
 
-@permission_required('app.view_group')
+@permission_required('auth.view_group')
 def group_list(request):
     groups = Group.objects.all()
     return render(request, 'group/group_list.html', {'groups': groups})
@@ -138,7 +138,7 @@ class UserDetailView(DetailView):
     context_object_name = 'user'
 
 class UserCreateView(PermissionRequiredMixin, CreateView):
-    permission_required = 'contenido.add_categoria'
+    permission_required = 'auth.add_user'
     model = User
     form_class = CustomAdminUserCreationForm
     template_name = 'user_form.html'
@@ -154,7 +154,7 @@ class UserCreateView(PermissionRequiredMixin, CreateView):
 
 
 class UserUpdateView(PermissionRequiredMixin, UpdateView):
-    permission_required = 'contenido.change_categoria'
+    permission_required = 'auth.change_user'
     model = User
     form_class = CustomAdminUserChangeForm
     template_name = 'user_form.html'
@@ -162,7 +162,7 @@ class UserUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 class DesactivarUsuarioView(PermissionRequiredMixin, DetailView):
-    permission_required = 'contenido.delete_categoria'
+    permission_required = 'auth.delete_user'
     model = User
     template_name = 'desactivar_usuario.html'  # Nombre del archivo HTML que extiende de base.html
 
@@ -177,7 +177,7 @@ class DesactivarUsuarioView(PermissionRequiredMixin, DetailView):
         return redirect('user-list')  # Cambia 'lista_usuarios' al nombre de tu vista de lista de usuarios
 
 class ActivarUsuarioView(PermissionRequiredMixin, DetailView):
-    permission_required = 'contenido.delete_categoria'
+    permission_required = 'auth.delete_user'
     model = User
     template_name = 'activar_usuario.html'  # Nombre del archivo HTML que extiende de base.html
 
