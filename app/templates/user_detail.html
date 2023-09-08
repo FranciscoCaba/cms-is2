@@ -15,7 +15,7 @@
       </form>
       {% if user.is_active %}
       <form action="{% url 'desactivar-usuario' user.pk %}" method="get">
-        <button type="submit" class="btn btn-danger">Desactivar</button>
+        <button type="submit" class="btn btn-danger">Inactivar</button>
       </form>
       {% else %}
       <form action="{% url 'activar-usuario' user.pk %}" method="get">
