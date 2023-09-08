@@ -1,11 +1,16 @@
-from django.shortcuts import render
-from .forms import ContenidoForm, CategoriaForm
+from django.shortcuts import redirect
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm
 from django.views.generic.edit import CreateView
+from django.views.generic import ListView, DetailView, UpdateView
+from .models import Categoria
+from django.urls import reverse_lazy
 
 # Create your views here.
 
-class ContenidoFormView(CreateView):
-    template_name = 'contenido.html'
+class ContenidoFormView(PermissionRequiredMixin, CreateView):
+    permission_required = 'contenido.add_contenido'
+    template_name = 'contenido/contenido_crear.html'
     form_class = ContenidoForm
     success_url = '/'
 
@@ -13,10 +18,54 @@ class ContenidoFormView(CreateView):
         form.instance.user = self.request.user
         return super(ContenidoFormView,self).form_valid(form)
 
-class CategoriaFormView(CreateView):
-    template_name = 'categoria.html'
+class CategoriaFormView(PermissionRequiredMixin, CreateView):
+    permission_required = 'contenido.add_categoria'
+    template_name = 'categoria/categoria_crear.html'
     form_class = CategoriaForm
-    success_url = '/'
+    success_url = '/contenido/categoria'
 
     def form_valid(self, form):
         return super(CategoriaFormView,self).form_valid(form)
+
+class CategoriaListView(ListView):
+    model = Categoria
+    template_name = 'categoria/categoria_list.html'
+    context_object_name = 'categorias'
+
+class CategoriaDetailView(DetailView):
+    model = Categoria
+    template_name = 'categoria/categoria_detail.html'
+    context_object_name = 'categoria'
+
+class CategoriaUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'contenido.change_categoria'
+    model = Categoria
+    form_class = CategoriaEditForm
+    template_name = 'categoria/categoria_edit.html'
+    success_url = reverse_lazy('categoria-list')
+
+class DesactivarCategoriaView(PermissionRequiredMixin, DetailView):
+    permission_required = 'contenido.delete_categoria'
+    model = Categoria
+    template_name = 'categoria/desactivar_categoria.html'  # Nombre del archivo HTML que extiende de base.html
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Cambiar el estado de la categoria a inactivo
+        self.object.is_active = False
+        self.object.save()
+
+        return redirect('categoria-list')
+
+class ActivarCategoriaView(PermissionRequiredMixin, DetailView):
+    permission_required = 'contenido.delete_categoria'
+    model = Categoria
+    template_name = 'categoria/activar_categoria.html'  # Nombre del archivo HTML que extiende de base.html
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Cambiar el estado de la categoria a activo
+        self.object.is_active = True
+        self.object.save()
+
+        return redirect('categoria-list')

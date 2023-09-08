@@ -3,27 +3,27 @@
 {% load crispy_forms_tags %}
   <div class="card mx-auto" style="width: 30%">
     <div class="card-body">
-    <h3>Detalles de Usuario</h3>
-    <p><strong>Nombre de Usuario:</strong> {{ user.username }}</p>
-    <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+    <h3>Detalles de Categoria</h3>
+    <p><strong>Nombre:</strong> {{ categoria.nombre }}</p>
+    <p><strong>Moderado:</strong> {% if categoria.moderada %}Si{% else %}No{% endif %}</p>
     
     <!-- Cambia los enlaces por botones y alinea horizontalmente -->
     <div class="btn-group d-flex justify-content-between" role="group" aria-label="Botones de acción">
       
-      <form action="{% url 'user-update' user.pk %}" method="get">
+      <form action="{% url 'categoria-update' categoria.pk %}" method="get">
         <button type="submit" class="btn btn-primary">Editar</button>
       </form>
-      {% if user.is_active %}
-      <form action="{% url 'desactivar-usuario' user.pk %}" method="get">
+      {% if categoria.is_active %}
+      <form action="{% url 'desactivar-categoria' categoria.pk %}" method="get">
         <button type="submit" class="btn btn-danger">Desactivar</button>
       </form>
       {% else %}
-      <form action="{% url 'activar-usuario' user.pk %}" method="get">
+      <form action="{% url 'activar-categoria' categoria.pk %}" method="get">
         <button type="submit" class="btn btn-success">Activar</button>
       </form>
       {% endif %}
       
-      <form action="{% url 'user-list' %}" method="get">
+      <form action="{% url 'categoria-list' %}" method="get">
         <button type="submit" class="btn btn-primary">Volver a la lista</button>
       </form>
       </div>
