@@ -17,6 +17,7 @@ class Contenido(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categoria', verbose_name='Categoria',default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usuario', verbose_name='Usuario')
     titulo = models.CharField(max_length=100)
+    estado = models.CharField(default='Borrador', max_length=100)
     descripcion = RichTextField()
     likes = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
