@@ -26,9 +26,9 @@ class ContenidoFormViewTests(TestCase):
             'descripcion': 'Descripcion',
         }
         response = self.client.post(reverse('contenido-crear'), data)
-        self.assertEqual(response.status_code, 302)  
+        self.assertEqual(response.status_code, 302,'Error al cargar pagina')  
         created_contenido = Contenido.objects.first()
-        self.assertIsNotNone(created_contenido)
-        self.assertEqual(created_contenido.titulo, 'Titulo')
-        self.assertEqual(created_contenido.categoria, categoria)
-        self.assertEqual(created_contenido.descripcion, 'Descripcion')
+        self.assertIsNotNone(created_contenido,'Contenido no creado')
+        self.assertEqual(created_contenido.titulo, 'Titulo','Titulo incorrecto')
+        self.assertEqual(created_contenido.categoria, categoria,'Categoria no existe')
+        self.assertEqual(created_contenido.descripcion, 'Descripcion','Descripcion incorrecta')

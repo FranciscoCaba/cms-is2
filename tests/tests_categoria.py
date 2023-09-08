@@ -20,12 +20,12 @@ class CreateCategoria(TestCase):
             'moderada': False,
         }
         response = self.client.post(reverse('categoria-crear'), data)
-        self.assertEqual(response.status_code, 302)  
+        self.assertEqual(response.status_code, 302,'Error al cargar pagina')  
         created_categoria = Categoria.objects.first()
-        self.assertIsNotNone(created_categoria)
-        self.assertEqual(created_categoria.nombre, 'Categoria1')
-        self.assertFalse(created_categoria.moderada)
-        self.assertTrue(created_categoria.is_active)
+        self.assertIsNotNone(created_categoria,'Categoria no creada')
+        self.assertEqual(created_categoria.nombre, 'Categoria1','Nombre de categoria distinto')
+        self.assertFalse(created_categoria.moderada,'Categoria esta moderada')
+        self.assertTrue(created_categoria.is_active,'La categoria no esta activa')
 
 class CategoriaViewTests(TestCase):
 
@@ -49,21 +49,21 @@ class CategoriaViewTests(TestCase):
             'moderada': True,
         }
         response = self.client.post(reverse('categoria-update', args=[self.categoria.pk]), data)
-        self.assertEqual(response.status_code, 302)  
+        self.assertEqual(response.status_code, 302,'Error al cargar pagina')  
         self.categoria.refresh_from_db()
-        self.assertEqual(self.categoria.nombre, 'Updated Category')
-        self.assertEqual(self.categoria.moderada, True)
+        self.assertEqual(self.categoria.nombre, 'Updated Category','Categoria actualizada incorrectamente')
+        self.assertEqual(self.categoria.moderada, True,'Categoria no esta moderada')
 
     def test_desactivar_categoria_view(self):
         response = self.client.get(reverse('desactivar-categoria', args=[self.categoria.pk]))
-        self.assertEqual(response.status_code, 302)  
+        self.assertEqual(response.status_code, 302,'Error al cargar pagina')  
         self.categoria.refresh_from_db()
-        self.assertFalse(self.categoria.is_active)
+        self.assertFalse(self.categoria.is_active,'Categoria esta activa')
 
     def test_activar_categoria_view(self):
         self.categoria.is_active = False
         self.categoria.save()
         response = self.client.get(reverse('activar-categoria', args=[self.categoria.pk]))
-        self.assertEqual(response.status_code, 302)  
+        self.assertEqual(response.status_code, 302,'Error al cargar pagina')  
         self.categoria.refresh_from_db()
-        self.assertTrue(self.categoria.is_active)
+        self.assertTrue(self.categoria.is_active,'Categoria esta desactivada')
