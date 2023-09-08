@@ -82,16 +82,23 @@
 <div class="viewcode-block" id="ContenidoForm">
 <a class="viewcode-back" href="../../contenido.html#contenido.forms.ContenidoForm">[docs]</a>
 <span class="k">class</span> <span class="nc">ContenidoForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">categoria</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ModelChoiceField</span><span class="p">(</span>
+        <span class="n">queryset</span><span class="o">=</span><span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_active</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">Select</span><span class="p">,</span>
+        <span class="n">empty_label</span><span class="o">=</span><span class="s2">&quot;Seleccione una categoría&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
     
 <div class="viewcode-block" id="ContenidoForm.Meta">
 <a class="viewcode-back" href="../../contenido.html#contenido.forms.ContenidoForm.Meta">[docs]</a>
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">Contenido</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">)</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">,</span> <span class="s1">&#39;categoria&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">)</span>
 
         <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">}),</span>
             <span class="s1">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">CKEditorWidget</span><span class="p">()),</span>
+            <span class="s1">&#39;categoria&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">Select</span><span class="p">(),</span>
         <span class="p">}</span></div>
 </div>
 
@@ -102,6 +109,23 @@
 
 <div class="viewcode-block" id="CategoriaForm.Meta">
 <a class="viewcode-back" href="../../contenido.html#contenido.forms.CategoriaForm.Meta">[docs]</a>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Categoria</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span><span class="s1">&#39;moderada&#39;</span><span class="p">]</span>
+
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;nombre&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">}),</span>
+            <span class="s1">&#39;moderada&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">CheckboxInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control-2&#39;</span><span class="p">})</span>
+        <span class="p">}</span></div>
+</div>
+
+
+<div class="viewcode-block" id="CategoriaEditForm">
+<a class="viewcode-back" href="../../contenido.html#contenido.forms.CategoriaEditForm">[docs]</a>
+<span class="k">class</span> <span class="nc">CategoriaEditForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CategoriaEditForm.Meta">
+<a class="viewcode-back" href="../../contenido.html#contenido.forms.CategoriaEditForm.Meta">[docs]</a>
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">Categoria</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span><span class="s1">&#39;moderada&#39;</span><span class="p">]</span>

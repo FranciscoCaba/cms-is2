@@ -9,29 +9,22 @@ Bienvenido a la documentacion del cms-is2-eq01-v.1.0.0
 Para navegar por la documentacion simplemente elija que quiere ver
 ------------------------------------------------------------------
 
-
-accounts package
-~~~~~~~~~~~~~~~~
-
-#. Este cuenta con el modulo de usuario que al registrarse automaticamente hace un try.
-
-
 app package
 ~~~~~~~~~~~
 
-#. Aqui se encuentran las views del proyecto.
+Aqui se encuentran los modulos de roles, permisos y gestion de usuarios.
    
 
 cms_is2 package
 ~~~~~~~~~~~~~~~
 
-#. Es la configuracion del proyecto.
+Es la configuracion del proyecto.
 
 
 Contenido package
 ~~~~~~~~~~~~~~~~~
 
-#. Aqui estan los modulos de contenido asi como los modulos de categoria.
+Aqui estan los modulos de contenido asi como los modulos de categoria.
 
 
 .. toctree::
