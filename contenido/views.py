@@ -1,9 +1,9 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm
 from django.views.generic.edit import CreateView
-from django.views.generic import ListView, DetailView, UpdateView
-from .models import Categoria
+from django.views.generic import ListView, DetailView, UpdateView, View
+from .models import Categoria, Contenido
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -69,3 +69,13 @@ class ActivarCategoriaView(PermissionRequiredMixin, DetailView):
         self.object.save()
 
         return redirect('categoria-list')
+    
+
+class MostrarContenidosView(View):
+    template_name = 'mostrar_contenidos.html'
+
+    def get(self, request, pk):
+        categoria = get_object_or_404(Categoria, pk=pk)
+        contenidos = Contenido.objects.filter(categoria=categoria, is_active=True)
+        context = {'categoria': categoria, 'contenidos': contenidos}
+        return render(request, self.template_name, context)

@@ -9,4 +9,5 @@ urlpatterns = [
     path('categoria/<int:pk>/update/', views.CategoriaUpdateView.as_view(), name='categoria-update'),
     path('categoria/<int:pk>/desactivar', views.DesactivarCategoriaView.as_view(), name='desactivar-categoria'),
     path('categoria/<int:pk>/activar', views.ActivarCategoriaView.as_view(), name='activar-categoria'),
+    path('categoria/<int:pk>/listar', views.MostrarContenidosView.as_view(), name='mostrar_contenidos')
 ]

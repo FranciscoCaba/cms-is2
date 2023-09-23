@@ -6,4 +6,11 @@
     {% else %}
         <h1>Bienvenido Visitante</h1>
     {% endif %}
+    <ul>
+        {% for categoria in categorias %}
+            <li>
+                <a href="{% url 'mostrar_contenidos' categoria.id %}">{{ categoria.nombre }} ({{ categoria.num_contenidos }})</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

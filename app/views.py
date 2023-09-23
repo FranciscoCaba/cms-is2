@@ -8,7 +8,8 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUser
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.contrib import messages
-
+from django.db.models import Count
+from contenido.models import Categoria
 
 # Create your views here.
 class CustomTemplateView(TemplateView):
@@ -38,6 +39,7 @@ class IndexView(CustomTemplateView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         user=self.request.user
+        context['categorias']=Categoria.objects.annotate(num_contenidos=Count('categoria'))
         return context
     
 def register(request):
