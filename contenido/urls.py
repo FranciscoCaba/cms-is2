@@ -17,4 +17,11 @@ urlpatterns = [
 
     path('borradores/', views.ContenidoBorradorListView.as_view(), name='borradores_lista'),
     path('rechazados/', views.ContenidoRechazadoListView.as_view(), name='rechazados_lista'),
+
+    #path('<int:contenido_id>/toggle-like/', views.toggle_like, name='toggle_like'),
+    #path('<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
+
+
+    path('contenido/<int:contenido_id>/toggle-like/', views.toggle_like, name='toggle_like'),
+    path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
 ]

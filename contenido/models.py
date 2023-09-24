@@ -19,18 +19,26 @@ class Contenido(models.Model):
     titulo = models.CharField(max_length=100)
     #estado = models.CharField(default='Borrador', max_length=100)
     descripcion = RichTextField()
-    likes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
     is_active = models.BooleanField(default=True)
     
     ESTADO_CHOICES = (
-        ('borrador', 'Borrador'),
+        ('borrador', 'Borrador'), 
         ('revision', 'En revisión'),
         ('rechazado', 'Rechazado'),
         ('publicado', 'Publicado'),
     )
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='En revisión')
+    
     reportado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.titulo
 
+class Like(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Like de {self.user.username} a {self.contenido.titulo}'

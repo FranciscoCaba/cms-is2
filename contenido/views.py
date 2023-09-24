@@ -3,8 +3,9 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido
+from .models import Categoria, Contenido, Like
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 # Create your views here.
 
@@ -143,8 +144,6 @@ def rechazar_contenido(request, pk):
     # Redirigir a la lista de borradores
     return redirect('revisar')
 
-
-# Hasta aca llegue, no carga los datos el Contenido desde el que se accede xd
 class ContenidoBorradorListView(LoginRequiredMixin, ListView):
     model = Contenido
     template_name = 'contenido/borradores_lista.html'
@@ -162,3 +161,30 @@ class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         # Obtener los contenidos en estado "rechazado" del usuario actual
         return Contenido.objects.filter(user=self.request.user, estado='Rechazado')
+
+def detalle_contenido(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+    user_likes_contenido = request.user.contenido_likes.filter(id=contenido.id).exists()
+    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido})
+
+def toggle_like(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
+
+    if request.user.is_authenticated:
+        try:
+            # Intenta obtener el like existente del usuario para este contenido
+            like = Like.objects.get(contenido=contenido, user=request.user)
+            # Si el like existe, elimínalo (quitar like)
+            like.delete()
+            messages.success(request, 'Like eliminado correctamente.')
+        except Like.DoesNotExist:
+            # Si el like no existe, créalo (dar like)
+            Like.objects.create(contenido=contenido, user=request.user)
+            messages.success(request, 'Like agregado correctamente.')
+        
+        # No es necesario incrementar/decrementar el contador de likes aquí
+
+        return redirect('detalle_contenido', pk=contenido.id)
+    else:
+        messages.error(request, 'Debes estar autenticado para dar/quitar like.')
+        return redirect('detalle_contenido', pk=contenido.id)
