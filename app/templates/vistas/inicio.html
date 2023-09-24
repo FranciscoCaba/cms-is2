@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{%block titulo%}Bienvenido!{% endblock %}
 {% block contenido %}
     {% if request.user.is_authenticated %}
         <h1>Bienvenido {{ request.user.username }}</h1>
