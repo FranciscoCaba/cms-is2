@@ -23,9 +23,13 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             form.instance.estado = 'En revisión'
 
             borrador_id = self.request.GET.get('borrador_id')
+            rechazado_id = self.request.GET.get('rechazado_id')
             if borrador_id:
                 borrador_content = get_object_or_404(Contenido, pk=borrador_id)
                 borrador_content.delete()
+            if rechazado_id:
+                rechazado_content = get_object_or_404(Contenido, pk=rechazado_id)
+                rechazado_content.delete()
 
         return super(ContenidoFormView,self).form_valid(form)
     
@@ -36,6 +40,13 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
                 'titulo': borrador_content.titulo,
                 'categoria': borrador_content.categoria,
                 'descripcion': borrador_content.descripcion,
+            }
+        rechazado_content = Contenido.objects.filter(user=self.request.user, estado='Rechazado').first()
+        if rechazado_content:
+            return {
+                'titulo': rechazado_content.titulo,
+                'categoria': rechazado_content.categoria,
+                'descripcion': rechazado_content.descripcion,
             }
         return {}
 
@@ -142,3 +153,12 @@ class ContenidoBorradorListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
         return Contenido.objects.filter(user=self.request.user, estado='Borrador')
+
+class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
+    model = Contenido
+    template_name = 'contenido/rechazados_lista.html'
+    context_object_name = 'contenidos_rechazados'
+
+    def get_queryset(self):
+        # Obtener los contenidos en estado "rechazado" del usuario actual
+        return Contenido.objects.filter(user=self.request.user, estado='Rechazado')

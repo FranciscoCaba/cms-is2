@@ -16,5 +16,5 @@ urlpatterns = [
     path('contenido/<int:pk>/rechazar/', views.rechazar_contenido, name='rechazar_contenido'),
 
     path('borradores/', views.ContenidoBorradorListView.as_view(), name='borradores_lista'),
-    
+    path('rechazados/', views.ContenidoRechazadoListView.as_view(), name='rechazados_lista'),
 ]
