@@ -16,6 +16,10 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        
+        if 'borradorcito' in self.request.POST:
+            form.instance.estado = 'Borrador'
+
         return super(ContenidoFormView,self).form_valid(form)
 
 class CategoriaFormView(PermissionRequiredMixin, CreateView):
