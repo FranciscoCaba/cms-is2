@@ -16,7 +16,7 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        
+        # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
 
