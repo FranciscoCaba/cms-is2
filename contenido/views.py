@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
@@ -21,6 +21,7 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             form.instance.estado = 'Borrador'
 
         return super(ContenidoFormView,self).form_valid(form)
+
 
 class CategoriaFormView(PermissionRequiredMixin, CreateView):
     permission_required = 'contenido.add_categoria'
@@ -85,9 +86,9 @@ class MostrarContenidosView(View):
         return render(request, self.template_name, context)
     
 
-class ListarBorradoresView(ListView):
+class ListarRevisionesView(ListView):
     model = Contenido
-    template_name = 'listar_borradores.html'
+    template_name = 'listar_revisiones.html'
     context_object_name = 'borradores'
 
     def get_queryset(self):
@@ -112,3 +113,14 @@ def rechazar_contenido(request, pk):
 
     # Redirigir a la lista de borradores
     return redirect('listar_borradores')
+
+
+# Hasta aca llegue, no carga los datos el Contenido desde el que se accede xd
+class ContenidoBorradorListView(LoginRequiredMixin, ListView):
+    model = Contenido
+    template_name = 'contenido/borradores_lista.html'
+    context_object_name = 'contenidos_borrador'
+
+    def get_queryset(self):
+        # Obtener los contenidos en estado "borrador" del usuario actual
+        return Contenido.objects.filter(user=self.request.user, estado='Borrador')
