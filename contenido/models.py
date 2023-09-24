@@ -29,7 +29,8 @@ class Contenido(models.Model):
         ('publicado', 'Publicado'),
     )
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='En revisión')
-    
+    reportado = models.BooleanField(default=False)
+
     def __str__(self):
         return self.titulo
-    
+
