@@ -25,6 +25,26 @@ class ContenidoForm(forms.ModelForm):
             'categoria': forms.Select(),
         }
 
+class ContenidoEditForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.filter(is_active=True),
+        widget=forms.Select,
+        empty_label="Seleccione una categoría",
+        required=True,
+    )
+    
+    class Meta:
+        model = Contenido
+        fields = ('titulo', 'categoria', 'descripcion', 'is_active', 'reportado')
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.CharField(widget=CKEditorWidget()),
+            'categoria': forms.Select(),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'reportado': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+        }
+
 class CategoriaForm(forms.ModelForm):
 
     class Meta:

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{%block titulo%}Mis borradores{% endblock %}
+{% block contenido %}
+  <h2>Contenidos en estado "Borrador"</h2>
+  <ul>
+    {% for contenido in contenidos_rechazados %}
+      <li>
+        <a href="{% url 'contenido-crear' %}?borrador_id={{ contenido.pk }}">Continuar con borrador "{{ contenido.titulo }}"</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

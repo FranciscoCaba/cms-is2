@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{%block titulo%}Crear contenido{% endblock %}
+{%block titulo%}Editar contenido{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
 <form method="post">
@@ -9,7 +9,7 @@
             <h4 class="card-title">Complete los campos:</h4>
             {{ form.media }}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary float-end">Crear</button>
+            <button type="submit" class="btn btn-primary float-end">Guardar cambios</button>
             <button type="submit" name="borradorcito" class="btn btn-secondary float-end">Guardar Borrador</button>
         </div>
     </div>
