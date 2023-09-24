@@ -120,7 +120,7 @@ def publicar_contenido(request, pk):
     contenido.save()
 
     # Redirigir a la lista de borradores
-    return redirect('listar_borradores')
+    return redirect('revisar')
 
 def rechazar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -130,7 +130,7 @@ def rechazar_contenido(request, pk):
     contenido.save()
 
     # Redirigir a la lista de borradores
-    return redirect('listar_borradores')
+    return redirect('revisar')
 
 
 # Hasta aca llegue, no carga los datos el Contenido desde el que se accede xd
