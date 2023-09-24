@@ -70,12 +70,41 @@ class ActivarCategoriaView(PermissionRequiredMixin, DetailView):
 
         return redirect('categoria-list')
     
-
+# Vista de contenidos por categoria
 class MostrarContenidosView(View):
     template_name = 'mostrar_contenidos.html'
 
     def get(self, request, pk):
         categoria = get_object_or_404(Categoria, pk=pk)
-        contenidos = Contenido.objects.filter(categoria=categoria, is_active=True)
+        contenidos = Contenido.objects.filter(categoria=categoria, is_active=True, estado='Publicado')
         context = {'categoria': categoria, 'contenidos': contenidos}
         return render(request, self.template_name, context)
+    
+
+class ListarBorradoresView(ListView):
+    model = Contenido
+    template_name = 'listar_borradores.html'
+    context_object_name = 'borradores'
+
+    def get_queryset(self):
+        return Contenido.objects.filter(estado='En revisión')
+    
+def publicar_contenido(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+
+    # Cambiar el estado del contenido a "Publicado"
+    contenido.estado = 'Publicado'
+    contenido.save()
+
+    # Redirigir a la lista de borradores
+    return redirect('listar_borradores')
+
+def rechazar_contenido(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+
+    # Cambiar el estado del contenido a "Rechazado"
+    contenido.estado = 'Rechazado'
+    contenido.save()
+
+    # Redirigir a la lista de borradores
+    return redirect('listar_borradores')

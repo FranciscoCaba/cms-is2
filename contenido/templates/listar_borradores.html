@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block contenido %}
+    <h1>Listado de Contenidos en Borrador</h1>
+    <ul>
+        {% for contenido in borradores %}
+            <li>
+                {{ contenido.titulo }} - {{ contenido.descripcion }} - {{ contenido.categoria}}
+                <a href="{% url 'publicar_contenido' contenido.id %}">Publicar</a>
+                <a href="{% url 'rechazar_contenido' contenido.id %}">Rechazar</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
