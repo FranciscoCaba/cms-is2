@@ -164,7 +164,11 @@ class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
 
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
-    user_likes_contenido = request.user.contenido_likes.filter(id=contenido.id).exists()
+    if request.user.is_authenticated:
+        user_likes_contenido = request.user.contenido_likes.filter(id=contenido.id).exists()
+    else:
+        user_likes_contenido = False
+    
     return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido})
 
 def toggle_like(request, contenido_id):
