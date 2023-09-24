@@ -19,8 +19,26 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
+        else:
+            form.instance.estado = 'En revisión'
+
+            borrador_id = self.request.GET.get('borrador_id')
+            if borrador_id:
+                borrador_content = get_object_or_404(Contenido, pk=borrador_id)
+                borrador_content.delete()
 
         return super(ContenidoFormView,self).form_valid(form)
+    
+    def get_initial(self):
+        borrador_content = Contenido.objects.filter(user=self.request.user, estado='Borrador').first()
+        if borrador_content:
+            return {
+                'titulo': borrador_content.titulo,
+                'categoria': borrador_content.categoria,
+                'descripcion': borrador_content.descripcion,
+            }
+        return {}
+
 
 
 class CategoriaFormView(PermissionRequiredMixin, CreateView):
