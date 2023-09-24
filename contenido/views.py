@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm
+from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
 from .models import Categoria, Contenido, Like
@@ -188,3 +188,9 @@ def toggle_like(request, contenido_id):
     else:
         messages.error(request, 'Debes estar autenticado para dar/quitar like.')
         return redirect('detalle_contenido', pk=contenido.id)
+    
+class EditarContenidoView(UpdateView):
+    model = Contenido
+    form_class = ContenidoEditForm
+    template_name = 'contenido/contenido_editar.html'
+    success_url = reverse_lazy('index')

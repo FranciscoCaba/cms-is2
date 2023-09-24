@@ -24,4 +24,6 @@ urlpatterns = [
 
     path('contenido/<int:contenido_id>/toggle-like/', views.toggle_like, name='toggle_like'),
     path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
+
+    path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido')
 ]
