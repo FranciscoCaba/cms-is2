@@ -209,3 +209,10 @@ def detalle_autor(request, pk):
 
     # Renderiza el template para mostrar los detalles del autor y sus contenidos
     return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})
+
+def kanban_view(request):
+    if request.user.is_staff:
+        contexto={'contenidos': Contenido.objects.all().order_by('fecha')}
+    else:
+        contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('fecha')}
+    return render(request, 'kanban.html', contexto)

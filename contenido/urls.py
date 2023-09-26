@@ -24,4 +24,6 @@ urlpatterns = [
     path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido'),
 
     path('autor/<int:pk>/', views.detalle_autor, name='detalle_autor'),
+
+    path('kanban/', views.kanban_view, name='kanban'),
 ]
