@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, UpdateView, View
 from .models import Categoria, Contenido, Like
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -198,3 +199,13 @@ class EditarContenidoView(UpdateView):
     form_class = ContenidoEditForm
     template_name = 'contenido/contenido_editar.html'
     success_url = reverse_lazy('index')
+
+def detalle_autor(request, pk):
+    # Obtiene el usuario (autor) por su clave primaria (pk)
+    autor = get_object_or_404(User, pk=pk)
+
+    # Obtiene los contenidos relacionados al autor
+    contenidos = Contenido.objects.filter(user=autor)
+
+    # Renderiza el template para mostrar los detalles del autor y sus contenidos
+    return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})

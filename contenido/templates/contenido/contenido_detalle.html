@@ -3,6 +3,7 @@
 {% block contenido %}
     <h1>{{ contenido.titulo }}</h1>
     <p>Categoría: {{ contenido.categoria }}</p>
+    <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a></p>
     <div>{{ contenido.descripcion | safe }}</div>
     <p>Likes: {{ contenido.likes.count }}</p>
 

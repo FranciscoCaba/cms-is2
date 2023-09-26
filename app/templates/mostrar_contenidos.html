@@ -5,9 +5,11 @@
 <ul>
     {% for contenido in contenidos %}
         <li>
-            <a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a> - Autor: {{ contenido.user.username}}<br>
+            <a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a> - 
+            Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a><br>
             {{ contenido.fecha }}<br>
-            {{ contenido.descripcion | safe }}
+            <!-- {{ contenido.descripcion | safe }} -->
+            {{ contenido.descripcion }}
         </li>
     {% endfor %}
 </ul>
