@@ -3,7 +3,19 @@
 {% block contenido %}
     <div class="container">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
+                <div class="kanban-column">
+                    <h2>Borrador</h2>
+                    <ul>
+                        {% for contenido in contenidos %}
+                        {% if contenido.estado == 'Borrador' %}
+                            <li><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
                 <div class="kanban-column">
                     <h2>En revisión</h2>
                     <ul>
@@ -15,7 +27,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="kanban-column">
                     <h2>Publicado</h2>
                     <ul>
@@ -27,7 +39,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="kanban-column">
                     <h2>Rechazado</h2>
                     <ul>
