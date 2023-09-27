@@ -1,0 +1,36 @@
+.contenido-list {
+    padding: 0;
+}
+
+.contenido-portlet {
+    margin: 2vh 15vw;
+    border-radius: 10px;
+    list-style-type: none;
+    border: 2px solid black;
+}
+
+.portlet-title {
+    border-radius: 10px 10px 0px 0px;
+    background-color: lightgray;
+    padding: 1vh 1vw;
+    border-bottom: 2px solid black;
+}
+
+.portlet-title h5 {
+    margin: 0;
+}
+
+.portlet-references {
+    padding: 0.1vh 0.5vw;
+    border-bottom: 2px solid black;
+    font-weight: bold;
+}
+
+.portlet-references p {
+    margin: 0;
+    font-size: small;
+}
+
+.portlet-body {
+    padding: 1vh 1vw;
+}
