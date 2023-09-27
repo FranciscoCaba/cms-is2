@@ -26,4 +26,6 @@ urlpatterns = [
     path('autor/<int:pk>/', views.detalle_autor, name='detalle_autor'),
 
     path('kanban/', views.kanban_view, name='kanban'),
+
+    path('borrador/<int:pk>/editar/', views.EditarBorradorView.as_view(), name='editar-borrador'),
 ]
