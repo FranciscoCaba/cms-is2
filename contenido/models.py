@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from django.utils import timezone
 from django.core.files.storage import default_storage 
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 from cloudinary_storage.validators import validate_video
@@ -23,6 +24,8 @@ class Contenido(models.Model):
     descripcion = RichTextField()
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
     is_active = models.BooleanField(default=True)
+    fecha = models.DateTimeField(default=timezone.now)
+
     image = models.ImageField(upload_to='contenido/images', null=True, blank=True)
     video = models.ImageField(upload_to='contenido/videos', blank=True, storage=VideoMediaCloudinaryStorage(),
                               validators=[validate_video])

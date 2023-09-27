@@ -4,7 +4,13 @@
 <h1>Contenidos de la Categoría: {{ categoria.nombre }}</h1>
 <ul>
     {% for contenido in contenidos %}
-        <li>{{ contenido.titulo }} - {{ contenido.descripcion }}</li>
+        <li>
+            <a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a> - 
+            Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a><br>
+            {{ contenido.fecha }}<br>
+            <!-- {{ contenido.descripcion | safe }} -->
+            {{ contenido.descripcion }}
+        </li>
     {% endfor %}
 </ul>
 {% endblock %}
