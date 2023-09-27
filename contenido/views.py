@@ -1,11 +1,13 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm
+from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
 from .models import Categoria, Contenido, Like
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -22,36 +24,13 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             form.instance.estado = 'Borrador'
         else:
             form.instance.estado = 'En revisión'
-
-            borrador_id = self.request.GET.get('borrador_id')
-            rechazado_id = self.request.GET.get('rechazado_id')
-            if borrador_id:
-                borrador_content = get_object_or_404(Contenido, pk=borrador_id)
-                borrador_content.delete()
-            if rechazado_id:
-                rechazado_content = get_object_or_404(Contenido, pk=rechazado_id)
-                rechazado_content.delete()
-
         return super(ContenidoFormView,self).form_valid(form)
     
-    def get_initial(self):
-        borrador_content = Contenido.objects.filter(user=self.request.user, estado='Borrador').first()
-        if borrador_content:
-            return {
-                'titulo': borrador_content.titulo,
-                'categoria': borrador_content.categoria,
-                'descripcion': borrador_content.descripcion,
-            }
-        rechazado_content = Contenido.objects.filter(user=self.request.user, estado='Rechazado').first()
-        if rechazado_content:
-            return {
-                'titulo': rechazado_content.titulo,
-                'categoria': rechazado_content.categoria,
-                'descripcion': rechazado_content.descripcion,
-            }
-        return {}
-
-
+    def get_success_url(self):
+        if self.object.estado == 'Borrador':
+            return reverse_lazy('borradores_lista')  # Reemplaza 'borrador-lista' con tu nombre de URL correcto
+        else:
+            return reverse_lazy('index')  # Reemplaza 'index' con tu nombre de URL correcto
 
 class CategoriaFormView(PermissionRequiredMixin, CreateView):
     permission_required = 'contenido.add_categoria'
@@ -111,7 +90,7 @@ class MostrarContenidosView(View):
 
     def get(self, request, pk):
         categoria = get_object_or_404(Categoria, pk=pk)
-        contenidos = Contenido.objects.filter(categoria=categoria, is_active=True, estado='Publicado')
+        contenidos = Contenido.objects.filter(categoria=categoria, is_active=True, estado='Publicado').order_by('-fecha')
         context = {'categoria': categoria, 'contenidos': contenidos}
         return render(request, self.template_name, context)
     
@@ -122,7 +101,7 @@ class ListarRevisionesView(ListView):
     context_object_name = 'borradores'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='En revisión')
+        return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
     
 def publicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -146,12 +125,12 @@ def rechazar_contenido(request, pk):
 
 class ContenidoBorradorListView(LoginRequiredMixin, ListView):
     model = Contenido
-    template_name = 'contenido/borradores_lista.html'
+    template_name = 'borrador/borradores_lista.html'
     context_object_name = 'contenidos_borrador'
 
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Borrador')
+        return Contenido.objects.filter(user=self.request.user, estado='Borrador').order_by('-fecha')
 
 class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
     model = Contenido
@@ -160,7 +139,7 @@ class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # Obtener los contenidos en estado "rechazado" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Rechazado')
+        return Contenido.objects.filter(user=self.request.user, estado='Rechazado').order_by('-fecha')
 
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -198,3 +177,36 @@ class EditarContenidoView(UpdateView):
     form_class = ContenidoEditForm
     template_name = 'contenido/contenido_editar.html'
     success_url = reverse_lazy('index')
+
+class EditarBorradorView(UpdateView):
+    model = Contenido
+    form_class = BorradorEditForm
+    template_name = 'borrador/borrador_editar.html'
+    success_url = reverse_lazy('borradores_lista')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
+        if 'borradorcito' in self.request.POST:
+            form.instance.estado = 'Borrador'
+        else:
+            form.instance.estado = 'En revisión'
+        return super(EditarBorradorView,self).form_valid(form)
+
+def detalle_autor(request, pk):
+    # Obtiene el usuario (autor) por su clave primaria (pk)
+    autor = get_object_or_404(User, pk=pk)
+
+    # Obtiene los contenidos relacionados al autor
+    contenidos = Contenido.objects.filter(user=autor).order_by('-fecha')
+
+    # Renderiza el template para mostrar los detalles del autor y sus contenidos
+    return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})
+
+@login_required
+def kanban_view(request):
+    if request.user.is_staff:
+        contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
+    else:
+        contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
+    return render(request, 'kanban.html', contexto)
