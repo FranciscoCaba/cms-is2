@@ -90,7 +90,7 @@ class MostrarContenidosView(View):
 
     def get(self, request, pk):
         categoria = get_object_or_404(Categoria, pk=pk)
-        contenidos = Contenido.objects.filter(categoria=categoria, is_active=True, estado='Publicado')
+        contenidos = Contenido.objects.filter(categoria=categoria, is_active=True, estado='Publicado').order_by('-fecha')
         context = {'categoria': categoria, 'contenidos': contenidos}
         return render(request, self.template_name, context)
     
@@ -101,7 +101,7 @@ class ListarRevisionesView(ListView):
     context_object_name = 'borradores'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='En revisión')
+        return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
     
 def publicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -130,7 +130,7 @@ class ContenidoBorradorListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Borrador')
+        return Contenido.objects.filter(user=self.request.user, estado='Borrador').order_by('-fecha')
 
 class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
     model = Contenido
@@ -139,7 +139,7 @@ class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # Obtener los contenidos en estado "rechazado" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Rechazado')
+        return Contenido.objects.filter(user=self.request.user, estado='Rechazado').order_by('-fecha')
 
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -198,7 +198,7 @@ def detalle_autor(request, pk):
     autor = get_object_or_404(User, pk=pk)
 
     # Obtiene los contenidos relacionados al autor
-    contenidos = Contenido.objects.filter(user=autor)
+    contenidos = Contenido.objects.filter(user=autor).order_by('-fecha')
 
     # Renderiza el template para mostrar los detalles del autor y sus contenidos
     return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})
@@ -206,7 +206,7 @@ def detalle_autor(request, pk):
 @login_required
 def kanban_view(request):
     if request.user.is_staff:
-        contexto={'contenidos': Contenido.objects.all().order_by('fecha')}
+        contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
     else:
-        contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('fecha')}
+        contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
