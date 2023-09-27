@@ -34,6 +34,17 @@ class Contenido(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+    class Meta:
+        permissions = [
+            ('ver_borradores', 'Ver borradores'),
+            ('ver_rechazados', 'Ver rechazados'),
+            ('ver_revisiones', 'Ver revisiones'),
+            ('ver_a_publicar', 'Ver contenidos a publicar'),
+            ('ver_kanban', 'Ver kanban'),
+            ('ver_todos_borradores', 'Ver todos los borradores'),
+            ('puede_publicar_no_moderado', 'Puede publicar en categoria no moderada'),
+        ]
 
 class Like(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
