@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}{{autor.username}}{% endblock %}
+{% block contenido %}
+    <h1>Contenidos de: {{ autor.username }}</h1>
+    <p>Email: {{ autor.email }}</p>
+
+    <ul>
+        {% for contenido in contenidos %}
+            <li>
+                <a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}

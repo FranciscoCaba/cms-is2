@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from django.utils import timezone
 
 # Create your models here.
 class Categoria(models.Model):
@@ -21,7 +22,8 @@ class Contenido(models.Model):
     descripcion = RichTextField()
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
     is_active = models.BooleanField(default=True)
-    
+    fecha = models.DateTimeField(default=timezone.now)
+
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
         ('revision', 'En revisión'),
