@@ -2,8 +2,7 @@
 {%block titulo%}Bienvenido!{% endblock %}
 {% block contenido %}
     {% if request.user.is_authenticated %}
-        <h1>Bienvenido {{ request.user.username }}</h1>
-        <h5>{{ group_name|capfirst }}</h5>
+        <h1>Bienvenido {{ request.user.username }} ({{ group_name|capfirst }})</h1>
     {% else %}
         <h1>Bienvenido Visitante</h1>
     {% endif %}
