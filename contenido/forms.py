@@ -84,3 +84,21 @@ class BorradorEditForm(forms.ModelForm):
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
         }
+
+class RechazadoEditForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.filter(is_active=True),
+        widget=forms.Select,
+        empty_label="Seleccione una categoría",
+        required=True,
+    )
+    
+    class Meta:
+        model = Contenido
+        fields = ('titulo', 'categoria', 'descripcion')
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.CharField(widget=CKEditorWidget()),
+            'categoria': forms.Select(),
+        }

@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm
+from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
 from .models import Categoria, Contenido, Like
@@ -172,8 +172,9 @@ def toggle_like(request, contenido_id):
         messages.error(request, 'Debes estar autenticado para dar/quitar like.')
         return redirect('detalle_contenido', pk=contenido.id)
     
-class EditarContenidoView(UpdateView):
+class EditarContenidoView(UpdateView, PermissionRequiredMixin):
     model = Contenido
+    permission_required = 'contenido.change_contenido'
     form_class = ContenidoEditForm
     template_name = 'contenido/contenido_editar.html'
     success_url = reverse_lazy('index')
@@ -181,6 +182,21 @@ class EditarContenidoView(UpdateView):
 class EditarBorradorView(UpdateView):
     model = Contenido
     form_class = BorradorEditForm
+    template_name = 'borrador/borrador_editar.html'
+    success_url = reverse_lazy('borradores_lista')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
+        if 'borradorcito' in self.request.POST:
+            form.instance.estado = 'Borrador'
+        else:
+            form.instance.estado = 'En revisión'
+        return super(EditarBorradorView,self).form_valid(form)
+    
+class EditarRechazadoView(UpdateView):
+    model = Contenido
+    form_class = RechazadoEditForm
     template_name = 'borrador/borrador_editar.html'
     success_url = reverse_lazy('borradores_lista')
 
