@@ -4,6 +4,17 @@
     <h1>{{ contenido.titulo }}</h1>
     <p>Categoría: {{ contenido.categoria }}</p>
     {{ contenido.descripcion | safe }}
+    {% if contenido.image %}
+        <img src="{{ contenido.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
+    {% endif %}
+
+    {% if contenido.video %}
+        <video controls width="400" height="300">
+            <source src="{{ contenido.video.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {% endif %}
+
     <p>Likes: {{ contenido.likes.count }}</p>
 
     <!-- Agrega el botón de like aquí -->

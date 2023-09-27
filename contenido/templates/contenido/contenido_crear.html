@@ -2,7 +2,7 @@
 {%block titulo%}Crear contenido{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
-<form method="post">
+<form method="post" enctype="multipart/form-data"> 
     {% csrf_token %}
     <div class="card mx-auto" style="width: 60%">
         <div class="card-body">

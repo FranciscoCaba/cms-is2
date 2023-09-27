@@ -15,9 +15,12 @@ class ContenidoForm(forms.ModelForm):
         required=True,
     )
     
+    image = forms.ImageField(label='Image',required=False)  
+    video = forms.FileField(label='Video',required=False) 
+
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion')
+        fields = ('titulo', 'categoria', 'descripcion', 'image', 'video')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -35,7 +38,7 @@ class ContenidoEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'is_active', 'reportado')
+        fields = ('titulo', 'categoria', 'descripcion', 'is_active', 'reportado', 'image', 'video')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
