@@ -72,7 +72,7 @@ DATABASES = {
  - python3 manage.py migrate
  - python3 manage.py runserver 
 
-posteriormente dar ctrl click a la direccion de ip localhost que se provee al ejecutar el comando.
+Posteriormente dar ctrl click a la direccion de ip localhost que se provee al ejecutar el comando.
 
 ### Para ejecutar pruebas unitarios del codigo se debe desde el directorio "cms-is2 " ejecutar el comando:
  - python3 manage.py test .tests_....py
@@ -83,5 +83,5 @@ Para elejir que test usamos simplemente en la parte de .test_....py escribimos e
 ### Para ejecutar la documentacion del codigo se debe desde el directorio " cms-is2/docs/_build/html/ " ejecutar el comando:
  - python3 -m http.server 8001
 
-posteriormente dar ctrl click a la doreccion ip de localhost que se provee al ejecutar el comando.
+Posteriormente dar ctrl click a la direccion ip de localhost que se provee al ejecutar el comando.
 
