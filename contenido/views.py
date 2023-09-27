@@ -197,8 +197,8 @@ class EditarBorradorView(UpdateView):
 class EditarRechazadoView(UpdateView):
     model = Contenido
     form_class = RechazadoEditForm
-    template_name = 'borrador/borrador_editar.html'
-    success_url = reverse_lazy('borradores_lista')
+    template_name = 'contenido/rechazado_editar.html'
+    success_url = reverse_lazy('rechazados_lista')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -207,7 +207,7 @@ class EditarRechazadoView(UpdateView):
             form.instance.estado = 'Borrador'
         else:
             form.instance.estado = 'En revisión'
-        return super(EditarBorradorView,self).form_valid(form)
+        return super(EditarRechazadoView,self).form_valid(form)
 
 def detalle_autor(request, pk):
     # Obtiene el usuario (autor) por su clave primaria (pk)
