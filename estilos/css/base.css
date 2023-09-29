@@ -1,3 +1,4 @@
+/*          DISENHOS DE PORTLET      */
 .contenido-list {
     padding: 0;
 }
@@ -33,4 +34,71 @@
 
 .portlet-body {
     padding: 1vh 1vw;
+}
+
+/**
+  *
+  *     DISENHOS DETALLE DE CONTENIDO
+  *
+  **/
+
+.contenido-detallado {
+    margin: 2vh 15vw;
+    border-radius: 10px;
+    list-style-type: none;
+    border: 2px solid black;
+}
+
+.contenido-title {
+    border-radius: 10px 10px 0px 0px;
+    background-color: lightgray;
+    padding: 1vh 1vw;
+    border-bottom: 2px solid black;
+}
+
+
+.contenido-references {
+    padding: 0.1vh 0.5vw;
+    border-bottom: 2px solid black;
+    font-weight: bold;
+}
+
+.contenido-references p {
+    margin: 0;
+    font-size: small;
+}
+
+.contenido-body {
+    padding: 1vh 1vw;
+}
+
+.contenido-interactions-data {
+    padding: 0.1vh 0.5vw;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.contenido-interactions-data p {
+    margin: 0;
+    font-size: small;
+}
+
+.contenido-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.contenido-comentarios {
+    padding: 1vh 1vw;
+    background-color: gainsboro;
+    border-top: 2px solid black;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.interaction-button {
+    
+}
+
+.contenido-comentarios p {
+    margin: 0;
 }
