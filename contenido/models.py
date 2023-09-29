@@ -23,6 +23,7 @@ class Contenido(models.Model):
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
+    solo_suscriptores = models.BooleanField(default=False)
 
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
