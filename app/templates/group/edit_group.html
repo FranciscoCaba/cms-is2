@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{%block titulo%}Editar grupo{% endblock %}
+{%block titulo%}Editar rol{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
 <form method="post">
     {% csrf_token %}
     <div class="card mx-auto" style="width: 40%">
         <div class="card-body">
-            <h4 class="card-title">Edit Group:</h4>
+            <h4 class="card-title">Editar Rol:</h4>
             {{ form | crispy }}
-            <button type="submit" class="btn btn-primary float-end">Save Changes</button>
+            <button type="submit" class="btn btn-primary float-end">Guardar Cambios</button>
         </div>
     </div>
 </form>
