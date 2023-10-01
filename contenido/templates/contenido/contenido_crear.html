@@ -1,17 +1,55 @@
 {% extends "base.html" %}
-{%block titulo%}Crear contenido{% endblock %}
+{% block titulo %}Crear contenido{% endblock %}
 {% block contenido %}
-{% load crispy_forms_tags %}
-<form method="post" enctype="multipart/form-data"> 
-    {% csrf_token %}
-    <div class="card mx-auto" style="width: 60%">
-        <div class="card-body">
-            <h4 class="card-title">Complete los campos:</h4>
-            {{ form.media }}
-            {{ form.as_p }}
-            <button type="submit" name="crear" class="btn btn-primary float-end">Crear</button>
-            <button type="submit" name="borradorcito" class="btn btn-secondary float-end">Guardar Borrador</button>
-        </div>
-    </div>
-</form>
+  {% load crispy_forms_tags %}
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card mx-auto" style="width: 60%">
+          <div class="card-body">
+              <h4 class="card-title">Complete los campos:</h4>
+              {{ form.media }}
+              {{ form.as_p }}
+              <div id="image-inputs">
+                  <input type="file" name="images" accept="image/*" multiple>
+              </div>
+              <button type="button" id="add-image-input" class="btn btn-secondary">Agregar otra imagen</button>
+
+              <div id="video-inputs">
+                  <input type="file" name="videos" accept="video/*" multiple>
+              </div>
+              <button type="button" id="add-video-input" class="btn btn-secondary">Agregar otro video</button>
+
+              <button type="submit" name="crear" class="btn btn-primary float-end">Crear</button>
+              <button type="submit" name="borradorcito" class="btn btn-secondary float-end">Guardar Borrador</button>
+          </div>
+      </div>
+  </form>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const addImageInputButton = document.getElementById("add-image-input");
+          const imageInputsContainer = document.getElementById("image-inputs");
+
+          addImageInputButton.addEventListener("click", function () {
+              const newImageInput = document.createElement("input");
+              newImageInput.type = "file";
+              newImageInput.name = "images";
+              newImageInput.accept = "image/*";
+              newImageInput.multiple = true;
+              imageInputsContainer.appendChild(newImageInput);
+          });
+
+          const addVideoInputButton = document.getElementById("add-video-input");
+          const videoInputsContainer = document.getElementById("video-inputs");
+
+          addVideoInputButton.addEventListener("click", function () {
+              const newVideoInput = document.createElement("input");
+              newVideoInput.type = "file";
+              newVideoInput.name = "videos";
+              newVideoInput.accept = "video/*";
+              newVideoInput.multiple = true;
+              videoInputsContainer.appendChild(newVideoInput);
+          });
+      });
+  </script>
 {% endblock %}
