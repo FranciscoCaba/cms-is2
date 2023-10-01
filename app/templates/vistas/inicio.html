@@ -6,11 +6,31 @@
     {% else %}
         <h1>Bienvenido Visitante</h1>
     {% endif %}
-    <ul>
-        {% for categoria in categorias %}
-            <li>
-                <a href="{% url 'mostrar_contenidos' categoria.id %}">{{ categoria.nombre }} ({{ categoria.num_contenidos }})</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="container-principal">
+        <ul class="contenido-list inicio-contenidos">
+            {% for contenido in contenidos %}
+                <li class="contenido-portlet">
+                    <div class="portlet-title">
+                        <h5><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></h5>
+                    </div>
+                    <div class="portlet-references">
+                        <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' contenido.categoria.pk %}">{{ contenido.categoria }}</a> | {{ contenido.fecha }}</p>
+                    </div>
+                    <div class="portlet-body">
+                        {{ contenido.descripcion | safe }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="inicio-categorias">
+            <ul class="contenedor-categorias">
+                <li class="categoria-titulo"><h3>Categorias</h3></li>
+                {% for categoria in categorias %}
+                    <li>
+                        <a href="{% url 'mostrar_contenidos' categoria.id %}">{{ categoria.nombre }} ({{ categoria.num_contenidos }})</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}

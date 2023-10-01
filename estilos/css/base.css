@@ -1,3 +1,35 @@
+.container-principal {
+    display: flex;
+    
+}
+
+.inicio-contenidos {
+    flex: 3;
+    border-right: 2px solid black;
+}
+
+.inicio-contenidos li {
+    margin: 2vh 5vw;
+}
+
+.inicio-categorias {
+    flex: 1;
+}
+
+.contenedor-categorias {
+    border: 2px solid black;
+    border-radius: 10px;
+    list-style-type: none;
+    width: 50%;
+    padding: 4vh 2vw 6vh 2vw;
+    margin: 3vh auto;
+}
+
+.categoria-titulo {
+    text-align: center;
+    text-decoration: underline;
+}
+
 /*          DISENHOS DE PORTLET      */
 .contenido-list {
     padding: 0;
