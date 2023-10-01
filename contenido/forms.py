@@ -15,18 +15,25 @@ class ContenidoForm(forms.ModelForm):
         required=True,
     )
     
-    image = forms.ImageField(label='Image',required=False)  
-    video = forms.FileField(label='Video',required=False) 
-
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'image', 'video')
+        fields = ('titulo', 'categoria', 'descripcion')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
 
 class ContenidoEditForm(forms.ModelForm):
     categoria = forms.ModelChoiceField(
@@ -35,10 +42,10 @@ class ContenidoEditForm(forms.ModelForm):
         empty_label="Seleccione una categoría",
         required=True,
     )
-    
+
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'is_active', 'reportado', 'image', 'video')
+        fields = ('titulo', 'categoria', 'descripcion', 'is_active', 'reportado')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -87,3 +94,14 @@ class BorradorEditForm(forms.ModelForm):
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
         }
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Permission
 from ckeditor.fields import RichTextField
 from django.utils import timezone
 from django.core.files.storage import default_storage 
@@ -26,10 +26,6 @@ class Contenido(models.Model):
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
 
-    image = models.ImageField(upload_to='contenido/images', null=True, blank=True)
-    video = models.ImageField(upload_to='contenido/videos', blank=True, storage=VideoMediaCloudinaryStorage(),
-                              validators=[validate_video])
-
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
         ('revision', 'En revisión'),
@@ -39,6 +35,11 @@ class Contenido(models.Model):
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='En revisión')
     
     reportado = models.BooleanField(default=False)
+    
+    class Meta:
+        permissions = [
+            ("puede_publicar_no_moderada", "Puede publicar en categoria no moderada"),
+        ]
 
     
     def __str__(self):
@@ -51,3 +52,12 @@ class Like(models.Model):
 
     def __str__(self):
         return f'Like de {self.user.username} a {self.contenido.titulo}'
+    
+class Image(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='contenido/images', null=True, blank=True)
+
+class Video(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='videos')
+    video = models.ImageField(upload_to='contenido/videos', null=True,blank=True, storage=VideoMediaCloudinaryStorage(),
+                              validators=[validate_video])   
