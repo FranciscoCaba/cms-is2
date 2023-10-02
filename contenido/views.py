@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like,VersionContenido
+from .models import Categoria, Contenido, Like,VersionContenido, Image, Video
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -20,14 +20,30 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        contenido = form.save(commit=False)
+        contenido.user = self.request.user
+        contenido.save()
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=contenido, image=image)
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=contenido, video=video)
+        if  'crear' in self.request.POST:
+            if form.instance.categoria.moderada :
+                form.instance.estado = 'En revisión'
+            else:
+                form.instance.estado = 'Publicado'
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
-        else:
-            form.instance.estado = 'En revisión'
+        contenido.save()
             # Verifica si se proporcionó una categoría válida en el formulario
         return super(ContenidoFormView,self).form_valid(form)
     
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def get_success_url(self):
         if self.object.estado == 'Borrador':
             return reverse_lazy('borradores_lista')  # Reemplaza 'borrador-lista' con tu nombre de URL correcto
@@ -210,6 +226,15 @@ class EditarContenidoView(UpdateView, PermissionRequiredMixin):
     template_name = 'contenido/contenido_editar.html'
     success_url = reverse_lazy('listar_revisiones')
 
+    def form_valid(self, form):
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=form.instance, image=image)
+
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=form.instance, video=video)
+
+        return super(EditarContenidoView, self).form_valid(form)
+
 class EditarBorradorView(UpdateView):
     model = Contenido
     form_class = BorradorEditForm
@@ -218,13 +243,29 @@ class EditarBorradorView(UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        contenido = form.save(commit=False)
+        contenido.user = self.request.user
+        contenido.save()
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=contenido, image=image)
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=contenido, video=video)
+        if  'crear' in self.request.POST:
+            if form.instance.categoria.moderada :
+                form.instance.estado = 'En revisión'
+            else:
+                form.instance.estado = 'Publicado'
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
-        else:
-            form.instance.estado = 'En revisión'
+        contenido.save()
         return super(EditarBorradorView,self).form_valid(form)
-    
+        
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 class EditarRechazadoView(UpdateView):
     model = Contenido
     form_class = RechazadoEditForm
@@ -233,12 +274,28 @@ class EditarRechazadoView(UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        contenido = form.save(commit=False)
+        contenido.user = self.request.user
+        contenido.save()
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=contenido, image=image)
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=contenido, video=video)
+        if  'crear' in self.request.POST:
+            if form.instance.categoria.moderada :
+                form.instance.estado = 'En revisión'
+            else:
+                form.instance.estado = 'Publicado'
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
-        else:
-            form.instance.estado = 'En revisión'
-        return super(EditarRechazadoView,self).form_valid(form)
+        contenido.save()
+        return super(EditarBorradorView,self).form_valid(form)
+        
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 def detalle_autor(request, pk):
     # Obtiene el usuario (autor) por su clave primaria (pk)
@@ -257,6 +314,35 @@ def kanban_view(request):
     else:
         contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
+
+def delete_image(request, image_id):
+    image = get_object_or_404(Image, pk=image_id)
+    if request.user == image.contenido.user:
+        content_pk = image.contenido.pk
+        estado = image.contenido.estado 
+        image.delete()
+        print(estado)
+        if estado == 'Borrador':
+            edit_url = 'editar-borrador'
+        elif estado == 'Publicado' or 'En revisión':
+            edit_url = 'editar-contenido'
+        else:
+            pass
+        return redirect(edit_url, pk=content_pk)
+    
+def delete_video(request, video_id):
+    video = get_object_or_404(Video, pk=video_id)
+    if request.user == video.contenido.user:
+        content_pk = video.contenido.pk
+        estado = video.contenido.estado
+        video.delete()
+        if estado == 'Borrador':
+            edit_url = 'editar-borrador'
+        elif estado == 'Publicado' or 'En revisión':
+            edit_url = 'editar-contenido'
+        else:
+            pass
+        return redirect(edit_url, pk=content_pk)
 
 class ContenidoVersionListView(LoginRequiredMixin, ListView):
     model = VersionContenido

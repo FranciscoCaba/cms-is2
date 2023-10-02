@@ -25,6 +25,16 @@ class ContenidoForm(forms.ModelForm):
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
 
 class ContenidoEditForm(forms.ModelForm):
     categoria = forms.ModelChoiceField(
@@ -33,7 +43,7 @@ class ContenidoEditForm(forms.ModelForm):
         empty_label="Seleccione una categoría",
         required=True,
     )
-    
+
     class Meta:
         model = Contenido
         fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
@@ -44,6 +54,16 @@ class ContenidoEditForm(forms.ModelForm):
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
 
 class CategoriaForm(forms.ModelForm):
 
@@ -85,6 +105,16 @@ class BorradorEditForm(forms.ModelForm):
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
 
 class VersionContenidoEditForm(forms.ModelForm):
     categoria = forms.ModelChoiceField(
@@ -104,6 +134,16 @@ class VersionContenidoEditForm(forms.ModelForm):
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
 
 class RechazadoEditForm(forms.ModelForm):
     categoria = forms.ModelChoiceField(
@@ -123,3 +163,15 @@ class RechazadoEditForm(forms.ModelForm):
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
+
+    
