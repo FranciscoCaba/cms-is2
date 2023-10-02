@@ -26,11 +26,10 @@ Estos son los path(caminos) del proyecto
       path('user/<int:pk>/update/', UserUpdateView.as_view(), name='user-update'),
       path('desactivar_usuario/<int:pk>/', DesactivarUsuarioView.as_view(), name='desactivar-usuario'),
       path('activar_usuario/<int:pk>/', ActivarUsuarioView.as_view(), name='activar-usuario'),
-      path('create_group/', login_required(views.create_group), name='create_group'),
-      path('delete_group/<int:group_id>/', login_required(views.delete_group), name='delete_group'),
-      path('edit_group/<int:group_id>/', login_required(views.edit_group), name='edit_group'),
-      path('group_list/', login_required(views.group_list), name='group_list'),
-
+      path('roles/create', login_required(views.create_group), name='create_group'),
+      path('roles/delete/<int:group_id>/', login_required(views.delete_group), name='delete_group'),
+      path('roles/edit/<int:group_id>/', login_required(views.edit_group), name='edit_group'),
+      path('roles/', login_required(views.group_list), name='group_list'),
    ]
 
 
