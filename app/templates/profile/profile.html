@@ -9,11 +9,12 @@
                     <div class="card-body">
                         <h2>{{ user.first_name }} {{ user.last_name}}</h2>
                         <h5>{{ group_name|capfirst }}</h5>
-                        <p><strong>Nombre de usuario: </strong>{{ user.username}}</p>
+                        <p><strong>Nombre de usuario: </strong>{{ user.username }}</p>
                         <hr>
                         <a class="btn btn-outline-secondary" href="{% url 'edit' %}">Editar Perfil</a>
                         <a class="btn btn-danger" href="{% url 'delete' %}">Borrar Cuenta</a>
-                    </div> 
+                        <a class="btn btn-primary mt-2" href="{% url 'detalle_autor' user.pk %}">Ver Mis Contenidos</a>
+                    </div>
                 </div>
             </div>
             <div class="col-md-8">
@@ -24,7 +25,7 @@
                         {% elif group_name == 'Autor' %}
                             {% include 'profile/autor.html' %}
                         {% endif %}
-                    </div> 
+                    </div>
                 </div>
             </div>
             {% else %}

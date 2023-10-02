@@ -158,7 +158,7 @@ def apublicar_contenido(request, pk):
     contenido.estado = 'A publicar'
     contenido.save(user=request.user)
 
-    # Redirigir a la lista de borradores
+    # Redirigir a la lista de revisiones
     return redirect('listar_revisiones')
 
 @permission_required('contenido.puede_publicar_rechazar')
@@ -169,7 +169,7 @@ def publicar_contenido(request, pk):
     contenido.estado = 'Publicado'
     contenido.save(user=request.user)
 
-    # Redirigir a la lista de borradores
+    # Redirigir a la lista de a publicar
     return redirect('list_a_publicar')
 
 @permission_required('contenido.puede_publicar_rechazar')
@@ -179,9 +179,13 @@ def rechazar_contenido(request, pk):
     # Cambiar el estado del contenido a "Rechazado"
     contenido.estado = 'Rechazado'
     contenido.save(user=request.user)
+    if request.method == 'POST':
+            razon_rechazo = request.POST.get('razon_rechazo')
+            contenido.razon_rechazo = razon_rechazo
+            contenido.save()
+            return redirect('list_a_publicar')
 
-    # Redirigir a la lista de borradores
-    return redirect('list_a_publicar')
+    return render(request, 'contenido/razon_rechazo_form.html', {'contenido': contenido})
 
 class ContenidoBorradorListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Contenido
@@ -323,7 +327,7 @@ def detalle_autor(request, pk):
     autor = get_object_or_404(User, pk=pk)
 
     # Obtiene los contenidos relacionados al autor
-    contenidos = Contenido.objects.filter(user=autor).order_by('-fecha')
+    contenidos = Contenido.objects.filter(user=autor,estado='Publicado').order_by('-fecha')
 
     # Renderiza el template para mostrar los detalles del autor y sus contenidos
     return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})

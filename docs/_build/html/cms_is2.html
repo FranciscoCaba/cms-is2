@@ -87,12 +87,17 @@
 <section id="urls-del-proyecto">
 <h2>Urls del Proyecto<a class="headerlink" href="#urls-del-proyecto" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;ckeditor/upload/&#39;</span><span class="p">,</span><span class="n">login_required</span><span class="p">(</span><span class="n">ckeditor_views</span><span class="o">.</span><span class="n">upload</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ckeditor_upload&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;ckeditor/browse/&#39;</span><span class="p">,</span><span class="n">never_cache</span><span class="p">(</span><span class="n">ckeditor_views</span><span class="o">.</span><span class="n">browse</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ckeditor_browse&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;ckeditor/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;ckeditor_uploader.urls&#39;</span><span class="p">)),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;app.urls&#39;</span><span class="p">)),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;contenido.urls&#39;</span><span class="p">)),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;accounts/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;django.contrib.auth.urls&#39;</span><span class="p">)),</span>
    <span class="n">re_path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^.*/$&#39;</span><span class="p">,</span> <span class="n">PaginaNoEncontradaView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pagina_no_encontrada&#39;</span><span class="p">),</span>
 <span class="p">]</span>
+<span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">static</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span><span class="p">,</span> <span class="n">document_root</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">)</span>
+<span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">static</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">STATIC_URL</span><span class="p">,</span> <span class="n">document_root</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">STATIC_ROOT</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -100,18 +105,18 @@
 <h2>Configuraciones Del proyecto<a class="headerlink" href="#configuraciones-del-proyecto" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">os</span>
-
+<span class="kn">from</span> <span class="nn">decouple</span> <span class="kn">import</span> <span class="n">config</span>
 <span class="c1"># Build paths inside the project like this: BASE_DIR / &#39;subdir&#39;.</span>
 <span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s1">&#39;django-insecure-3@83r2(*0+$g332h5y^sdsjazqu&amp;ovuea^_w^3-=bl@^!&amp;4#$)&#39;</span>
 
 <span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;cms.local&#39;</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Application definition</span>
-
-<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
    <span class="s1">&#39;crispy_forms&#39;</span><span class="p">,</span>
    <span class="s1">&#39;crispy_bootstrap5&#39;</span><span class="p">,</span>
    <span class="s1">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
@@ -120,10 +125,14 @@
    <span class="s1">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
    <span class="s1">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
    <span class="s1">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;cloudinary_storage&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;cloudinary&#39;</span><span class="p">,</span>
    <span class="s1">&#39;accounts.apps.AccountsConfig&#39;</span><span class="p">,</span>
    <span class="s1">&#39;app&#39;</span><span class="p">,</span>
    <span class="s1">&#39;contenido&#39;</span><span class="p">,</span>
    <span class="s1">&#39;ckeditor&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;storages&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;ckeditor_uploader&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -197,9 +206,20 @@ seguridad de django ya que trabaja en conjunto con el:</p>
 <span class="p">]</span>
 
 <span class="n">STORAGES</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;BACKEND&quot;</span><span class="p">:</span> <span class="s2">&quot;cloudinary_storage.storage.MediaCloudinaryStorage&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;OPTIONS&quot;</span><span class="p">:</span> <span class="p">{</span>
+
+      <span class="p">},</span>
+   <span class="p">},</span>
    <span class="s2">&quot;staticfiles&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="s2">&quot;BACKEND&quot;</span><span class="p">:</span> <span class="s2">&quot;whitenoise.storage.CompressedManifestStaticFilesStorage&quot;</span><span class="p">,</span>
    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">CLOUDINARY_STORAGE</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s1">&#39;CLOUD_NAME&#39;</span><span class="p">:</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;CLOUDINARY_CLOUD_NAME&#39;</span><span class="p">),</span>
+   <span class="s1">&#39;API_KEY&#39;</span><span class="p">:</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;CLOUDINARY_API_KEY&#39;</span><span class="p">),</span>
+   <span class="s1">&#39;API_SECRET&#39;</span><span class="p">:</span> <span class="n">config</span><span class="p">(</span><span class="s1">&#39;CLOUDINARY_API_SECRET&#39;</span><span class="p">),</span>
 <span class="p">}</span>
 </pre></div>
 </div>
