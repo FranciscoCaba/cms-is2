@@ -5,7 +5,7 @@
   <ul>
     {% for versioncontenido in version_contenidos %}
       <li>
-        <a href="{% url 'editar-version' versioncontenido.id %}">Continuar con version >{{ versioncontenido.titulo }}" - {{ versioncontenido.version }}</a>
+        <a href="{% url 'editar-version' versioncontenido.id %}">Continuar contenido: {{ versioncontenido.titulo }} version:  {{ versioncontenido.version }} estado: {{versioncontenido.estado}}</a>
       </li>
     {% endfor %}
   </ul>

@@ -12,7 +12,9 @@ urlpatterns = [
     path('categoria/<int:pk>/activar', views.ActivarCategoriaView.as_view(), name='activar-categoria'),
     path('categoria/<int:pk>/listar', views.MostrarContenidosView.as_view(), name='mostrar_contenidos'),
     
-    path('revision/', views.ListarRevisionesView.as_view(), name='revisar'),
+    path('publicar/<int:pk>/', views.apublicar_contenido, name='a-publicar'),
+    path('publicar/',views.ContenidosApublicarView.as_view(),name= 'list_a_publicar'),
+    path('revision/', views.ListarRevisionesView.as_view(), name='listar_revisiones'),
     path('contenido/<int:pk>/publicar/', views.publicar_contenido, name='publicar_contenido'),
     path('contenido/<int:pk>/rechazar/', views.rechazar_contenido, name='rechazar_contenido'),
 

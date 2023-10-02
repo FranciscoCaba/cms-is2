@@ -27,6 +27,7 @@ class Contenido(models.Model):
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
         ('revision', 'En revisión'),
+        ('apublicar','A publicar'),
         ('rechazado', 'Rechazado'),
         ('publicado', 'Publicado'),
     )
@@ -42,6 +43,7 @@ class Contenido(models.Model):
 
         VersionContenido.objects.create(
             contenido=self,
+            categoria=self.categoria,
             user_modificacion=self.user,
             titulo=self.titulo,
             descripcion=self.descripcion,
@@ -57,6 +59,7 @@ class VersionContenido(models.Model):
     id = models.BigAutoField(primary_key=True, serialize=True)
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='versiones', verbose_name='Contenido')
     user_modificacion = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categoria_version', verbose_name='Categoria',default=None)
     titulo = models.CharField(max_length=100)
     descripcion = RichTextField()
     estado = models.CharField(max_length=20)

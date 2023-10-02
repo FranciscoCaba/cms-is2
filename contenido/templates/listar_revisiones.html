@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{%block titulo%}Revisión de contenidos{% endblock %}
+{%block titulo%}Contenidos en Revision{% endblock %}
 {% block contenido %}
-    <h2>Listado de Contenidos en Revisión</h2>
+    <h2>Listado de Contenidos en Revision</h2>
     <ul>
-        {% for contenido in borradores %}
+        {% for contenido in por_revisar %}
             <li>
                 {{ contenido.titulo }} - {{ contenido.descripcion }} - {{ contenido.categoria}}
-                <a href="{% url 'publicar_contenido' contenido.id %}">Publicar</a>
-                <a href="{% url 'rechazar_contenido' contenido.id %}">Rechazar</a>
+                <a href="{% url 'editar-contenido' contenido.id %}">Editar</a>
+                <a href="{% url 'a-publicar' contenido.id %}">Aceptar</a>
             </li>
         {% endfor %}
     </ul>

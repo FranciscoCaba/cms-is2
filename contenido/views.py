@@ -24,6 +24,7 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             form.instance.estado = 'Borrador'
         else:
             form.instance.estado = 'En revisión'
+            # Verifica si se proporcionó una categoría válida en el formulario
         return super(ContenidoFormView,self).form_valid(form)
     
     def get_success_url(self):
@@ -94,15 +95,32 @@ class MostrarContenidosView(View):
         context = {'categoria': categoria, 'contenidos': contenidos}
         return render(request, self.template_name, context)
     
-
 class ListarRevisionesView(ListView):
     model = Contenido
     template_name = 'listar_revisiones.html'
-    context_object_name = 'borradores'
+    context_object_name = 'por_revisar'
 
     def get_queryset(self):
         return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
-    
+
+class ContenidosApublicarView(ListView):
+    model = Contenido
+    template_name = 'contenido/contenido_a_publicar.html'
+    context_object_name = 'revisados'
+
+    def get_queryset(self):
+        return Contenido.objects.filter(estado='A publicar').order_by('-fecha')
+
+def apublicar_contenido(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+
+    # Cambiar el estado del contenido a "A publicar"
+    contenido.estado = 'A publicar'
+    contenido.save()
+
+    # Redirigir a la lista de borradores
+    return redirect('listar_revisiones')
+
 def publicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
@@ -111,7 +129,7 @@ def publicar_contenido(request, pk):
     contenido.save()
 
     # Redirigir a la lista de borradores
-    return redirect('revisar')
+    return redirect('list_a_publicar')
 
 def rechazar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -121,7 +139,7 @@ def rechazar_contenido(request, pk):
     contenido.save()
 
     # Redirigir a la lista de borradores
-    return redirect('revisar')
+    return redirect('list_a_publicar')
 
 class ContenidoBorradorListView(LoginRequiredMixin, ListView):
     model = Contenido
@@ -176,7 +194,7 @@ class EditarContenidoView(UpdateView):
     model = Contenido
     form_class = ContenidoEditForm
     template_name = 'contenido/contenido_editar.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('listar_revisiones')
 
 class EditarBorradorView(UpdateView):
     model = Contenido
@@ -218,7 +236,7 @@ class ContenidoVersionListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return VersionContenido.objects.all().order_by('-titulo')
+        return VersionContenido.objects.all().order_by('-contenido_id', 'version')
     
 
 
@@ -229,9 +247,15 @@ def editar_version(request, version_id):
         form = VersionContenidoEditForm(request.POST, instance=version)
         if form.is_valid():
             nueva_version = form.save(commit=False)
-            nueva_version.pk = None  # Crear una nueva instancia de VersionContenido
-            nueva_version.user_modificacion = request.user
-            nueva_version.save()
+
+        if version.contenido.estado == 'Borrador':
+            contenido = version.contenido
+            contenido.titulo = nueva_version.titulo
+            contenido.descripcion = nueva_version.descripcion
+            contenido.categoria = nueva_version.categoria
+            contenido.estado = nueva_version.estado
+            contenido.save()
+
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
         form = VersionContenidoEditForm(instance=version)
