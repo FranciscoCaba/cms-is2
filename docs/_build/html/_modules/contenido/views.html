@@ -70,13 +70,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for contenido.views</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">redirect</span>
-<span class="kn">from</span> <span class="nn">django.contrib.auth.mixins</span> <span class="kn">import</span> <span class="n">PermissionRequiredMixin</span>
-<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">ContenidoForm</span><span class="p">,</span> <span class="n">CategoriaForm</span><span class="p">,</span> <span class="n">CategoriaEditForm</span>
+<span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">render</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.mixins</span> <span class="kn">import</span> <span class="n">PermissionRequiredMixin</span><span class="p">,</span> <span class="n">LoginRequiredMixin</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">ContenidoForm</span><span class="p">,</span> <span class="n">CategoriaForm</span><span class="p">,</span> <span class="n">CategoriaEditForm</span><span class="p">,</span> <span class="n">ContenidoEditForm</span><span class="p">,</span> <span class="n">BorradorEditForm</span><span class="p">,</span> <span class="n">VersionContenidoEditForm</span>
 <span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">CreateView</span>
-<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">ListView</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">,</span> <span class="n">UpdateView</span>
-<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Categoria</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">ListView</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">,</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Categoria</span><span class="p">,</span> <span class="n">Contenido</span><span class="p">,</span> <span class="n">Like</span><span class="p">,</span><span class="n">VersionContenido</span>
 <span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
 
 <span class="c1"># Create your views here.</span>
 
@@ -92,7 +95,21 @@
 <a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoFormView.form_valid">[docs]</a>
     <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
         <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="c1"># Busca el nombre &#39;borradorcito&#39; entre los atributos del elemento para distinguir el boton</span>
+        <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Borrador&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;En revisión&#39;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ContenidoFormView</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="ContenidoFormView.get_success_url">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoFormView.get_success_url">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;Borrador&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;borradores_lista&#39;</span><span class="p">)</span>  <span class="c1"># Reemplaza &#39;borrador-lista&#39; con tu nombre de URL correcto</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>  <span class="c1"># Reemplaza &#39;index&#39; con tu nombre de URL correcto</span></div>
 </div>
 
 
@@ -173,6 +190,220 @@
 
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;categoria-list&#39;</span><span class="p">)</span></div>
 </div>
+
+    
+<span class="c1"># Vista de contenidos por categoria</span>
+<div class="viewcode-block" id="MostrarContenidosView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.MostrarContenidosView">[docs]</a>
+<span class="k">class</span> <span class="nc">MostrarContenidosView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;mostrar_contenidos.html&#39;</span>
+
+<div class="viewcode-block" id="MostrarContenidosView.get">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.MostrarContenidosView.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+        <span class="n">categoria</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Categoria</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="n">contenidos</span> <span class="o">=</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">categoria</span><span class="o">=</span><span class="n">categoria</span><span class="p">,</span> <span class="n">is_active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">estado</span><span class="o">=</span><span class="s1">&#39;Publicado&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;categoria&#39;</span><span class="p">:</span> <span class="n">categoria</span><span class="p">,</span> <span class="s1">&#39;contenidos&#39;</span><span class="p">:</span> <span class="n">contenidos</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+</div>
+
+    
+
+<div class="viewcode-block" id="ListarRevisionesView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ListarRevisionesView">[docs]</a>
+<span class="k">class</span> <span class="nc">ListarRevisionesView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Contenido</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;listar_revisiones.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;borradores&#39;</span>
+
+<div class="viewcode-block" id="ListarRevisionesView.get_queryset">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ListarRevisionesView.get_queryset">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">estado</span><span class="o">=</span><span class="s1">&#39;En revisión&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)</span></div>
+</div>
+
+    
+<div class="viewcode-block" id="publicar_contenido">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.publicar_contenido">[docs]</a>
+<span class="k">def</span> <span class="nf">publicar_contenido</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">contenido</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Contenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="c1"># Cambiar el estado del contenido a &quot;Publicado&quot;</span>
+    <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
+    <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c1"># Redirigir a la lista de borradores</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;revisar&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rechazar_contenido">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.rechazar_contenido">[docs]</a>
+<span class="k">def</span> <span class="nf">rechazar_contenido</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">contenido</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Contenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="c1"># Cambiar el estado del contenido a &quot;Rechazado&quot;</span>
+    <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Rechazado&#39;</span>
+    <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c1"># Redirigir a la lista de borradores</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;revisar&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ContenidoBorradorListView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoBorradorListView">[docs]</a>
+<span class="k">class</span> <span class="nc">ContenidoBorradorListView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Contenido</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;borrador/borradores_lista.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;contenidos_borrador&#39;</span>
+
+<div class="viewcode-block" id="ContenidoBorradorListView.get_queryset">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoBorradorListView.get_queryset">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Obtener los contenidos en estado &quot;borrador&quot; del usuario actual</span>
+        <span class="k">return</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">estado</span><span class="o">=</span><span class="s1">&#39;Borrador&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ContenidoRechazadoListView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoRechazadoListView">[docs]</a>
+<span class="k">class</span> <span class="nc">ContenidoRechazadoListView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Contenido</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;contenido/rechazados_lista.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;contenidos_rechazados&#39;</span>
+
+<div class="viewcode-block" id="ContenidoRechazadoListView.get_queryset">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoRechazadoListView.get_queryset">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Obtener los contenidos en estado &quot;rechazado&quot; del usuario actual</span>
+        <span class="k">return</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">estado</span><span class="o">=</span><span class="s1">&#39;Rechazado&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="detalle_contenido">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.detalle_contenido">[docs]</a>
+<span class="k">def</span> <span class="nf">detalle_contenido</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">contenido</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Contenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="n">user_likes_contenido</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contenido_likes</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">contenido</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">user_likes_contenido</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;contenido/contenido_detalle.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;contenido&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="p">,</span> <span class="s1">&#39;user_likes_contenido&#39;</span><span class="p">:</span> <span class="n">user_likes_contenido</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="toggle_like">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.toggle_like">[docs]</a>
+<span class="k">def</span> <span class="nf">toggle_like</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">contenido_id</span><span class="p">):</span>
+    <span class="n">contenido</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Contenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">contenido_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Intenta obtener el like existente del usuario para este contenido</span>
+            <span class="n">like</span> <span class="o">=</span> <span class="n">Like</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+            <span class="c1"># Si el like existe, elimínalo (quitar like)</span>
+            <span class="n">like</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Like eliminado correctamente.&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">Like</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="c1"># Si el like no existe, créalo (dar like)</span>
+            <span class="n">Like</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Like agregado correctamente.&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># No es necesario incrementar/decrementar el contador de likes aquí</span>
+
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">contenido</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Debes estar autenticado para dar/quitar like.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">contenido</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="EditarContenidoView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.EditarContenidoView">[docs]</a>
+<span class="k">class</span> <span class="nc">EditarContenidoView</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Contenido</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">ContenidoEditForm</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;contenido/contenido_editar.html&#39;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EditarBorradorView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.EditarBorradorView">[docs]</a>
+<span class="k">class</span> <span class="nc">EditarBorradorView</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Contenido</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">BorradorEditForm</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;borrador/borrador_editar.html&#39;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;borradores_lista&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EditarBorradorView.form_valid">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.EditarBorradorView.form_valid">[docs]</a>
+    <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="c1"># Busca el nombre &#39;borradorcito&#39; entre los atributos del elemento para distinguir el boton</span>
+        <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Borrador&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;En revisión&#39;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">EditarBorradorView</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="detalle_autor">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.detalle_autor">[docs]</a>
+<span class="k">def</span> <span class="nf">detalle_autor</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="c1"># Obtiene el usuario (autor) por su clave primaria (pk)</span>
+    <span class="n">autor</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="c1"># Obtiene los contenidos relacionados al autor</span>
+    <span class="n">contenidos</span> <span class="o">=</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">autor</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Renderiza el template para mostrar los detalles del autor y sus contenidos</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;autor/contenidos_autor.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;autor&#39;</span><span class="p">:</span> <span class="n">autor</span><span class="p">,</span> <span class="s1">&#39;contenidos&#39;</span><span class="p">:</span> <span class="n">contenidos</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="kanban_view">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.kanban_view">[docs]</a>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">kanban_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_staff</span><span class="p">:</span>
+        <span class="n">contexto</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;contenidos&#39;</span><span class="p">:</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">contexto</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;contenidos&#39;</span><span class="p">:</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;kanban.html&#39;</span><span class="p">,</span> <span class="n">contexto</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ContenidoVersionListView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoVersionListView">[docs]</a>
+<span class="k">class</span> <span class="nc">ContenidoVersionListView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">VersionContenido</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;version/version_lista.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;version_contenidos&#39;</span>
+
+<div class="viewcode-block" id="ContenidoVersionListView.get_queryset">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoVersionListView.get_queryset">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Obtener los contenidos en estado &quot;borrador&quot; del usuario actual</span>
+        <span class="k">return</span> <span class="n">VersionContenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-titulo&#39;</span><span class="p">)</span></div>
+</div>
+
+    
+
+
+<div class="viewcode-block" id="editar_version">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.editar_version">[docs]</a>
+<span class="k">def</span> <span class="nf">editar_version</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">version_id</span><span class="p">):</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">VersionContenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">version_id</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">VersionContenidoEditForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nueva_version</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">nueva_version</span><span class="o">.</span><span class="n">pk</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Crear una nueva instancia de VersionContenido</span>
+            <span class="n">nueva_version</span><span class="o">.</span><span class="n">user_modificacion</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">nueva_version</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;contenido-version&#39;</span><span class="p">))</span>  <span class="c1"># Redirigir a la lista de versiones</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">VersionContenidoEditForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;version/version_editar.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">})</span></div>
 
 </pre></div>
 

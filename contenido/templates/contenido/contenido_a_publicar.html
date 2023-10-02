@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{%block titulo%}Contenidos a Publicar{% endblock %}
+{% block contenido %}
+    <h2>Listado de Contenidos a Publicar</h2>
+    <ul>
+        {% for contenido in revisados %}
+            <li>
+                {{ contenido.titulo }} - {{ contenido.descripcion }} - {{ contenido.categoria}}
+                <a href="{% url 'publicar_contenido' contenido.id %}">Publicar</a>
+                <a href="{% url 'rechazar_contenido' contenido.id %}">Rechazar</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
