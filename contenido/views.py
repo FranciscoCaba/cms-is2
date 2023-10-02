@@ -315,7 +315,7 @@ class EditarRechazadoView(UpdateView):
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
         contenido.save()
-        return super(EditarBorradorView,self).form_valid(form)
+        return super(EditarRechazadoView,self).form_valid(form)
         
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
