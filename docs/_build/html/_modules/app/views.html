@@ -81,7 +81,7 @@
 <span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
 <span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
 <span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Count</span>
-<span class="kn">from</span> <span class="nn">contenido.models</span> <span class="kn">import</span> <span class="n">Categoria</span>
+<span class="kn">from</span> <span class="nn">contenido.models</span> <span class="kn">import</span> <span class="n">Categoria</span><span class="p">,</span> <span class="n">Contenido</span>
 
 <span class="c1"># Create your views here.</span>
 <div class="viewcode-block" id="CustomTemplateView">
@@ -128,6 +128,10 @@
         <span class="n">context</span> <span class="o">=</span>  <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
         <span class="n">context</span><span class="p">[</span><span class="s1">&#39;categorias&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">num_contenidos</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;categoria&#39;</span><span class="p">))</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">):</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;contenidos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">estado</span><span class="o">=</span><span class="s1">&#39;Publicado&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;contenidos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">estado</span><span class="o">=</span><span class="s1">&#39;Publicado&#39;</span><span class="p">,</span> <span class="n">solo_suscriptores</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">context</span></div>
 </div>
 
