@@ -6,12 +6,17 @@ Urls del Proyecto
 ::
    
    urlpatterns = [
+      path('ckeditor/upload/',login_required(ckeditor_views.upload), name='ckeditor_upload'),
+      path('ckeditor/browse/',never_cache(ckeditor_views.browse), name='ckeditor_browse'),
+      path('ckeditor/', include('ckeditor_uploader.urls')),
       path('admin/', admin.site.urls),
       path('', include('app.urls')),
       path('contenido/', include('contenido.urls')),
       path('accounts/', include('django.contrib.auth.urls')),
       re_path(r'^.*/$', PaginaNoEncontradaView.as_view(), name='pagina_no_encontrada'),
-   ]
+   ] 
+   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+   urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 Configuraciones Del proyecto
@@ -21,17 +26,17 @@ Configuraciones Del proyecto
 
    from pathlib import Path
    import os
-
+   from decouple import config
    # Build paths inside the project like this: BASE_DIR / 'subdir'.
    BASE_DIR = Path(__file__).resolve().parent.parent
    
+   SECRET_KEY = 'django-insecure-3@83r2(*0+$g332h5y^sdsjazqu&ovuea^_w^3-=bl@^!&4#$)'
+
    DEBUG = True
    
    ALLOWED_HOSTS = ['localhost', 'cms.local', '127.0.0.1']
 
 ::
-
-   # Application definition
 
    INSTALLED_APPS = [
       'crispy_forms',
@@ -42,10 +47,14 @@ Configuraciones Del proyecto
       'django.contrib.sessions',
       'django.contrib.messages',
       'django.contrib.staticfiles',
+      'cloudinary_storage',
+      'cloudinary',
       'accounts.apps.AccountsConfig',
       'app',
       'contenido',
       'ckeditor',
+      'storages',
+      'ckeditor_uploader',
    ]
 
 Lineas necesarias para que funcione la libreria que se encarga de formatear 
@@ -121,9 +130,20 @@ Direccion y ruta de archivos estaticos para servir con whitenoise::
    ] 
 
    STORAGES = {
+      "default": {
+         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+         "OPTIONS": {  
+               
+         },
+      },  
       "staticfiles": {
          "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
       },
+   }
+   CLOUDINARY_STORAGE = {
+      'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+      'API_KEY': config('CLOUDINARY_API_KEY'),
+      'API_SECRET': config('CLOUDINARY_API_SECRET'),
    }
 
 Direccion y ruta de archivos de media::

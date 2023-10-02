@@ -124,6 +124,8 @@
         <li><a href="app.html#module-app.views">module</a>
 </li>
       </ul></li>
+      <li><a href="contenido.html#contenido.views.apublicar_contenido">apublicar_contenido() (in module contenido.views)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -153,6 +155,8 @@
 </li>
         <li><a href="contenido.html#contenido.forms.ContenidoForm.base_fields">(contenido.forms.ContenidoForm attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.forms.RechazadoEditForm.base_fields">(contenido.forms.RechazadoEditForm attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.base_fields">(contenido.forms.VersionContenidoEditForm attribute)</a>
 </li>
       </ul></li>
@@ -175,12 +179,20 @@
       <ul>
         <li><a href="contenido.html#contenido.models.Contenido.categoria">(contenido.models.Contenido attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.models.VersionContenido.categoria">(contenido.models.VersionContenido attribute)</a>
+</li>
       </ul></li>
       <li><a href="contenido.html#contenido.models.Categoria.DoesNotExist">Categoria.DoesNotExist</a>
 </li>
       <li><a href="contenido.html#contenido.models.Categoria.MultipleObjectsReturned">Categoria.MultipleObjectsReturned</a>
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.categoria_id">categoria_id (contenido.models.Contenido attribute)</a>
+
+      <ul>
+        <li><a href="contenido.html#contenido.models.VersionContenido.categoria_id">(contenido.models.VersionContenido attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="contenido.html#contenido.models.Categoria.categoria_version">categoria_version (contenido.models.Categoria attribute)</a>
 </li>
       <li><a href="contenido.html#contenido.views.CategoriaDetailView">CategoriaDetailView (class in contenido.views)</a>
 </li>
@@ -207,10 +219,14 @@
       </ul></li>
       <li><a href="contenido.html#contenido.models.Contenido">Contenido (class in contenido.models)</a>
 </li>
-      <li><a href="contenido.html#contenido.models.Like.contenido">contenido (contenido.models.Like attribute)</a>
+      <li><a href="contenido.html#contenido.models.Image.contenido">contenido (contenido.models.Image attribute)</a>
 
       <ul>
+        <li><a href="contenido.html#contenido.models.Like.contenido">(contenido.models.Like attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.models.VersionContenido.contenido">(contenido.models.VersionContenido attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.models.Video.contenido">(contenido.models.Video attribute)</a>
 </li>
       </ul></li>
       <li><a href="contenido.html#contenido.models.Contenido.DoesNotExist">Contenido.DoesNotExist</a>
@@ -238,14 +254,18 @@
         <li><a href="contenido.html#module-contenido.views">module</a>
 </li>
       </ul></li>
-      <li><a href="contenido.html#contenido.models.Like.contenido_id">contenido_id (contenido.models.Like attribute)</a>
-
-      <ul>
-        <li><a href="contenido.html#contenido.models.VersionContenido.contenido_id">(contenido.models.VersionContenido attribute)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.models.Image.contenido_id">contenido_id (contenido.models.Image attribute)</a>
+
+      <ul>
+        <li><a href="contenido.html#contenido.models.Like.contenido_id">(contenido.models.Like attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.models.VersionContenido.contenido_id">(contenido.models.VersionContenido attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.models.Video.contenido_id">(contenido.models.Video attribute)</a>
+</li>
+      </ul></li>
       <li><a href="contenido.html#contenido.views.ContenidoBorradorListView">ContenidoBorradorListView (class in contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.forms.ContenidoEditForm">ContenidoEditForm (class in contenido.forms)</a>
@@ -259,6 +279,8 @@
       <li><a href="contenido.html#contenido.views.ContenidoFormView">ContenidoFormView (class in contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.views.ContenidoRechazadoListView">ContenidoRechazadoListView (class in contenido.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.views.ContenidosApublicarView">ContenidosApublicarView (class in contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.views.ContenidoVersionListView">ContenidoVersionListView (class in contenido.views)</a>
 </li>
@@ -274,6 +296,8 @@
         <li><a href="contenido.html#contenido.views.ContenidoBorradorListView.context_object_name">(contenido.views.ContenidoBorradorListView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ContenidoRechazadoListView.context_object_name">(contenido.views.ContenidoRechazadoListView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.ContenidosApublicarView.context_object_name">(contenido.views.ContenidosApublicarView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ContenidoVersionListView.context_object_name">(contenido.views.ContenidoVersionListView attribute)</a>
 </li>
@@ -331,6 +355,8 @@
 </li>
         <li><a href="contenido.html#contenido.forms.ContenidoForm.declared_fields">(contenido.forms.ContenidoForm attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.forms.RechazadoEditForm.declared_fields">(contenido.forms.RechazadoEditForm attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.declared_fields">(contenido.forms.VersionContenidoEditForm attribute)</a>
 </li>
       </ul></li>
@@ -339,6 +365,10 @@
       <li><a href="app.html#app.views.delete">delete() (in module app.views)</a>
 </li>
       <li><a href="app.html#app.views.delete_group">delete_group() (in module app.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.views.delete_image">delete_image() (in module contenido.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.views.delete_video">delete_video() (in module contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.views.DesactivarCategoriaView">DesactivarCategoriaView (class in contenido.views)</a>
 </li>
@@ -368,9 +398,13 @@
 </li>
       <li><a href="contenido.html#contenido.views.EditarBorradorView">EditarBorradorView (class in contenido.views)</a>
 </li>
+      <li><a href="contenido.html#contenido.views.EditarContenidoView">EditarContenidoView (class in contenido.views)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="contenido.html#contenido.views.EditarContenidoView">EditarContenidoView (class in contenido.views)</a>
+      <li><a href="contenido.html#contenido.views.EditarRechazadoView">EditarRechazadoView (class in contenido.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.views.error403">error403() (in module contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.estado">estado (contenido.models.Contenido attribute)</a>
 
@@ -415,6 +449,8 @@
 </li>
         <li><a href="contenido.html#contenido.forms.ContenidoForm.Meta.fields">(contenido.forms.ContenidoForm.Meta attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.forms.RechazadoEditForm.Meta.fields">(contenido.forms.RechazadoEditForm.Meta attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.Meta.fields">(contenido.forms.VersionContenidoEditForm.Meta attribute)</a>
 </li>
       </ul></li>
@@ -435,6 +471,8 @@
 </li>
         <li><a href="contenido.html#contenido.views.EditarContenidoView.form_class">(contenido.views.EditarContenidoView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.EditarRechazadoView.form_class">(contenido.views.EditarRechazadoView attribute)</a>
+</li>
       </ul></li>
       <li><a href="app.html#app.views.UserCreateView.form_valid">form_valid() (app.views.UserCreateView method)</a>
 
@@ -444,6 +482,10 @@
         <li><a href="contenido.html#contenido.views.ContenidoFormView.form_valid">(contenido.views.ContenidoFormView method)</a>
 </li>
         <li><a href="contenido.html#contenido.views.EditarBorradorView.form_valid">(contenido.views.EditarBorradorView method)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.EditarContenidoView.form_valid">(contenido.views.EditarContenidoView method)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.EditarRechazadoView.form_valid">(contenido.views.EditarRechazadoView method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -476,14 +518,22 @@
       </ul></li>
       <li><a href="contenido.html#contenido.models.Contenido.get_estado_display">get_estado_display() (contenido.models.Contenido method)</a>
 </li>
+      <li><a href="contenido.html#contenido.views.ContenidoFormView.get_form_kwargs">get_form_kwargs() (contenido.views.ContenidoFormView method)</a>
+
+      <ul>
+        <li><a href="contenido.html#contenido.views.EditarBorradorView.get_form_kwargs">(contenido.views.EditarBorradorView method)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.EditarRechazadoView.get_form_kwargs">(contenido.views.EditarRechazadoView method)</a>
+</li>
+      </ul></li>
       <li><a href="contenido.html#contenido.models.Like.get_next_by_created_at">get_next_by_created_at() (contenido.models.Like method)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.get_next_by_fecha">get_next_by_fecha() (contenido.models.Contenido method)</a>
 </li>
-      <li><a href="contenido.html#contenido.models.VersionContenido.get_next_by_fecha_modificacion">get_next_by_fecha_modificacion() (contenido.models.VersionContenido method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.models.VersionContenido.get_next_by_fecha_modificacion">get_next_by_fecha_modificacion() (contenido.models.VersionContenido method)</a>
+</li>
       <li><a href="contenido.html#contenido.models.Like.get_previous_by_created_at">get_previous_by_created_at() (contenido.models.Like method)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.get_previous_by_fecha">get_previous_by_fecha() (contenido.models.Contenido method)</a>
@@ -494,6 +544,8 @@
 
       <ul>
         <li><a href="contenido.html#contenido.views.ContenidoRechazadoListView.get_queryset">(contenido.views.ContenidoRechazadoListView method)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.ContenidosApublicarView.get_queryset">(contenido.views.ContenidosApublicarView method)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ContenidoVersionListView.get_queryset">(contenido.views.ContenidoVersionListView method)</a>
 </li>
@@ -525,13 +577,27 @@
       <ul>
         <li><a href="contenido.html#contenido.models.Contenido.id">(contenido.models.Contenido attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.models.Image.id">(contenido.models.Image attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.models.Like.id">(contenido.models.Like attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.models.VersionContenido.id">(contenido.models.VersionContenido attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.models.Video.id">(contenido.models.Video attribute)</a>
+</li>
       </ul></li>
+      <li><a href="contenido.html#contenido.models.Image">Image (class in contenido.models)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.models.Image.image">image (contenido.models.Image attribute)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Image.DoesNotExist">Image.DoesNotExist</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Image.MultipleObjectsReturned">Image.MultipleObjectsReturned</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Contenido.images">images (contenido.models.Contenido attribute)</a>
+</li>
       <li><a href="app.html#app.views.IndexView">IndexView (class in app.views)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Categoria.is_active">is_active (contenido.models.Categoria attribute)</a>
@@ -597,6 +663,8 @@
 </li>
         <li><a href="contenido.html#contenido.forms.ContenidoForm.media">(contenido.forms.ContenidoForm property)</a>
 </li>
+        <li><a href="contenido.html#contenido.forms.RechazadoEditForm.media">(contenido.forms.RechazadoEditForm property)</a>
+</li>
         <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.media">(contenido.forms.VersionContenidoEditForm property)</a>
 </li>
       </ul></li>
@@ -635,6 +703,8 @@
 </li>
         <li><a href="contenido.html#contenido.forms.ContenidoForm.Meta.model">(contenido.forms.ContenidoForm.Meta attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.forms.RechazadoEditForm.Meta.model">(contenido.forms.RechazadoEditForm.Meta attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.Meta.model">(contenido.forms.VersionContenidoEditForm.Meta attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ActivarCategoriaView.model">(contenido.views.ActivarCategoriaView attribute)</a>
@@ -649,6 +719,8 @@
 </li>
         <li><a href="contenido.html#contenido.views.ContenidoRechazadoListView.model">(contenido.views.ContenidoRechazadoListView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.ContenidosApublicarView.model">(contenido.views.ContenidosApublicarView attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.views.ContenidoVersionListView.model">(contenido.views.ContenidoVersionListView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.DesactivarCategoriaView.model">(contenido.views.DesactivarCategoriaView attribute)</a>
@@ -656,6 +728,8 @@
         <li><a href="contenido.html#contenido.views.EditarBorradorView.model">(contenido.views.EditarBorradorView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.EditarContenidoView.model">(contenido.views.EditarContenidoView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.EditarRechazadoView.model">(contenido.views.EditarRechazadoView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ListarRevisionesView.model">(contenido.views.ListarRevisionesView attribute)</a>
 </li>
@@ -704,9 +778,13 @@
       <ul>
         <li><a href="contenido.html#contenido.models.Contenido.objects">(contenido.models.Contenido attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.models.Image.objects">(contenido.models.Image attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.models.Like.objects">(contenido.models.Like attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.models.VersionContenido.objects">(contenido.models.VersionContenido attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.models.Video.objects">(contenido.models.Video attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -738,9 +816,17 @@
 </li>
         <li><a href="contenido.html#contenido.views.CategoriaUpdateView.permission_required">(contenido.views.CategoriaUpdateView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.ContenidoBorradorListView.permission_required">(contenido.views.ContenidoBorradorListView attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.views.ContenidoFormView.permission_required">(contenido.views.ContenidoFormView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.ContenidoRechazadoListView.permission_required">(contenido.views.ContenidoRechazadoListView attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.views.DesactivarCategoriaView.permission_required">(contenido.views.DesactivarCategoriaView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.EditarContenidoView.permission_required">(contenido.views.EditarContenidoView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.ListarRevisionesView.permission_required">(contenido.views.ListarRevisionesView attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -755,10 +841,14 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="contenido.html#contenido.views.rechazar_contenido">rechazar_contenido() (in module contenido.views)</a>
+      <li><a href="contenido.html#contenido.forms.RechazadoEditForm">RechazadoEditForm (class in contenido.forms)</a>
+</li>
+      <li><a href="contenido.html#contenido.forms.RechazadoEditForm.Meta">RechazadoEditForm.Meta (class in contenido.forms)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.views.rechazar_contenido">rechazar_contenido() (in module contenido.views)</a>
+</li>
       <li><a href="app.html#app.views.register">register() (in module app.views)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.reportado">reportado (contenido.models.Contenido attribute)</a>
@@ -775,6 +865,8 @@
         <li><a href="contenido.html#contenido.models.VersionContenido.save">(contenido.models.VersionContenido method)</a>
 </li>
       </ul></li>
+      <li><a href="contenido.html#contenido.models.Contenido.solo_suscriptores">solo_suscriptores (contenido.models.Contenido attribute)</a>
+</li>
       <li><a href="app.html#app.views.UserCreateView.success_url">success_url (app.views.UserCreateView attribute)</a>
 
       <ul>
@@ -789,6 +881,8 @@
         <li><a href="contenido.html#contenido.views.EditarBorradorView.success_url">(contenido.views.EditarBorradorView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.EditarContenidoView.success_url">(contenido.views.EditarContenidoView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.EditarRechazadoView.success_url">(contenido.views.EditarRechazadoView attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -830,6 +924,8 @@
 </li>
         <li><a href="contenido.html#contenido.views.ContenidoRechazadoListView.template_name">(contenido.views.ContenidoRechazadoListView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.ContenidosApublicarView.template_name">(contenido.views.ContenidosApublicarView attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.views.ContenidoVersionListView.template_name">(contenido.views.ContenidoVersionListView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.DesactivarCategoriaView.template_name">(contenido.views.DesactivarCategoriaView attribute)</a>
@@ -837,6 +933,8 @@
         <li><a href="contenido.html#contenido.views.EditarBorradorView.template_name">(contenido.views.EditarBorradorView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.EditarContenidoView.template_name">(contenido.views.EditarContenidoView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.EditarRechazadoView.template_name">(contenido.views.EditarRechazadoView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ListarRevisionesView.template_name">(contenido.views.ListarRevisionesView attribute)</a>
 </li>
@@ -897,15 +995,25 @@
 </li>
       <li><a href="contenido.html#contenido.models.VersionContenido.DoesNotExist">VersionContenido.DoesNotExist</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.VersionContenido.MultipleObjectsReturned">VersionContenido.MultipleObjectsReturned</a>
 </li>
       <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm">VersionContenidoEditForm (class in contenido.forms)</a>
 </li>
       <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.Meta">VersionContenidoEditForm.Meta (class in contenido.forms)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.Contenido.versiones">versiones (contenido.models.Contenido attribute)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Video">Video (class in contenido.models)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Video.video">video (contenido.models.Video attribute)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Video.DoesNotExist">Video.DoesNotExist</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Video.MultipleObjectsReturned">Video.MultipleObjectsReturned</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Contenido.videos">videos (contenido.models.Contenido attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -923,6 +1031,8 @@
         <li><a href="contenido.html#contenido.forms.ContenidoEditForm.Meta.widgets">(contenido.forms.ContenidoEditForm.Meta attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.forms.ContenidoForm.Meta.widgets">(contenido.forms.ContenidoForm.Meta attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.forms.RechazadoEditForm.Meta.widgets">(contenido.forms.RechazadoEditForm.Meta attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.Meta.widgets">(contenido.forms.VersionContenidoEditForm.Meta attribute)</a>
 </li>
