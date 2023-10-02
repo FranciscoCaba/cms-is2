@@ -12,9 +12,11 @@ urlpatterns = [
     path('categoria/<int:pk>/activar', views.ActivarCategoriaView.as_view(), name='activar-categoria'),
     path('categoria/<int:pk>/listar', views.MostrarContenidosView.as_view(), name='mostrar_contenidos'),
     
-    path('publicar/<int:pk>/', views.apublicar_contenido, name='a-publicar'),
     path('publicar/',views.ContenidosApublicarView.as_view(),name= 'list_a_publicar'),
+    path('publicar/<int:pk>/', views.apublicar_contenido, name='a-publicar'),
+    path('publicar/ver/<int:pk>/', views.UnContenidoApublicarView.as_view(), name='list_un_a_publicar'),
     path('revision/', views.ListarRevisionesView.as_view(), name='listar_revisiones'),
+    path('revision/ver/<int:pk>/', views.ListarUnaRevisionView.as_view(), name='listar_una_revision'),
     path('contenido/<int:pk>/publicar/', views.publicar_contenido, name='publicar_contenido'),
     path('contenido/<int:pk>/rechazar/', views.rechazar_contenido, name='rechazar_contenido'),
 
@@ -31,6 +33,7 @@ urlpatterns = [
     path('autor/<int:pk>/', views.detalle_autor, name='detalle_autor'),
 
     path('kanban/', views.kanban_view, name='kanban'),
+    path('kanban/all/', views.all_kanban_view, name='all_kanban'),
 
     path('borrador/<int:pk>/editar/', views.EditarBorradorView.as_view(), name='editar-borrador'),
     path('version/<int:version_id>/editar/', views.editar_version, name='editar-version'),

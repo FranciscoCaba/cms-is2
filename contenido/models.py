@@ -69,6 +69,7 @@ class Contenido(models.Model):
             ('ver_kanban', 'Ver kanban'),
             ('ver_todos_kanban', 'Ver todos kanban'),
             ('puede_publicar_rechazar', 'Puede publicar o rechazar'),
+            ('puede_editar_aceptar', 'Puede editar o aceptar'),
             ('ver_todos_borradores', 'Ver todos los borradores'),
             ('puede_publicar_no_moderada', 'Puede publicar en categoria no moderada'),
         ]

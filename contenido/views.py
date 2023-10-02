@@ -121,6 +121,15 @@ class ListarRevisionesView(PermissionRequiredMixin,ListView):
 
     def get_queryset(self):
         return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
+    
+class ListarUnaRevisionView(PermissionRequiredMixin,ListView):
+    model = Contenido
+    permission_required = 'contenido.ver_revisiones'
+    template_name = 'listar_revisiones.html'
+    context_object_name = 'por_revisar'
+
+    def get_queryset(self):
+        return Contenido.objects.filter(estado='En revisión', id=self.kwargs['pk']).order_by('-fecha')
 
 class ContenidosApublicarView(ListView):
     model = Contenido
@@ -129,6 +138,14 @@ class ContenidosApublicarView(ListView):
 
     def get_queryset(self):
         return Contenido.objects.filter(estado='A publicar').order_by('-fecha')
+    
+class UnContenidoApublicarView(ListView):
+    model = Contenido
+    template_name = 'contenido/contenido_a_publicar.html'
+    context_object_name = 'revisados'
+
+    def get_queryset(self):
+        return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk']).order_by('-fecha')
 
 def apublicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -309,10 +326,12 @@ def detalle_autor(request, pk):
 
 @permission_required('contenido.ver_kanban')
 def kanban_view(request):
-    if request.user.has_perm('contenido.ver_todos_kanban'):
-        contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
-    else:
-        contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
+    contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
+    return render(request, 'kanban.html', contexto)
+
+@permission_required('contenido.ver_todos_kanban')
+def all_kanban_view(request):
+    contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
 
 def delete_image(request, image_id):
