@@ -47,7 +47,15 @@ INSTALLED_APPS = [
     'contenido',
     'ckeditor',
     'storages',
+    'ckeditor_uploader',
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'removePlugins': 'exportpdf',
+    }
+}
 
 CRISPY_ALLOWED_TEMPLATE_PACK = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'

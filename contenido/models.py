@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User,Permission
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.core.files.storage import default_storage 
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage
@@ -21,7 +22,7 @@ class Contenido(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usuario', verbose_name='Usuario')
     titulo = models.CharField(max_length=100)
     #estado = models.CharField(default='Borrador', max_length=100)
-    descripcion = RichTextField()
+    descripcion = RichTextUploadingField(null=True,config_name='default')
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
