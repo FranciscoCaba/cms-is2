@@ -4,6 +4,7 @@
 
 <head>
   <title>{%block titulo%}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,63 +13,130 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
-</head>
-
-<body>
-  <nav class="navbar navbar-expand navbar-light bg-light">
-    <ul class="nav navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'index' %}">Inicio</a>
-      </li>
-    {% if request.user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
-      </li>
-    {% endif %}
-    {% if perms.auth.change_user %}
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'user-list' %}">Administrar usuarios</a>
-        </li>
-    {% endif %}
-    {% if perms.auth.add_group %}
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'create_group' %}">Crear grupo</a>
-        </li>
-    {% endif %}
-    {% if perms.auth.change_group and perms.auth.delete_group %}
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'group_list' %}">Administrar grupos</a>
-        </li>
-    {% endif %}
-    {% if perms.contenido.add_categoria %}
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'categoria-crear' %}">Crear categoria</a>
-        </li>
-    {% endif %}
-    {% if perms.contenido.change_categoria and perms.contenido.delete_categoria %}
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'categoria-list' %}">Administrar categorias</a>
-        </li>
-    {% endif %}
-    {% if perms.contenido.add_contenido %}
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'contenido-crear' %}">Crear contenido</a>
-        </li>
-    {% endif %}
-    {% if request.user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exit' %}">Salir</a>
-      </li>
-    {% else %}
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">Iniciar Sesion</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}">Registrar</a>
-      </li>
-    {% endif %}
-    </ul>
+  </head>
+  
+  <body>
+    <nav class="navbar bg-body-tertiary bg-light">
+      {% if request.user.is_authenticated %}
+      <div class="d-flex flex-row gap-4 align-items-center">
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="nav navbar-nav navbar-expand flex-row gap-4">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+          </li>
+        </ul>
+        <div class="offcanvas offcanvas-start" style="width:20%;" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CMS</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            </ul>
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
+              </li>
+            {% if perms.auth.change_user %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'user-list' %}">Administrar usuarios</a>
+              </li>
+            {% endif %}
+            {% if perms.auth.change_group and perms.auth.delete_group %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'group_list' %}">Administrar grupos</a>
+            </li>
+            {% endif %}
+            {% if perms.auth.add_group %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'create_group' %}">Crear grupo</a>
+              </li>
+            {% endif %}
+            {% if perms.contenido.change_categoria and perms.contenido.delete_categoria %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'categoria-list' %}">Administrar categorias</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.add_categoria %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'categoria-crear' %}">Crear categoria</a>
+              </li>
+            {% endif %}
+            {% if perms.contenido.add_contenido %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'contenido-crear' %}">Crear contenido</a>
+              </li>
+            {% endif %}
+            {% if perms.contenido.add_contenido %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'borradores_lista' %}">Ver Borradores</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.add_contenido %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'rechazados_lista' %}">Ver Rechazados</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.ver_revisiones %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'listar_revisiones' %}">Ver contenidos en revision</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.ver_revisiones %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'list_a_publicar' %}">Ver contenidos a publicar</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.ver_kanban %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'kanban' %}">Ver Mi Kanban</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.ver_todos_kanban %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'all_kanban' %}">Ver Kanban de Todo</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.add_contenido %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'contenido-version' %}">Historial de Versiones</a>
+              </li>
+            {% endif %}
+            </ul>
+          </div>
+        </div>
+        {% else %}
+          <ul class="nav navbar-nav navbar-expand flex-row gap-4">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Iniciar Sesion</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Registrar</a>
+            </li>
+          </ul>
+        {% endif %}
+      </div>
+      {% if request.user.is_authenticated %}
+      <div class="dropstart d-flex flex-row align-items-center me-4">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ user.username }}
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
+        </ul>
+      </div>
+      {% endif %}
   </nav>
+
   {% block contenido %}
   {% endblock %}
 

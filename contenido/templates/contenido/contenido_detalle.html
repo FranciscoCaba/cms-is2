@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %}Ver contenido{% endblock %}
+{% block contenido %}
+    <div class="contenido-detallado">
+        <div class="contenido-title">
+            <h1>{{ contenido.titulo }}</h1>
+        </div>
+        <div class="contenido-references">
+            <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' contenido.categoria.pk %}">{{ contenido.categoria }}</a> | {{ contenido.fecha }}</p>
+        </div>
+        <div class="contenido-body">
+            {{ contenido.descripcion | safe }}
+            {% if contenido.images.all %}
+                <h2>Imágenes:</h2>
+                <ul>
+                    {% for image in contenido.images.all %}
+                        <li>
+                            <img src="{{ image.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            
+            {% if contenido.videos.all %}
+                <h2>Videos:</h2>
+                <ul>
+                    {% for video in contenido.videos.all %}
+                        <li>
+                            <video controls width="400" height="300">
+                                <source src="{{ video.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="contenido-interactions-data">
+            <p>Likes: {{ contenido.likes.count }}</p>
+        </div>
+        <div class="contenido-buttons">
+            {% if user.is_authenticated %}
+                <form class="w-100" action="{% url 'toggle_like' contenido.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="w-100 interaction-button" type="submit">
+                        {% if user_likes_contenido %}
+                            Quitar Like
+                        {% else %}
+                            Dar Like
+                        {% endif %}
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para dar/quitar like.</a>
+            {% endif %}
+            <button class="w-100 interaction-button" type="button" id="copy-button" onclick="copyToClipboard()">Compartir!</button>
+        </div>
+        <div class="contenido-comentarios">
+            <p>No hay comentarios!</p>
+        </div>
+    </div>
+    <script>
+        function copyToClipboard() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(function() {
+                alert('URL copiada al portapapeles: ' + url);
+            }, function() {
+                alert('No se pudo copiar la URL al portapapeles.');
+            });
+        }
+    </script>
+{% endblock %}

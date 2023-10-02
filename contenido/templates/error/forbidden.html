@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{%block titulo%}Contenido no Permitido{% endblock %}
+{% block contenido %}
+    <h1 class="text-center mt-5">Debes <a href="{% url 'login' %}?next=/">iniciar sesion</a> para ver este contenido</h1>
+{% endblock %}

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{%block titulo%}Crear rol{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
 <form method="post">
     {% csrf_token %}
     <div class="card mx-auto" style="width: 40%">
         <div class="card-body">
-            <h4 class="card-title">Complete los campos:</h4>
+            <h4 class="card-title">Creacion de Rol</h4>
             {{ form | crispy }}
             <button type="submit" class="btn btn-primary float-end">Crear rol</button>
         </div>

@@ -1,12 +1,14 @@
 {% extends "base.html" %}
+{%block titulo%}Lista de roles{% endblock %}
 {% block contenido %}
 <div class="container">
-    <h2>Group List</h2>
+    <h2>Roles</h2>
+    <a href="{% url 'create_group' %}" class="btn btn-primary btn-sm">Crear Rol</a>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Group Name</th>
-                <th scope="col">Actions</th>
+                <th scope="col">Nombre de Rol</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -14,10 +16,10 @@
             <tr>
                 <td>{{ group.name }}</td>
                 <td>
-                    <a href="{% url 'edit_group' group.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'edit_group' group.id %}" class="btn btn-primary btn-sm">Editar</a>
                     <form method="post" action="{% url 'delete_group' group.id %}" style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" name="delete_group" value="{{ group.id }}" class="btn btn-danger btn-sm">Delete</button>
+                        <button type="submit" name="delete_group" value="{{ group.id }}" class="btn btn-danger btn-sm">Eliminar</button>
                     </form>
                 </td>
             </tr>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{%block titulo%}Mis Versiones{% endblock %}
+{% block contenido %}
+  <h2>Lista de Versiones</h2>
+  <ul>
+    {% for versioncontenido in version_contenidos %}
+      {% if versioncontenido.version == 1 and forloop.counter != 1 %}
+        <hr>
+      {% endif %}
+      <li>
+        Continuar contenido: <a href="{% url 'editar-version' versioncontenido.id %}">( <b>Contenido:</b> {{ versioncontenido.contenido.id }}, <b>Titulo:</b> {{ versioncontenido.titulo }}, <b>Version:</b>  {{ versioncontenido.version }}, <b>Estado:</b> {{versioncontenido.estado}} )</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{%block titulo%}Mis rechazados{% endblock %}
+{% block contenido %}
+  <h2>Contenidos en estado "Rechazado"</h2>
+  <ul>
+    {% for contenido in contenidos_rechazados %}
+      <li>
+        <a href="{% url 'editar-rechazado' contenido.id %}">Volver a editar "{{ contenido.titulo }}"</a>
+        <p><b><u>Razon</u>:</b> {{contenido.razon_rechazo}}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

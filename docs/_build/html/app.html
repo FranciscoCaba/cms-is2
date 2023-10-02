@@ -113,11 +113,10 @@
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;user/&lt;int:pk&gt;/update/&#39;</span><span class="p">,</span> <span class="n">UserUpdateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;user-update&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;desactivar_usuario/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">DesactivarUsuarioView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;desactivar-usuario&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;activar_usuario/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">ActivarUsuarioView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;activar-usuario&#39;</span><span class="p">),</span>
-   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;create_group/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">create_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;create_group&#39;</span><span class="p">),</span>
-   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;delete_group/&lt;int:group_id&gt;/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">delete_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;delete_group&#39;</span><span class="p">),</span>
-   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;edit_group/&lt;int:group_id&gt;/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">edit_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edit_group&#39;</span><span class="p">),</span>
-   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;group_list/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">group_list</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;group_list&#39;</span><span class="p">),</span>
-
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;roles/create&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">create_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;create_group&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;roles/delete/&lt;int:group_id&gt;/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">delete_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;delete_group&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;roles/edit/&lt;int:group_id&gt;/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">edit_group</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edit_group&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;roles/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">group_list</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;group_list&#39;</span><span class="p">),</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -418,7 +417,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.views.ActivarUsuarioView.permission_required">
-<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.delete_categoria'</span></em><a class="headerlink" href="#app.views.ActivarUsuarioView.permission_required" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'auth.delete_user'</span></em><a class="headerlink" href="#app.views.ActivarUsuarioView.permission_required" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -461,7 +460,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.views.DesactivarUsuarioView.permission_required">
-<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.delete_categoria'</span></em><a class="headerlink" href="#app.views.DesactivarUsuarioView.permission_required" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'auth.delete_user'</span></em><a class="headerlink" href="#app.views.DesactivarUsuarioView.permission_required" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -538,7 +537,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.views.UserCreateView.permission_required">
-<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.add_categoria'</span></em><a class="headerlink" href="#app.views.UserCreateView.permission_required" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'auth.add_user'</span></em><a class="headerlink" href="#app.views.UserCreateView.permission_required" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -615,7 +614,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="app.views.UserUpdateView.permission_required">
-<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contenido.change_categoria'</span></em><a class="headerlink" href="#app.views.UserUpdateView.permission_required" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">permission_required</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'auth.change_user'</span></em><a class="headerlink" href="#app.views.UserUpdateView.permission_required" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
