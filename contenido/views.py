@@ -378,7 +378,7 @@ def editar_version(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
     
     if request.method == 'POST':
-        form = VersionContenidoEditForm(request.POST, instance=version)
+        form = VersionContenidoEditForm(request.POST, instance=version, user=request.user)
         if form.is_valid():
             nueva_version = form.save(commit=False)
 
@@ -392,6 +392,6 @@ def editar_version(request, version_id):
 
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
-        form = VersionContenidoEditForm(instance=version)
+        form = VersionContenidoEditForm(instance=version, user=request.user)
     
     return render(request, 'version/version_editar.html', {'form': form, 'version': version})
