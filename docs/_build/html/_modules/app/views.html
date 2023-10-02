@@ -80,7 +80,8 @@
 <span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">logout</span>
 <span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
 <span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
-
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Count</span>
+<span class="kn">from</span> <span class="nn">contenido.models</span> <span class="kn">import</span> <span class="n">Categoria</span>
 
 <span class="c1"># Create your views here.</span>
 <div class="viewcode-block" id="CustomTemplateView">
@@ -126,6 +127,7 @@
     <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">context</span> <span class="o">=</span>  <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;categorias&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">num_contenidos</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;categoria&#39;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">context</span></div>
 </div>
 
@@ -182,7 +184,7 @@
 
 <div class="viewcode-block" id="create_group">
 <a class="viewcode-back" href="../../app.html#app.views.create_group">[docs]</a>
-<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;app.add_group&#39;</span><span class="p">)</span>
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;auth.add_group&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">create_group</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">GroupCreationForm</span><span class="p">()</span>
@@ -203,7 +205,7 @@
 
 <div class="viewcode-block" id="delete_group">
 <a class="viewcode-back" href="../../app.html#app.views.delete_group">[docs]</a>
-<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;app.delete_group&#39;</span><span class="p">)</span>
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;auth.delete_group&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">delete_group</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">group_id</span><span class="p">):</span>
     <span class="n">group</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span>
 
@@ -217,7 +219,7 @@
 
 <div class="viewcode-block" id="edit_group">
 <a class="viewcode-back" href="../../app.html#app.views.edit_group">[docs]</a>
-<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;app.change_group&#39;</span><span class="p">)</span>
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;auth.change_group&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">edit_group</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">group_id</span><span class="p">):</span>
     <span class="n">group</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span>
     
@@ -234,7 +236,7 @@
 
 <div class="viewcode-block" id="group_list">
 <a class="viewcode-back" href="../../app.html#app.views.group_list">[docs]</a>
-<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;app.view_group&#39;</span><span class="p">)</span>
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;auth.view_group&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">group_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">groups</span> <span class="o">=</span> <span class="n">Group</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;group/group_list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;groups&#39;</span><span class="p">:</span> <span class="n">groups</span><span class="p">})</span></div>
@@ -260,7 +262,7 @@
 <div class="viewcode-block" id="UserCreateView">
 <a class="viewcode-back" href="../../app.html#app.views.UserCreateView">[docs]</a>
 <span class="k">class</span> <span class="nc">UserCreateView</span><span class="p">(</span><span class="n">PermissionRequiredMixin</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">):</span>
-    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;contenido.add_categoria&#39;</span>
+    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;auth.add_user&#39;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
     <span class="n">form_class</span> <span class="o">=</span> <span class="n">CustomAdminUserCreationForm</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;user_form.html&#39;</span>
@@ -282,7 +284,7 @@
 <div class="viewcode-block" id="UserUpdateView">
 <a class="viewcode-back" href="../../app.html#app.views.UserUpdateView">[docs]</a>
 <span class="k">class</span> <span class="nc">UserUpdateView</span><span class="p">(</span><span class="n">PermissionRequiredMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
-    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;contenido.change_categoria&#39;</span>
+    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;auth.change_user&#39;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
     <span class="n">form_class</span> <span class="o">=</span> <span class="n">CustomAdminUserChangeForm</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;user_form.html&#39;</span>
@@ -293,7 +295,7 @@
 <div class="viewcode-block" id="DesactivarUsuarioView">
 <a class="viewcode-back" href="../../app.html#app.views.DesactivarUsuarioView">[docs]</a>
 <span class="k">class</span> <span class="nc">DesactivarUsuarioView</span><span class="p">(</span><span class="n">PermissionRequiredMixin</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">):</span>
-    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;contenido.delete_categoria&#39;</span>
+    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;auth.delete_user&#39;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;desactivar_usuario.html&#39;</span>  <span class="c1"># Nombre del archivo HTML que extiende de base.html</span>
 
@@ -314,7 +316,7 @@
 <div class="viewcode-block" id="ActivarUsuarioView">
 <a class="viewcode-back" href="../../app.html#app.views.ActivarUsuarioView">[docs]</a>
 <span class="k">class</span> <span class="nc">ActivarUsuarioView</span><span class="p">(</span><span class="n">PermissionRequiredMixin</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">):</span>
-    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;contenido.delete_categoria&#39;</span>
+    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;auth.delete_user&#39;</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
     <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;activar_usuario.html&#39;</span>  <span class="c1"># Nombre del archivo HTML que extiende de base.html</span>
 
