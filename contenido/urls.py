@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from . import views
 urlpatterns = [
     path('crear', login_required(views.ContenidoFormView.as_view()) , name='contenido-crear'),
+    path('version', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
     path('categoria/crear', login_required(views.CategoriaFormView.as_view()), name='categoria-crear'),
     path('categoria', views.CategoriaListView.as_view(), name='categoria-list'),
     path('categoria/<int:pk>/', views.CategoriaDetailView.as_view(), name='categoria-detail'),
@@ -28,4 +29,5 @@ urlpatterns = [
     path('kanban/', views.kanban_view, name='kanban'),
 
     path('borrador/<int:pk>/editar/', views.EditarBorradorView.as_view(), name='editar-borrador'),
+    path('version/<int:version_id>/editar/', views.editar_version, name='editar-version'),
 ]

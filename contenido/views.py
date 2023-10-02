@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm
+from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like
+from .models import Categoria, Contenido, Like,VersionContenido
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -210,3 +210,30 @@ def kanban_view(request):
     else:
         contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
+
+class ContenidoVersionListView(LoginRequiredMixin, ListView):
+    model = VersionContenido
+    template_name = 'version/version_lista.html'
+    context_object_name = 'version_contenidos'
+
+    def get_queryset(self):
+        # Obtener los contenidos en estado "borrador" del usuario actual
+        return VersionContenido.objects.all().order_by('-titulo')
+    
+
+
+def editar_version(request, version_id):
+    version = get_object_or_404(VersionContenido, pk=version_id)
+    
+    if request.method == 'POST':
+        form = VersionContenidoEditForm(request.POST, instance=version)
+        if form.is_valid():
+            nueva_version = form.save(commit=False)
+            nueva_version.pk = None  # Crear una nueva instancia de VersionContenido
+            nueva_version.user_modificacion = request.user
+            nueva_version.save()
+            return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
+    else:
+        form = VersionContenidoEditForm(instance=version)
+    
+    return render(request, 'version/version_editar.html', {'form': form, 'version': version})
