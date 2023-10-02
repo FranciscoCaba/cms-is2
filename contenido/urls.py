@@ -29,4 +29,6 @@ urlpatterns = [
 
     path('borrador/<int:pk>/editar/', views.EditarBorradorView.as_view(), name='editar-borrador'),
     path('rechazado/<int:pk>/editar/', views.EditarRechazadoView.as_view(), name='editar-rechazado'),
+
+    path('error/', views.error403, name='error403'),
 ]

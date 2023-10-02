@@ -45,6 +45,8 @@ class Contenido(models.Model):
             ('ver_revisiones', 'Ver revisiones'),
             ('ver_a_publicar', 'Ver contenidos a publicar'),
             ('ver_kanban', 'Ver kanban'),
+            ('ver_todos_kanban', 'Ver todos kanban'),
+            ('puede_publicar_rechazar', 'Puede publicar o rechazar'),
             ('ver_todos_borradores', 'Ver todos los borradores'),
             ('puede_publicar_no_moderado', 'Puede publicar en categoria no moderada'),
         ]

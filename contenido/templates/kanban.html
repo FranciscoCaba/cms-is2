@@ -1,51 +1,62 @@
 {% extends "base.html" %}
 {% block titulo %}Tablero Kanban{% endblock %}
 {% block contenido %}
-    <div class="container">
+    <h1 class="text-center mt-3">Tablero Kanban</h1>
+    <div class="container mt-5">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-3 border border-dark pt-2">
+                <h2>Borrador</h2>
+            </div>
+            <div class="col-sm-3 border border-dark pt-2">
+                <h2>En revision</h2>
+            </div>
+            <div class="col-sm-3 border border-dark pt-2">
+                <h2>Publicado</h2>
+            </div>
+            <div class="col-sm-3 border border-dark pt-2">
+                <h2>Rechazado</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 border border-dark">
                 <div class="kanban-column">
-                    <h2>Borrador</h2>
                     <ul>
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'Borrador' %}
-                            <li><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
+                            <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
                         {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 border border-dark">
                 <div class="kanban-column">
-                    <h2>En revisión</h2>
                     <ul>
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'En revisión' %}
-                            <li><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
+                            <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
                         {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 border border-dark">
                 <div class="kanban-column">
-                    <h2>Publicado</h2>
                     <ul>
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'Publicado' %}
-                            <li><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
+                            <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
                         {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 border border-dark">
                 <div class="kanban-column">
-                    <h2>Rechazado</h2>
                     <ul>
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'Rechazado' %}
-                            <li><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
+                            <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
                         {% endif %}
                         {% endfor %}
                     </ul>

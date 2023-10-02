@@ -7,7 +7,8 @@ from .models import Categoria, Contenido, Like
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.http import HttpResponseForbidden
 
 # Create your views here.
 
@@ -95,14 +96,16 @@ class MostrarContenidosView(View):
         return render(request, self.template_name, context)
     
 
-class ListarRevisionesView(ListView):
+class ListarRevisionesView(PermissionRequiredMixin,ListView):
     model = Contenido
+    permission_required = 'contenido.ver_revisiones'
     template_name = 'listar_revisiones.html'
     context_object_name = 'borradores'
 
     def get_queryset(self):
         return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
     
+@permission_required('contenido.puede_publicar_rechazar')
 def publicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
@@ -113,6 +116,7 @@ def publicar_contenido(request, pk):
     # Redirigir a la lista de borradores
     return redirect('revisar')
 
+@permission_required('contenido.puede_publicar_rechazar')
 def rechazar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
@@ -123,8 +127,9 @@ def rechazar_contenido(request, pk):
     # Redirigir a la lista de borradores
     return redirect('revisar')
 
-class ContenidoBorradorListView(LoginRequiredMixin, ListView):
+class ContenidoBorradorListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Contenido
+    permission_required = 'contenido.add_contenido'
     template_name = 'borrador/borradores_lista.html'
     context_object_name = 'contenidos_borrador'
 
@@ -132,8 +137,9 @@ class ContenidoBorradorListView(LoginRequiredMixin, ListView):
         # Obtener los contenidos en estado "borrador" del usuario actual
         return Contenido.objects.filter(user=self.request.user, estado='Borrador').order_by('-fecha')
 
-class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
+class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Contenido
+    permission_required = 'contenido.add_contenido'
     template_name = 'contenido/rechazados_lista.html'
     context_object_name = 'contenidos_rechazados'
 
@@ -143,12 +149,18 @@ class ContenidoRechazadoListView(LoginRequiredMixin, ListView):
 
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
+    if contenido.solo_suscriptores and not request.user.is_authenticated:
+        return redirect('error403')
+    
     if request.user.is_authenticated:
         user_likes_contenido = request.user.contenido_likes.filter(id=contenido.id).exists()
     else:
         user_likes_contenido = False
     
     return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido})
+
+def error403(request):
+    return render(request, 'error/forbidden.html')
 
 def toggle_like(request, contenido_id):
     contenido = get_object_or_404(Contenido, pk=contenido_id)
@@ -219,9 +231,9 @@ def detalle_autor(request, pk):
     # Renderiza el template para mostrar los detalles del autor y sus contenidos
     return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})
 
-@login_required
+@permission_required('contenido.ver_kanban')
 def kanban_view(request):
-    if request.user.is_staff:
+    if request.user.has_perm('contenido.ver_todos_kanban'):
         contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
     else:
         contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
