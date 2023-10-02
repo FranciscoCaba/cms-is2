@@ -28,6 +28,7 @@ class Contenido(models.Model):
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
     solo_suscriptores = models.BooleanField(default=False)
+    razon_rechazo = models.TextField(blank=True, null=True)
 
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 

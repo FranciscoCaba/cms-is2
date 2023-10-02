@@ -1,27 +1,46 @@
 {% extends "base.html" %}
-{%block titulo%}Lista de categorias{% endblock %}
+{% block titulo %}Lista de categorias{% endblock %}
 {% block contenido %}
-  <div class="text-center">
-    <h1>Lista de Categorias</h1>
-    <div class="d-flex justify-content-center mb-3">
-      <ul class="list-group">
+  <div class="container">
+    <h2>Lista de Categorias</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nombre de la Categoria</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for categoria in categorias %}
-          {% if categoria.is_active %}
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="{% url 'categoria-detail' categoria.pk %}">{{ categoria.nombre }}</a>
-            <span class="badge badge-primary" style="color: steelblue;">Activo</span>
-          </li>
-          {% else %}
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="{% url 'categoria-detail' categoria.pk %}">{{ categoria.nombre }}</a>
-            <span class="badge badge-secondary" style="color: darkslategray;">Inactivo</span>
-          </li>
-          {% endif %}
+          <tr>
+            <td style="width: 40%;">
+              <a href="{% url 'categoria-detail' categoria.pk %}">{{ categoria.nombre }}</a>
+            </td>
+            <td style="width: 30%;">
+              {% if categoria.is_active %}
+                <span class="badge badge-primary" style="color: steelblue;">Activo</span>
+              {% else %}
+                <span class="badge badge-secondary" style="color: darkslategray;">Inactivo</span>
+              {% endif %}
+            </td>
+            <td style="width: 30%;">
+                <a  href="{% url 'categoria-update' categoria.pk %}" class="btn btn-primary btn-sm d-inline">Editar</a >
+              {% if categoria.is_active %}
+                <a  href="{% url 'desactivar-categoria' categoria.pk %}" class="btn btn-danger btn-sm d-inline">Desactivar</a >
+              {% else %}
+                <a  href="{% url 'activar-categoria' categoria.pk %}" class="btn btn-success btn-sm d-inline">Activar</a >
+              {% endif %}
+            </td>
+          </tr>
         {% empty %}
-        <li class="list-group-item">No hay categorias.</li>
+        <tr>
+          <td colspan="3">No hay categorias.</td>
+        </tr>
         {% endfor %}
-      </ul>
-    </div>
+      </tbody>
+    </table>
     <a href="{% url 'categoria-crear' %}" class="btn btn-primary">Crear Categoria</a>
   </div>
 {% endblock %}
+
