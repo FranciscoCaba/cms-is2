@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{%block titulo%}Editar Rechazado{% endblock %}
+{% block contenido %}
+{% load crispy_forms_tags %}
+<form method="post">
+    {% csrf_token %}
+    <div class="card mx-auto" style="width: 60%">
+        <div class="card-body">
+            <h4 class="card-title">Complete los campos:</h4>
+            {{ form.media }}
+            {{ form.as_p }}
+            <button type="submit" name="crear" class="btn btn-primary float-end">Crear</button>
+            <button type="submit" name="borradorcito" class="btn btn-secondary float-end">Guardar Borrador</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
