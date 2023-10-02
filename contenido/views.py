@@ -36,6 +36,10 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
         contenido.save()
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=contenido, image=image)
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=contenido, video=video)
             # Verifica si se proporcionó una categoría válida en el formulario
         return super(ContenidoFormView,self).form_valid(form)
     
@@ -378,7 +382,7 @@ def editar_version(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
     
     if request.method == 'POST':
-        form = VersionContenidoEditForm(request.POST, instance=version, user=request.user)
+        form = VersionContenidoEditForm(request.POST, instance=version, user_request=request.user)
         if form.is_valid():
             nueva_version = form.save(commit=False)
 
@@ -392,6 +396,6 @@ def editar_version(request, version_id):
 
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
-        form = VersionContenidoEditForm(instance=version, user=request.user)
+        form = VersionContenidoEditForm(instance=version, user_request=request.user)
     
     return render(request, 'version/version_editar.html', {'form': form, 'version': version})

@@ -4,7 +4,7 @@ from django import forms
 from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
-from .models import Contenido, Categoria
+from .models import Contenido, Categoria, VersionContenido
 from ckeditor.fields import CKEditorWidget
 
 class ContenidoForm(forms.ModelForm):
@@ -125,7 +125,7 @@ class VersionContenidoEditForm(forms.ModelForm):
     )
     
     class Meta:
-        model = Contenido
+        model = VersionContenido
         fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
@@ -134,13 +134,14 @@ class VersionContenidoEditForm(forms.ModelForm):
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args,  user_request=None,**kwargs):
         super().__init__(*args, **kwargs)
         self.fields['categoria'].queryset = Categoria.objects.filter(
             is_active=True,
             moderada=True,
         )
-        if user.has_perm('contenido.puede_publicar_no_moderada'):
+        
+        if user_request.has_perm('contenido.puede_publicar_no_moderada'):
             self.fields['categoria'].queryset = Categoria.objects.filter(
                 is_active=True,
             )
