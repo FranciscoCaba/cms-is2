@@ -36,6 +36,10 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
         contenido.save()
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=contenido, image=image)
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=contenido, video=video)
             # Verifica si se proporcionó una categoría válida en el formulario
         return super(ContenidoFormView,self).form_valid(form)
     
@@ -121,6 +125,15 @@ class ListarRevisionesView(PermissionRequiredMixin,ListView):
 
     def get_queryset(self):
         return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
+    
+class ListarUnaRevisionView(PermissionRequiredMixin,ListView):
+    model = Contenido
+    permission_required = 'contenido.ver_revisiones'
+    template_name = 'listar_revisiones.html'
+    context_object_name = 'por_revisar'
+
+    def get_queryset(self):
+        return Contenido.objects.filter(estado='En revisión', id=self.kwargs['pk']).order_by('-fecha')
 
 class ContenidosApublicarView(ListView):
     model = Contenido
@@ -129,6 +142,14 @@ class ContenidosApublicarView(ListView):
 
     def get_queryset(self):
         return Contenido.objects.filter(estado='A publicar').order_by('-fecha')
+    
+class UnContenidoApublicarView(ListView):
+    model = Contenido
+    template_name = 'contenido/contenido_a_publicar.html'
+    context_object_name = 'revisados'
+
+    def get_queryset(self):
+        return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk']).order_by('-fecha')
 
 def apublicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
@@ -313,10 +334,12 @@ def detalle_autor(request, pk):
 
 @permission_required('contenido.ver_kanban')
 def kanban_view(request):
-    if request.user.has_perm('contenido.ver_todos_kanban'):
-        contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
-    else:
-        contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
+    contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
+    return render(request, 'kanban.html', contexto)
+
+@permission_required('contenido.ver_todos_kanban')
+def all_kanban_view(request):
+    contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
 
 def delete_image(request, image_id):
@@ -363,7 +386,7 @@ def editar_version(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
     
     if request.method == 'POST':
-        form = VersionContenidoEditForm(request.POST, instance=version)
+        form = VersionContenidoEditForm(request.POST, instance=version, user_request=request.user)
         if form.is_valid():
             nueva_version = form.save(commit=False)
 
@@ -377,6 +400,6 @@ def editar_version(request, version_id):
 
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
-        form = VersionContenidoEditForm(instance=version)
+        form = VersionContenidoEditForm(instance=version, user_request=request.user)
     
     return render(request, 'version/version_editar.html', {'form': form, 'version': version})

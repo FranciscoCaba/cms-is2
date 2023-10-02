@@ -4,43 +4,69 @@
     <h1 class="text-center mt-3">Tablero Kanban</h1>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-sm-3 border border-dark pt-2">
+            <div class="col border border-dark pt-2">
                 <h2>Borrador</h2>
             </div>
-            <div class="col-sm-3 border border-dark pt-2">
+            <div class="col border border-dark pt-2">
                 <h2>En revision</h2>
             </div>
-            <div class="col-sm-3 border border-dark pt-2">
+            <div class="col border border-dark pt-2">
+                <h2>A publicar</h2>
+            </div>
+            <div class="col border border-dark pt-2">
                 <h2>Publicado</h2>
             </div>
-            <div class="col-sm-3 border border-dark pt-2">
+            <div class="col border border-dark pt-2">
                 <h2>Rechazado</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-3 border border-dark">
+            <div class="col border border-dark">
                 <div class="kanban-column">
                     <ul>
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'Borrador' %}
-                            <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
+                            {% if contenido.user == request.user %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'editar-borrador' contenido.id %}">{{ contenido.titulo }}</a>(Ir a editar)</li>
+                            {% else %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>(Vista Previa)</li>
+                            {% endif %}
                         {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-3 border border-dark">
+            <div class="col border border-dark">
                 <div class="kanban-column">
                     <ul>
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'En revisión' %}
-                            <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></li>
+                            {% if perms.contenido.puede_editar_aceptar %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'listar_una_revision' contenido.id %}">{{ contenido.titulo }}</a>(Ir a revisar)</li>
+                            {% else %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>(Vista Previa)</li>
+                            {% endif %}
                         {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-3 border border-dark">
+            <div class="col border border-dark">
+                <div class="kanban-column">
+                    <ul>
+                        {% for contenido in contenidos %}
+                        {% if contenido.estado == 'A publicar' %}
+                            {% if perms.contenido.puede_publicar_rechazar %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'list_un_a_publicar' contenido.id %}">{{ contenido.titulo }}</a>(Ir a revisar)</li>
+                            {% else %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>(Vista Previa)</li>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col border border-dark">
                 <div class="kanban-column">
                     <ul>
                         {% for contenido in contenidos %}
@@ -51,12 +77,16 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-3 border border-dark">
+            <div class="col border border-dark">
                 <div class="kanban-column">
                     <ul>
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'Rechazado' %}
-                            <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a> <br/>Razon: {{ contenido.razon_rechazo }}</li>
+                            {% if contenido.user == request.user %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'editar-rechazado' contenido.id %}">{{ contenido.titulo }}</a>(Ir a editar) <br/>Razon: {{ contenido.razon_rechazo }}</li>
+                            {% else %}
+                                <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>(Vista Previa) <br/>Razon: {{ contenido.razon_rechazo }}</li>
+                            {% endif %}
                         {% endif %}
                         {% endfor %}
                     </ul>

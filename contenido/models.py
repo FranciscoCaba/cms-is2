@@ -54,6 +54,7 @@ class Contenido(models.Model):
             titulo=self.titulo,
             descripcion=self.descripcion,
             estado=self.estado,
+            solo_suscriptores = self.solo_suscriptores,
             version=1  # La primera versión siempre es 1
         )
 
@@ -70,6 +71,7 @@ class Contenido(models.Model):
             ('ver_kanban', 'Ver kanban'),
             ('ver_todos_kanban', 'Ver todos kanban'),
             ('puede_publicar_rechazar', 'Puede publicar o rechazar'),
+            ('puede_editar_aceptar', 'Puede editar o aceptar'),
             ('ver_todos_borradores', 'Ver todos los borradores'),
             ('puede_publicar_no_moderada', 'Puede publicar en categoria no moderada'),
         ]
@@ -81,10 +83,11 @@ class VersionContenido(models.Model):
     user_modificacion = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categoria_version', verbose_name='Categoria',default=None)
     titulo = models.CharField(max_length=100)
-    descripcion = RichTextField()
+    descripcion = RichTextUploadingField(null=True,config_name='default')
     estado = models.CharField(max_length=20)
     fecha_modificacion = models.DateTimeField(default=timezone.now)
     version = models.PositiveIntegerField(default=1)
+    solo_suscriptores = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         # Determinar la última versión y asignar la siguiente

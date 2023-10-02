@@ -15,9 +15,41 @@
     </div>
 </form>
 {% else %}
-<h4>{{version.titulo}}</h4>
-<div>
-    {{ version.descripcion | safe }}
+<div class="contenido-detallado">
+    <div class="contenido-title">
+        <h1>{{ version.titulo }}</h1>
+    </div>
+    <div class="contenido-references">
+        <p>Autor: <a href="{% url 'detalle_autor' version.contenido.user.pk %}">{{ version.contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' version.contenido.categoria.pk %}">{{ version.categoria }}</a> | {{ version.fecha_modificacion }}</p>
+    </div>
+    <div class="contenido-body">
+        {{ version.descripcion | safe }}
+        {% if version.contenido.images.all %}
+            <h2>Imágenes:</h2>
+            <ul>
+                {% for image in version.contenido.images.all %}
+                    <li>
+                        <img src="{{ image.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        
+        {% if version.contenido.videos.all %}
+            <h2>Videos:</h2>
+            <ul>
+                {% for video in version.contenido.videos.all %}
+                    <li>
+                        <video controls width="400" height="300">
+                            <source src="{{ video.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 </div>
 {% endif %}
 {% endblock %}
