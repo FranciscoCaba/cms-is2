@@ -306,7 +306,7 @@ def detalle_autor(request, pk):
     autor = get_object_or_404(User, pk=pk)
 
     # Obtiene los contenidos relacionados al autor
-    contenidos = Contenido.objects.filter(user=autor).order_by('-fecha')
+    contenidos = Contenido.objects.filter(user=autor,estado='Publicado').order_by('-fecha')
 
     # Renderiza el template para mostrar los detalles del autor y sus contenidos
     return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})

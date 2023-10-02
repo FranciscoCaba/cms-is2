@@ -20,16 +20,6 @@
         <div class="portlet-body">
           {{ contenido.descripcion | safe }}
         </div>
-        {% if contenido.estado == "Rechazado" %}
-          <div class="contenido-rechazado">
-            <p>Estado: Rechazado</p>
-            <p>Razón de Rechazo: {{ contenido.razon_rechazo }}</p>
-          </div>
-        {% else %}
-          <div class="contenido-estado">
-            <p>Estado: {{ contenido.estado }}</p>
-          </div>
-        {% endif %}
       </li>
     {% endfor %}
   </ul>
