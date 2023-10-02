@@ -17,12 +17,13 @@ class ContenidoForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion')
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
 
 class ContenidoEditForm(forms.ModelForm):
@@ -35,14 +36,13 @@ class ContenidoEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'is_active', 'reportado')
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
-            'is_active': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
-            'reportado': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
 
 class CategoriaForm(forms.ModelForm):
@@ -77,12 +77,13 @@ class BorradorEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion')
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
 
 class VersionContenidoEditForm(forms.ModelForm):
@@ -95,10 +96,30 @@ class VersionContenidoEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion')
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+        }
+
+class RechazadoEditForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.filter(is_active=True),
+        widget=forms.Select,
+        empty_label="Seleccione una categoría",
+        required=True,
+    )
+    
+    class Meta:
+        model = Contenido
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.CharField(widget=CKEditorWidget()),
+            'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }

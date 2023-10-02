@@ -23,7 +23,8 @@ class Contenido(models.Model):
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
-    
+    solo_suscriptores = models.BooleanField(default=False)
+
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
         ('revision', 'En revisión'),
@@ -37,14 +38,14 @@ class Contenido(models.Model):
 
     def save(self, *args, **kwargs):
         # Guardar una nueva versión de Contenido antes de cada modificación
-        super().save(*args, **kwargs)
+        super().save(*args)
 
         user = kwargs.get('user', None)
 
         VersionContenido.objects.create(
             contenido=self,
             categoria=self.categoria,
-            user_modificacion=self.user,
+            user_modificacion=user,
             titulo=self.titulo,
             descripcion=self.descripcion,
             estado=self.estado,
@@ -53,6 +54,19 @@ class Contenido(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+    class Meta:
+        permissions = [
+            ('ver_borradores', 'Ver borradores'),
+            ('ver_rechazados', 'Ver rechazados'),
+            ('ver_revisiones', 'Ver revisiones'),
+            ('ver_a_publicar', 'Ver contenidos a publicar'),
+            ('ver_kanban', 'Ver kanban'),
+            ('ver_todos_kanban', 'Ver todos kanban'),
+            ('puede_publicar_rechazar', 'Puede publicar o rechazar'),
+            ('ver_todos_borradores', 'Ver todos los borradores'),
+            ('puede_publicar_no_moderado', 'Puede publicar en categoria no moderada'),
+        ]
     
 
 class VersionContenido(models.Model):

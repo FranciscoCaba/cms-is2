@@ -2,14 +2,19 @@
 {%block titulo%}{{ categoria.nombre }}{% endblock %}
 {% block contenido %}
 <h1>Contenidos de la Categoría: {{ categoria.nombre }}</h1>
-<ul>
+<ul class="contenido-list">
     {% for contenido in contenidos %}
-        <li>
-            <a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a> - 
-            Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a><br>
-            {{ contenido.fecha }}<br>
-            <!-- {{ contenido.descripcion | safe }} -->
-            {{ contenido.descripcion }}
+        <li class="contenido-portlet">
+            <div class="portlet-title">
+                <h5><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></h5>
+            </div>
+            <div class="portlet-references">
+                <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> | {{ contenido.fecha }}</p>
+            </div>
+            <div class="portlet-body">
+                {{ contenido.descripcion | safe }}
+            </div>
+            <!-- {{ contenido.descripcion }} -->
         </li>
     {% endfor %}
 </ul>

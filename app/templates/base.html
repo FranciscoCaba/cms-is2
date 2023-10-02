@@ -4,6 +4,7 @@
 
 <head>
   <title>{%block titulo%}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -70,14 +71,29 @@
             {% endif %}
             {% if perms.contenido.add_contenido %}
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'borradores_lista' %}">Ver Borradores</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.add_contenido %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'rechazados_lista' %}">Ver Rechazados</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.ver_revisiones %}
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'listar_revisiones' %}">Ver contenidos en revision</a>
             </li>
-          {% endif %}
-          {% if perms.contenido.add_contenido %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'list_a_publicar' %}">Ver contenidos a publicar</a>
-          </li>
-        {% endif %}
+            {% endif %}
+            {% if perms.contenido.ver_revisiones %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'list_a_publicar' %}">Ver contenidos a publicar</a>
+            </li>
+            {% endif %}
+            {% if perms.contenido.ver_kanban %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'kanban' %}">Ver Kanban</a>
+            </li>
+            {% endif %}
             {% if perms.contenido.add_contenido %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'contenido-version' %}">Historial de Versiones</a>
