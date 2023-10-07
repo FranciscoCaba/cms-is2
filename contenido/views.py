@@ -9,6 +9,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseForbidden
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 
@@ -36,6 +39,15 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
         contenido.save()
+        context = {
+            'titulo': contenido.titulo,     
+            'new_estado': contenido.estado,      
+        }      
+        subject = 'Cambio de estado de publicacion'
+        message = strip_tags(render_to_string('cambio_estado.html', context))
+        from_email = 'cmsis2eq01@gmail.com' 
+        recipient_list = [contenido.user.email]  
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
         for image in self.request.FILES.getlist('images'):
             Image.objects.create(contenido=contenido, image=image)
         for video in self.request.FILES.getlist('videos'):
