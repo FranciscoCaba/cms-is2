@@ -33,8 +33,18 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
+                context = {
+                    'titulo': contenido.titulo,      
+                }      
+                message = strip_tags(render_to_string('notificaciones/en_revision.html', context))
+                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
             else:
                 form.instance.estado = 'Publicado'
+                context = {
+                    'titulo': contenido.titulo,      
+                }      
+                message = strip_tags(render_to_string('notificaciones/publicado.html', context))
+                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
@@ -300,8 +310,14 @@ class EditarBorradorView(UpdateView):
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
+                context = {'titulo': contenido.titulo, }      
+                message = strip_tags(render_to_string('notificaciones/en_revision.html', context))
+                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [contenido.user.email]  , fail_silently=False)
             else:
                 form.instance.estado = 'Publicado'
+                context = {'titulo': contenido.titulo, }      
+                message = strip_tags(render_to_string('notificaciones/publicado.html', context))
+                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [contenido.user.email]  , fail_silently=False)
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
