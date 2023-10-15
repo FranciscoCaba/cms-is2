@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bienvenido a la documentacion del cms-is2-eq01-v.1.0.0 &mdash; cms-is2-eq01 1.0.0 documentation</title>
+  <title>Bienvenido a la documentacion del cms-is2-eq01-v.1.2.0 &mdash; cms-is2-eq01 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
@@ -61,7 +61,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Bienvenido a la documentacion del cms-is2-eq01-v.1.0.0</li>
+      <li class="breadcrumb-item active">Bienvenido a la documentacion del cms-is2-eq01-v.1.2.0</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -71,8 +71,99 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="bienvenido-a-la-documentacion-del-cms-is2-eq01-v-1-0-0">
-<h1>Bienvenido a la documentacion del cms-is2-eq01-v.1.0.0<a class="headerlink" href="#bienvenido-a-la-documentacion-del-cms-is2-eq01-v-1-0-0" title="Link to this heading"></a></h1>
+  <section id="bienvenido-a-la-documentacion-del-cms-is2-eq01-v-1-2-0">
+<h1>Bienvenido a la documentacion del cms-is2-eq01-v.1.2.0<a class="headerlink" href="#bienvenido-a-la-documentacion-del-cms-is2-eq01-v-1-2-0" title="Link to this heading"></a></h1>
+<dl class="simple">
+<dt>Integrantes</dt><dd><ul class="simple">
+<li><p>Osmani Jose Mestre Riveros</p></li>
+<li><p>Francisco Daniel Cabañas Corvalán</p></li>
+<li><p>Tobías Daniel Otazo Wiegert</p></li>
+<li><p>Derlis Ariel Cáceres Núñez</p></li>
+</ul>
+</dd>
+<dt>Requisitos</dt><dd><ul class="simple">
+<li><p>Python==3.11</p></li>
+<li><p>PostgreSql 15:</p></li>
+</ul>
+</dd>
+<dt>Y ejecutando el comando  ” pip install -r requirements.txt ” estaremos instalando</dt><dd><ul class="simple">
+<li><p>django==4.2.4</p></li>
+<li><p>whitenoise==6.5.0</p></li>
+<li><p>psycopg2-binary==2.9.7</p></li>
+<li><p>crispy-bootstrap5==0.7</p></li>
+<li><p>Sphinx==7.2.4</p></li>
+<li><p>sphinx_rtd_theme==1.3.0</p></li>
+<li><p>django-ckeditor==6.7.0</p></li>
+</ul>
+</dd>
+</dl>
+<p>que tambien son requisitos para poder correr correctamente el proyecto</p>
+<p>Ejecucion Del Proyecto</p>
+<p>Primero y antes que nada es necesario tener correctamente configurado su SGBD (sistema gerenciador de base de datos) con las bases de datos creadas
+y luego configurar los archivos settings.py, desarrollo.py y produccion.py.</p>
+<p>En settings.py</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;cms_dev&#39;</span><span class="p">,</span> <span class="c1">#Aqui configurar el nombre de la base de datos para desarrollo</span>
+      <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="c1">#Configurar con nombre del user que se esta utilizando</span>
+      <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="c1">#Colocar la contrasenia que se sta utilizando</span>
+      <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>En desarrollo.py</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;cms_dev&#39;</span><span class="p">,</span> <span class="c1">#Aqui configurar el nombre de la base de datos para desarrollo</span>
+      <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="c1">#Configurar con nombre del user que se esta utilizando</span>
+      <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="c1">#Colocar la contrasenia que se sta utilizando</span>
+      <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>En produccion.py</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;cms&#39;</span><span class="p">,</span> <span class="c1">#Aqui configurar el nombre de la base de datos para desarrollo</span>
+      <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="c1">#Configurar con nombre del user que se esta utilizando</span>
+      <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="c1">#Colocar la contrasenia que se sta utilizando</span>
+      <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Para ejecutar el programa se debe ejecutar desde el directorio ” cms-is2 ” una serie de comandos:</dt><dd><ul class="simple">
+<li><p>python3 manage.py makemigrations</p></li>
+<li><p>python3 manage.py migrate</p></li>
+<li><p>python3 manage.py runserver</p></li>
+</ul>
+</dd>
+</dl>
+<p>Posteriormente dar ctrl click a la direccion de ip localhost que se provee al ejecutar el comando.</p>
+<dl class="simple">
+<dt>Para ejecutar pruebas unitarios del codigo se debe desde el directorio “cms-is2 ” ejecutar el comando:</dt><dd><ul class="simple">
+<li><p>python3 manage.py test .tests_….py</p></li>
+</ul>
+</dd>
+<dt>Para elejir que test usamos simplemente en la parte de .test_….py escribimos el test que deseamos realizar por ej:</dt><dd><ul class="simple">
+<li><p>python3 manage.py test .tests_usuario.py</p></li>
+</ul>
+</dd>
+<dt>Para ejecutar la documentacion del codigo se debe desde el directorio ” cms-is2/docs/_build/html/ ” ejecutar el comando:</dt><dd><ul class="simple">
+<li><p>python3 -m http.server 8001</p></li>
+</ul>
+</dd>
+</dl>
+<p>Posteriormente dar ctrl click a la direccion ip de localhost que se provee al ejecutar el comando.</p>
 <section id="para-navegar-por-la-documentacion-simplemente-elija-que-quiere-ver">
 <h2>Para navegar por la documentacion simplemente elija que quiere ver<a class="headerlink" href="#para-navegar-por-la-documentacion-simplemente-elija-que-quiere-ver" title="Link to this heading"></a></h2>
 <section id="app-package">

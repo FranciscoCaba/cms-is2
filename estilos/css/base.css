@@ -1,0 +1,151 @@
+/*          DISENHOS INICIO      */
+.container-principal {
+    display: flex;
+    
+}
+
+.inicio-contenidos {
+    flex: 3;
+    border-right: 2px solid black;
+}
+
+.inicio-contenidos li {
+    margin: 2vh 5vw;
+}
+
+.inicio-categorias {
+    flex: 1;
+}
+
+.contenedor-categorias {
+    border: 2px solid black;
+    border-radius: 10px;
+    list-style-type: none;
+    width: 75%;
+    padding: 4vh 2vw 6vh 2vw;
+    margin: 3vh auto;
+}
+
+.categoria-titulo {
+    text-align: center;
+    text-decoration: underline;
+}
+
+/*          DISENHOS DE PORTLET      */
+.contenido-list {
+    padding: 0;
+}
+
+.contenido-portlet {
+    margin: 2vh 15vw;
+    border-radius: 10px;
+    list-style-type: none;
+    border: 2px solid black;
+}
+
+.portlet-title {
+    border-radius: 10px 10px 0px 0px;
+    background-color: lightgray;
+    padding: 1vh 1vw;
+    border-bottom: 2px solid black;
+}
+
+.portlet-title h5 {
+    margin: 0;
+}
+
+.portlet-references {
+    padding: 0.1vh 0.5vw;
+    border-bottom: 2px solid black;
+    font-weight: bold;
+}
+
+.portlet-references p {
+    margin: 0;
+    font-size: small;
+}
+
+.portlet-body {
+    padding: 1vh 1vw;
+}
+
+/**
+  *
+  *     DISENHOS DETALLE DE CONTENIDO
+  *
+  **/
+
+.contenido-detallado {
+    margin: 2vh 15vw;
+    border-radius: 10px;
+    list-style-type: none;
+    border: 2px solid black;
+}
+
+.contenido-title {
+    border-radius: 10px 10px 0px 0px;
+    background-color: lightgray;
+    padding: 1vh 1vw;
+    border-bottom: 2px solid black;
+}
+
+
+.contenido-references {
+    padding: 0.1vh 0.5vw;
+    border-bottom: 2px solid black;
+    font-weight: bold;
+}
+
+.contenido-references p {
+    margin: 0;
+    font-size: small;
+}
+
+.contenido-body {
+    padding: 1vh 1vw;
+}
+
+.contenido-interactions-data {
+    padding: 0.1vh 0.5vw;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.contenido-interactions-data p {
+    margin: 0;
+    font-size: small;
+}
+
+.contenido-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.contenido-comentarios {
+    padding: 1vh 1vw;
+    background-color: gainsboro;
+    border-top: 2px solid black;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.interaction-button {
+    
+}
+
+.contenido-comentarios p {
+    margin: 0;
+}
+
+/*      DISENHOS KANBAN      */
+.kanban-column ul {
+    padding: 0;
+}
+
+.titulo-contenido-kanban {
+    padding: 1vh 1vw;
+    background-color: lightgray;
+    border: 2px solid gray;
+    border-radius: 15px;
+    list-style-type: none;
+    margin: 1vh 0;
+}

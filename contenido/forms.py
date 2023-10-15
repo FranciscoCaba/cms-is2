@@ -4,7 +4,7 @@ from django import forms
 from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
-from .models import Contenido, Categoria
+from .models import Contenido, Categoria, VersionContenido
 from ckeditor.fields import CKEditorWidget
 
 class ContenidoForm(forms.ModelForm):
@@ -17,13 +17,24 @@ class ContenidoForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion')
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
 
 class ContenidoEditForm(forms.ModelForm):
     categoria = forms.ModelChoiceField(
@@ -32,19 +43,18 @@ class ContenidoEditForm(forms.ModelForm):
         empty_label="Seleccione una categoría",
         required=True,
     )
-    
+
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'is_active', 'reportado')
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
-            'is_active': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
-            'reportado': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
-
+ 
 class CategoriaForm(forms.ModelForm):
 
     class Meta:
@@ -77,10 +87,82 @@ class BorradorEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion')
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
         }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
+
+class VersionContenidoEditForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.filter(is_active=True),
+        widget=forms.Select,
+        empty_label="Seleccione una categoría",
+        required=True,
+    )
+    
+    class Meta:
+        model = VersionContenido
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.CharField(widget=CKEditorWidget()),
+            'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+        }
+    def __init__(self, *args,  user_request=None,**kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        
+        if user_request.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
+
+class RechazadoEditForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.filter(is_active=True),
+        widget=forms.Select,
+        empty_label="Seleccione una categoría",
+        required=True,
+    )
+    
+    class Meta:
+        model = Contenido
+        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.CharField(widget=CKEditorWidget()),
+            'categoria': forms.Select(),
+            'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+        }
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
+
+    

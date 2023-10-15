@@ -1,16 +1,27 @@
 {% extends "base.html" %}
-{% block titulo %}{{autor.username}}{% endblock %}
+{% block titulo %}{{ autor.username }}{% endblock %}
 {% block contenido %}
-    <h1>Contenidos de: {{ autor.username }}</h1>
-    <p>Email: {{ autor.email }}</p>
+  <h1>Contenidos de: {{ autor.username }}</h1>
+  <p>Email: {{ autor.email }}</p>
 
-    <ul>
-        {% for contenido in contenidos %}
-            <li>
-                <a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-
-
+  <ul class="contenido-list">
+    {% for contenido in contenidos %}
+      <li class="contenido-portlet">
+        <div class="portlet-title">
+          <h5><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></h5>
+        </div>
+        <div class="portlet-references">
+          <p>
+            Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> |
+            Categoría: <a href="{% url 'mostrar_contenidos' contenido.categoria.pk %}">{{ contenido.categoria }}</a> |
+            {{ contenido.fecha }}
+          </p>
+        </div>
+        <div class="portlet-body">
+          {{ contenido.descripcion | safe }}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
+
