@@ -169,6 +169,11 @@ def apublicar_contenido(request, pk):
     # Cambiar el estado del contenido a "A publicar"
     contenido.estado = 'A publicar'
     contenido.save(user=request.user)
+    context = {
+            'titulo': contenido.titulo,      
+        }      
+    message = strip_tags(render_to_string('notificaciones/a_publicar.html', context))
+    send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
 
     # Redirigir a la lista de revisiones
     return redirect('listar_revisiones')
@@ -180,6 +185,11 @@ def publicar_contenido(request, pk):
     # Cambiar el estado del contenido a "Publicado"
     contenido.estado = 'Publicado'
     contenido.save(user=request.user)
+    context = {
+            'titulo': contenido.titulo,      
+        }      
+    message = strip_tags(render_to_string('notificaciones/publicado.html', context))
+    send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
 
     # Redirigir a la lista de a publicar
     return redirect('list_a_publicar')
