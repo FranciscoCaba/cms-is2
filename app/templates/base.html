@@ -99,8 +99,11 @@
         </ul>
       </div>
       {% endif %}
+      <form method="GET" action="{% url 'buscar_contenido' %}">
+        <input type="text" name="q" placeholder="Buscar...">
+        <button type="submit">Buscar</button>
+      </form>
   </nav>
-
   {% block contenido %}
   {% endblock %}
 

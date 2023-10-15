@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{%block titulo%}Resultado de busqueda{% endblock %}
+{% block contenido %}
+<h1>Resultados de búsqueda para: "{{ query }}"</h1>
+    <ul>
+        {% for item in contenido %}
+            <li>
+                <h2>{{ item.titulo }}</h2>
+                <p>Categoría: {{ item.categoria.nombre }}</p>
+                <p>{{ item.contenido }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
