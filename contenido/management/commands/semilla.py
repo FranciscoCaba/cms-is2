@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from contenido.models import Categoria, Contenido
 import lorem  # Esta es una biblioteca para generar texto aleatorio
 import random  # Para generar datos aleatorios
@@ -34,10 +34,17 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write('Cargando datos iniciales...')
 
+        # Obtener permisos
+        permisos = Permission.objects.all()
+
         # Crear grupos
         grupos = ['Suscriptor', 'Autor', 'Editor', 'Publicador', 'Administracion']
         for grupo in grupos:
             Group.objects.get_or_create(name=grupo)
+        
+        administracion = Group.objects.get(name='Administracion')
+        for permiso in permisos:
+            administracion.permissions.add(permiso)
 
         # Crear usuarios y asignarlos a grupos
         usuarios = {
@@ -72,7 +79,7 @@ class Command(BaseCommand):
         for categoria in Categoria.objects.all():
             for i in range(4):
                 titulo = lorem.sentence()
-
+                resumen = ' '.join([lorem.sentence() for _ in range(3)])
                 # Generar descripción en formato HTML aleatorio con etiquetas
                 descripcion = self.generate_random_html_text()
                 user = users[i] if i < len(users) else users[i % len(users)]
@@ -80,6 +87,7 @@ class Command(BaseCommand):
                     categoria=categoria,
                     user=user,
                     titulo=titulo,
+                    resumen=resumen,
                     descripcion=descripcion,
                     is_active=True,
                     estado='Publicado',
