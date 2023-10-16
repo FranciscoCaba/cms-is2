@@ -44,7 +44,8 @@ class Command(BaseCommand):
             'Derlis': 'Suscriptor',
             'Osmani': 'Autor',
             'Fran': 'Editor',
-            'Jimmy': 'Publicador'
+            'Jimmy': 'Publicador',
+            'admin': 'Administracion'
         }
 
         for nombre_usuario, nombre_grupo in usuarios.items():
@@ -69,7 +70,7 @@ class Command(BaseCommand):
         
         # Crear contenidos
         for categoria in Categoria.objects.all():
-            for i in range(10):
+            for i in range(4):
                 titulo = lorem.sentence()
 
                 # Generar descripción en formato HTML aleatorio con etiquetas

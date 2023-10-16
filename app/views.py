@@ -6,10 +6,13 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from django.contrib.auth.models import Group, User
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUserCreationForm, CustomAdminUserChangeForm, GroupCreationForm, GroupEditForm
 from django.contrib.auth import logout
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Q, Value
 from contenido.models import Categoria, Contenido
+from django.db.models.functions import Cast
+
+
 
 # Create your views here.
 class CustomTemplateView(TemplateView):
@@ -200,3 +203,28 @@ class ActivarUsuarioView(PermissionRequiredMixin, DetailView):
 class PaginaNoEncontradaView(View):
     def get(self, request):
         return render(request, 'no_encontrada.html')
+    
+
+def buscar_contenido(request):
+    query = request.GET.get('q')
+
+    if query:
+        # Redirige a la vista de resultados de búsqueda
+        return redirect(reverse('resultados_busqueda') + f'?q={query}')
+    else:
+        # Redirige a la vista de inicio
+        return redirect(reverse('resultados_busqueda'))
+
+def resultados_busqueda(request):
+    query = request.GET.get('q')
+    contenidos = ()
+    categorias = ()
+    usuarios = ()
+    if query != None:
+        contenidos = Contenido.objects.filter(Q(titulo__icontains=query) | Q(descripcion__icontains=query))
+        categorias = Categoria.objects.filter(Q(nombre__icontains=query))
+        usuarios = User.objects.filter(Q(username__icontains=query))
+    else:
+        query = ''    
+
+    return render(request, 'busqueda/resultado.html', {'contenidos': contenidos, 'categorias': categorias, 'usuarios': usuarios, 'query': query})
