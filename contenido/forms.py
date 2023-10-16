@@ -17,10 +17,11 @@ class ContenidoForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
@@ -46,10 +47,11 @@ class ContenidoEditForm(forms.ModelForm):
 
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
@@ -87,10 +89,11 @@ class BorradorEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
@@ -116,10 +119,11 @@ class VersionContenidoEditForm(forms.ModelForm):
     
     class Meta:
         model = VersionContenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
@@ -146,10 +150,11 @@ class RechazadoEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
