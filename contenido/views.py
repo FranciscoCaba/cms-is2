@@ -180,10 +180,10 @@ def rechazar_contenido(request, pk):
     contenido.estado = 'Rechazado'
     contenido.save(user=request.user)
     if request.method == 'POST':
-            razon_rechazo = request.POST.get('razon_rechazo')
-            contenido.razon_rechazo = razon_rechazo
-            contenido.save()
-            return redirect('list_a_publicar')
+        nota = request.POST.get('nota')
+        contenido.nota = nota
+        contenido.save()
+        return redirect('list_a_publicar')
 
     return render(request, 'contenido/razon_rechazo_form.html', {'contenido': contenido})
 
