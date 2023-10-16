@@ -8,8 +8,11 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAdminUser
 from django.contrib.auth import logout
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Value
 from contenido.models import Categoria, Contenido
+from django.db.models.functions import Cast
+
+
 
 # Create your views here.
 class CustomTemplateView(TemplateView):
@@ -214,12 +217,14 @@ def buscar_contenido(request):
 
 def resultados_busqueda(request):
     query = request.GET.get('q')
-    if query:
-        contenido = Contenido.objects.filter(Q(titulo__icontains=query) | Q(descripcion__icontains=query))
-        categoria = Categoria.objects.filter(Q(categoria__nombre__icontains=query))
-        
+    contenidos = ()
+    categorias = ()
+    usuarios = ()
+    if query != None:
+        contenidos = Contenido.objects.filter(Q(titulo__icontains=query) | Q(descripcion__icontains=query))
+        categorias = Categoria.objects.filter(Q(nombre__icontains=query))
+        usuarios = User.objects.filter(Q(username__icontains=query))
     else:
-        contenido = ()
-        categoria = ()
+        query = ''    
 
-    return render(request, 'busqueda/resultado.html', {'contenido': contenido, 'categoria': categoria, 'query': query})
+    return render(request, 'busqueda/resultado.html', {'contenidos': contenidos, 'categorias': categorias, 'usuarios': usuarios, 'query': query})
