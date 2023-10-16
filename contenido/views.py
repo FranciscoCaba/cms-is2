@@ -27,17 +27,17 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
                 context = {
-                    'titulo': contenido.titulo,      
+                    'titulo': form.instance.titulo,      
                 }      
                 message = strip_tags(render_to_string('notificaciones/en_revision.html', context))
-                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[self.request.user.email], fail_silently=False)
             else:
                 form.instance.estado = 'Publicado'
                 context = {
-                    'titulo': contenido.titulo,      
+                    'titulo': form.instance.titulo,      
                 }      
                 message = strip_tags(render_to_string('notificaciones/publicado.html', context))
-                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[self.request.user.email], fail_silently=False)
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
@@ -45,10 +45,10 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         contenido.save(user=self.request.user)
         if 'borradorcito' in self.request.POST:
             context = {
-                    'titulo': contenido.titulo,      
+                    'titulo': form.instance.titulo,      
                 }      
             message = strip_tags(render_to_string('notificaciones/borrador.html', context))
-            send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+            send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[self.request.user.email], fail_silently=False)
         for image in self.request.FILES.getlist('images'):
             Image.objects.create(contenido=contenido, image=image)
         for video in self.request.FILES.getlist('videos'):
@@ -202,7 +202,7 @@ def rechazar_contenido(request, pk):
     contenido.estado = 'Rechazado'
     contenido.save(user=request.user)
     if request.method == 'POST':
-        nota = request.POST.get('nota')
+        nota = request.POST.get('razon_rechazo')
         contenido.nota = nota
         contenido.save()
         context = {
