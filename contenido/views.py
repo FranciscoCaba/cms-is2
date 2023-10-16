@@ -48,16 +48,12 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
+            context = {
+                    'titulo': contenido.titulo,      
+                }      
+            message = strip_tags(render_to_string('notificaciones/borrador.html', context))
+            send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
         contenido.save()
-        context = {
-            'titulo': contenido.titulo,     
-            'new_estado': contenido.estado,      
-        }      
-        subject = 'Cambio de estado de publicacion'
-        message = strip_tags(render_to_string('cambio_estado.html', context))
-        from_email = 'cmsis2eq01@gmail.com' 
-        recipient_list = [contenido.user.email]  
-        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
         for image in self.request.FILES.getlist('images'):
             Image.objects.create(contenido=contenido, image=image)
         for video in self.request.FILES.getlist('videos'):
@@ -215,6 +211,12 @@ def rechazar_contenido(request, pk):
             razon_rechazo = request.POST.get('razon_rechazo')
             contenido.razon_rechazo = razon_rechazo
             contenido.save()
+            context = {
+                'titulo': contenido.titulo,  
+                'razon_rechazo': contenido.razon_rechazo,    
+            }      
+            message = strip_tags(render_to_string('notificaciones/rechazado.html', context))
+            send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
             return redirect('list_a_publicar')
 
     return render(request, 'contenido/razon_rechazo_form.html', {'contenido': contenido})
