@@ -20,13 +20,6 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        contenido = form.save(commit=False)
-        contenido.user = self.request.user
-        contenido.save()
-        for image in self.request.FILES.getlist('images'):
-            Image.objects.create(contenido=contenido, image=image)
-        for video in self.request.FILES.getlist('videos'):
-            Video.objects.create(contenido=contenido, video=video)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
@@ -35,13 +28,14 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
-        contenido.save()
+        contenido = form.save(commit=False)
+        contenido.save(user=self.request.user)
+        
         for image in self.request.FILES.getlist('images'):
             Image.objects.create(contenido=contenido, image=image)
         for video in self.request.FILES.getlist('videos'):
             Video.objects.create(contenido=contenido, video=video)
-            # Verifica si se proporcionó una categoría válida en el formulario
-        return super(ContenidoFormView,self).form_valid(form)
+        return redirect('/')
     
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -257,8 +251,11 @@ class EditarContenidoView(UpdateView, PermissionRequiredMixin):
 
         for video in self.request.FILES.getlist('videos'):
             Video.objects.create(contenido=form.instance, video=video)
+        
+        contenido = form.save(commit=False)
+        contenido.save(user=self.request.user)
 
-        return super(EditarContenidoView, self).form_valid(form)
+        return redirect(reverse_lazy('listar_revisiones'))
 
 class EditarBorradorView(UpdateView):
     model = Contenido
@@ -268,13 +265,6 @@ class EditarBorradorView(UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        contenido = form.save(commit=False)
-        contenido.user = self.request.user
-        contenido.save()
-        for image in self.request.FILES.getlist('images'):
-            Image.objects.create(contenido=contenido, image=image)
-        for video in self.request.FILES.getlist('videos'):
-            Video.objects.create(contenido=contenido, video=video)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
@@ -283,8 +273,15 @@ class EditarBorradorView(UpdateView):
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
-        contenido.save()
-        return super(EditarBorradorView,self).form_valid(form)
+
+        contenido = form.save(commit=False)
+        contenido.save(user=self.request.user)
+
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=contenido, image=image)
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=contenido, video=video)
+        return redirect(reverse_lazy('borradores_lista'))
         
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -299,13 +296,6 @@ class EditarRechazadoView(UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        contenido = form.save(commit=False)
-        contenido.user = self.request.user
-        contenido.save()
-        for image in self.request.FILES.getlist('images'):
-            Image.objects.create(contenido=contenido, image=image)
-        for video in self.request.FILES.getlist('videos'):
-            Video.objects.create(contenido=contenido, video=video)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
@@ -314,8 +304,14 @@ class EditarRechazadoView(UpdateView):
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
-        contenido.save()
-        return super(EditarRechazadoView,self).form_valid(form)
+        contenido = form.save(commit=False)
+        contenido.save(user=self.request.user)
+
+        for image in self.request.FILES.getlist('images'):
+            Image.objects.create(contenido=contenido, image=image)
+        for video in self.request.FILES.getlist('videos'):
+            Video.objects.create(contenido=contenido, video=video)
+        return redirect(reverse_lazy('rechazados_lista'))
         
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -393,6 +389,7 @@ def editar_version(request, version_id):
         if version.contenido.estado == 'Borrador':
             contenido = version.contenido
             contenido.titulo = nueva_version.titulo
+            contenido.resumen = nueva_version.resumen
             contenido.descripcion = nueva_version.descripcion
             contenido.categoria = nueva_version.categoria
             contenido.estado = nueva_version.estado
