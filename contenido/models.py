@@ -10,7 +10,7 @@ from cloudinary_storage.validators import validate_video
 # Create your models here.
 class Categoria(models.Model):
     id = models.BigAutoField(primary_key=True, serialize=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=50)
     moderada = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
@@ -22,13 +22,13 @@ class Contenido(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categoria', verbose_name='Categoria',default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usuario', verbose_name='Usuario')
     titulo = models.CharField(max_length=100)
-    #estado = models.CharField(default='Borrador', max_length=100)
+    resumen = models.CharField(max_length=250, default = '')
     descripcion = RichTextUploadingField(null=True,config_name='default')
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
     solo_suscriptores = models.BooleanField(default=False)
-    razon_rechazo = models.TextField(blank=True, null=True)
+    nota = models.TextField(blank=True, null=True)
 
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
@@ -36,6 +36,7 @@ class Contenido(models.Model):
         ('apublicar','A publicar'),
         ('rechazado', 'Rechazado'),
         ('publicado', 'Publicado'),
+        ('inactivo', 'Inactivo'),
     )
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='En revisión')
     
@@ -52,9 +53,11 @@ class Contenido(models.Model):
             categoria=self.categoria,
             user_modificacion=user,
             titulo=self.titulo,
+            resumen=self.resumen,
             descripcion=self.descripcion,
             estado=self.estado,
             solo_suscriptores = self.solo_suscriptores,
+            nota=self.nota,
             version=1  # La primera versión siempre es 1
         )
 
@@ -83,11 +86,13 @@ class VersionContenido(models.Model):
     user_modificacion = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categoria_version', verbose_name='Categoria',default=None)
     titulo = models.CharField(max_length=100)
+    resumen = models.CharField(max_length=250, default = '')
     descripcion = RichTextUploadingField(null=True,config_name='default')
     estado = models.CharField(max_length=20)
     fecha_modificacion = models.DateTimeField(default=timezone.now)
     version = models.PositiveIntegerField(default=1)
     solo_suscriptores = models.BooleanField(default=False)
+    nota = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         # Determinar la última versión y asignar la siguiente

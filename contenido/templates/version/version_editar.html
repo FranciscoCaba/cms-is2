@@ -23,6 +23,14 @@
         <p>Autor: <a href="{% url 'detalle_autor' version.contenido.user.pk %}">{{ version.contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' version.contenido.categoria.pk %}">{{ version.categoria }}</a> | {{ version.fecha_modificacion }}</p>
     </div>
     <div class="contenido-body">
+        <h4>
+            Resumen:
+        </h4>
+        {{ version.contenido.resumen }}
+        <hr>
+        <h4>
+            Descripción:
+        </h4>
         {{ version.descripcion | safe }}
         {% if version.contenido.images.all %}
             <h2>Imágenes:</h2>
