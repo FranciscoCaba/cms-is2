@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like,VersionContenido, Image, Video
+from .models import Categoria, Contenido, Like,VersionContenido, Image, Video, Archivos
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -53,6 +53,8 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             Image.objects.create(contenido=contenido, image=image)
         for video in self.request.FILES.getlist('videos'):
             Video.objects.create(contenido=contenido, video=video)
+        for archivo in self.request.FILES.getlist('archivos'):
+            Archivos.objects.create(contenido=contenido, archivo=archivo)
         return redirect('/')
     
     def get_form_kwargs(self):
