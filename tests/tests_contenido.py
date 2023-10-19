@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User, Permission
-from contenido.models import Contenido, Categoria, Image, Video
+from contenido.models import Contenido, Categoria, Image, Video, Archivos
 from contenido.forms import ContenidoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -142,6 +142,36 @@ class ImageModelTests(TestCase):
         self.assertTrue(image.image.url.startswith('https://res.cloudinary.com/'), 'Imagen no creada') 
         self.assertIsNotNone(image, 'Imagen no creada')
         self.assertEqual(image.contenido, self.contenido, 'Contenido incorrecto')
+
+class ArchivosModelTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        categoria = Categoria.objects.create(
+            nombre='Categoria',
+            moderada=True,
+            is_active=True
+        )
+        self.contenido = Contenido.objects.create(
+            titulo='Sample Contenido',
+            categoria_id=categoria.id, 
+            descripcion='Sample Description',
+            user=self.user
+        )
+
+    def test_archivos_creation(self):
+        sample_archivo_path = os.path.join(os.path.dirname(__file__), 'sample.pdf')
+        sample_archivo = SimpleUploadedFile(
+            name='sample.pdf',
+            content=open(sample_archivo_path, 'rb').read(),
+            content_type='application/pdf'
+        )
+        archivo = Archivos.objects.create(
+            contenido=self.contenido,
+            archivo=sample_archivo
+        )
+        self.assertTrue(archivo.archivo.url.startswith('https://res.cloudinary.com/'), 'Archivo no creado')
+        self.assertIsNotNone(archivo, 'Archivo no creado')
+        self.assertEqual(archivo.contenido, self.contenido, 'Contenido incorrecto')
 
 class EstadoChangeTestCase(TestCase):
     def setUp(self):
