@@ -127,11 +127,29 @@
 <section id="formularios-del-proyecto">
 <h3>Formularios del Proyecto<a class="headerlink" href="#formularios-del-proyecto" title="Link to this heading"></a></h3>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code> es un formulario para la creacion de usuario.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Posee</span> <span class="n">los</span> <span class="n">campos</span> <span class="n">de</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre de usuario&#39;</span><span class="p">,</span> <span class="s1">&#39;nombre &#39;</span><span class="p">,</span> <span class="s1">&#39;apellido &#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;roll&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CustomUserChangeForm</span></code> es un formulario para la edicion de usuario.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Posee</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre de usuario&#39;</span><span class="p">,</span> <span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;apellido&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;contrasena1&#39;</span><span class="p">,</span> <span class="s1">&#39;contrasena1&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CustomAdminUserCreationForm</span></code> es un formulario para la creacion de usuario desde el panel de administracion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Posee</span> <span class="n">los</span> <span class="n">campos</span> <span class="n">de</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre de usuario&#39;</span><span class="p">,</span> <span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;apellido&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CustomAdminUserChangeForm</span></code> es un formulario para la edicion de usuario desde el panel de administracion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Posee</span> <span class="n">los</span> <span class="n">campos</span> <span class="n">de</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre de usuario&#39;</span><span class="p">,</span> <span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;apellido&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">GroupCreationForm</span></code> es un formulario para la creacion de roles.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Posee</span> <span class="n">los</span> <span class="n">campos</span> <span class="n">de</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;permisos&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">GroupEditForm</span></code> es un formulario para la edicion de roles.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Posee</span> <span class="n">los</span> <span class="n">campos</span> <span class="n">de</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;permisos&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <dl class="py class" id="module-app.forms">
 <dt class="sig sig-object py" id="app.forms.CustomAdminUserChangeForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.forms.</span></span><span class="sig-name descname"><span class="pre">CustomAdminUserChangeForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/forms.html#CustomAdminUserChangeForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.forms.CustomAdminUserChangeForm" title="Link to this definition"></a></dt>
@@ -382,6 +400,12 @@
 <h2>app.views module<a class="headerlink" href="#app-views-module" title="Link to this heading"></a></h2>
 <section id="vistas-del-proyecto">
 <h3>Vistas del Proyecto<a class="headerlink" href="#vistas-del-proyecto" title="Link to this heading"></a></h3>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">PaginaNoEncontradaView</span></code> es la vista que se genera al entrar a una url que no existe (error 404).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>hace un ``get(request, *args, **kwargs)``.
+Necesita los permisos de = &#39;auth.delete_user&#39;.
+usa el template = &#39;activar_usuario.html&#39;.
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CustomTemplateView(TemplateView):</span></code> es una vista base cuyo proposito es darle contexto a las vistas del usuario logeado.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ProfileView(CustomTemplateView):</span></code> muestra el perfil existente del usuario.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">IndexView(CustomTemplateView):</span></code> muestra la pagina principal</p>
@@ -394,12 +418,36 @@
 <p>El metodo <code class="docutils literal notranslate"><span class="pre">edit_group</span></code> es una vista para actualizar los roles.</p>
 <p>El metodo <code class="docutils literal notranslate"><span class="pre">group_list</span></code> es una vista para listar los roles.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">UserListView</span></code> es la vista dedicada a listar todos los usuarios desde el panel de administracion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">utiliza</span> <span class="n">el</span> <span class="n">objeto</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span><span class="o">.</span>
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;user_list.html&#39;</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">UserDetailView</span></code> es la vista dedicada a la gestion de detalles de usuarios desde el panel de administracion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">utiliza</span> <span class="n">el</span> <span class="n">objeto</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span><span class="o">.</span>
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;user_detail.html&#39;</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">UserCreateView</span></code> es la vista dedicada a la creacion de usuario desde el panel de administracion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">utiliza</span> <span class="n">el</span> <span class="n">form</span> <span class="o">=</span> <span class="n">CustomAdminUserCreationForm</span><span class="o">.</span>
+<span class="n">Requiere</span> <span class="n">el</span> <span class="n">permiso</span>  <span class="o">=</span> <span class="s1">&#39;auth.add_user&#39;</span><span class="o">.</span>
+<span class="n">la</span> <span class="n">url</span> <span class="n">exitosa</span> <span class="n">es</span> <span class="o">=</span> <span class="s1">&#39;/users/&#39;</span><span class="o">.</span>
+<span class="n">el</span> <span class="n">template</span> <span class="n">que</span> <span class="n">utiliza</span> <span class="n">es</span> <span class="o">=</span> <span class="s1">&#39;user_form.html&#39;</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">UserUpdateView</span></code> es la vista dedicada para actualizar a los usuarios desde el panel de administracion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">utiliza</span> <span class="n">el</span> <span class="n">form</span> <span class="o">=</span> <span class="n">CustomAdminUserChangeForm</span><span class="o">.</span>
+<span class="n">requiere</span> <span class="k">del</span> <span class="n">permiso</span> <span class="o">=</span> <span class="s1">&#39;auth.change_user&#39;</span><span class="o">.</span>
+<span class="n">la</span> <span class="n">url</span> <span class="n">exitosa</span> <span class="n">es</span> <span class="o">=</span> <span class="s1">&#39;/users/&#39;</span><span class="o">.</span>
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;user_form.html&#39;</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">DesactivarUsuarioView</span></code> es la vista dedicada para dar de baja a un usuario desde el panel de administracion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usa una funcion = ``get(request, *args, **kwargs)``.
+Requiere del permiso = &#39;auth.delete_user&#39;.
+utiliza el template = &#39;desactivar_usuario.html.
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ActivarUsuarioView</span></code> es la vista dedicada para reactivar a un usuario desde el panel de administracion.</p>
-<p>La clase <code class="docutils literal notranslate"><span class="pre">PaginaNoEncontradaView</span></code> es la vista que se genera al entrar a una url que no existe (error 404).</p>
 <dl class="py class" id="module-app.views">
 <dt class="sig sig-object py" id="app.views.ActivarUsuarioView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">ActivarUsuarioView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#ActivarUsuarioView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.ActivarUsuarioView" title="Link to this definition"></a></dt>
@@ -630,6 +678,11 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="app.views.buscar_contenido">
+<span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">buscar_contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#buscar_contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.buscar_contenido" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="app.views.create_group">
 <span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">create_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#create_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.create_group" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -667,6 +720,11 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="app.views.register">
 <span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.register" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.views.resultados_busqueda">
+<span class="sig-prename descclassname"><span class="pre">app.views.</span></span><span class="sig-name descname"><span class="pre">resultados_busqueda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/views.html#resultados_busqueda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.views.resultados_busqueda" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <span class="target" id="module-app"></span></section>

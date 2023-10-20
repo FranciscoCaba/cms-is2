@@ -17,7 +17,15 @@ Y ejecutando el comando  " pip install -r requirements.txt " estaremos instaland
  - Sphinx==7.2.4
  - sphinx_rtd_theme==1.3.0
  - django-ckeditor==6.7.0
-
+ - lorem
+ - gunicorn
+ - django-cloudinary-storage==0.3.0
+ - cloudinary==1.35.0
+ - python-decouple==3.8
+ - python-magic==0.4.27
+ - django-storages==1.14
+ - Pillow==9.0.1
+ 
 que tambien son requisitos para poder correr correctamente el proyecto
 
 ## Ejecucion Del Proyecto
