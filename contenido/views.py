@@ -571,7 +571,7 @@ def editar_version(request, version_id):
             contenido.categoria = nueva_version.categoria
             contenido.estado = nueva_version.estado
             contenido.nota = nueva_version.nota
-            contenido.save()
+            contenido.save(user=request.user)
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
         form = VersionContenidoEditForm(instance=version, user_request=request.user)
