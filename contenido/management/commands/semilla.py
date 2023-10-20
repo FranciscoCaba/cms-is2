@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group, Permission
 from contenido.models import Categoria, Contenido
 import lorem  # Esta es una biblioteca para generar texto aleatorio
 import random  # Para generar datos aleatorios
-
+from django.db.models import Q
 class Command(BaseCommand):
     help = 'Carga datos iniciales de Usuarios, Grupos, Categorías y Contenidos'
 
@@ -46,6 +46,20 @@ class Command(BaseCommand):
         for permiso in permisos:
             administracion.permissions.add(permiso)
 
+        autor = Group.objects.get(name='Autor')
+        autor.permissions.add(Permission.objects.get(codename='add_contenido'))
+        autor.permissions.add(Permission.objects.get(codename='ver_kanban'))
+
+        editor = Group.objects.get(name='Editor')
+        editor.permissions.add(Permission.objects.get(codename='ver_revisiones'))
+        editor.permissions.add(Permission.objects.get(codename='puede_editar_aceptar'))
+        editor.permissions.add(Permission.objects.get(codename='ver_todos_kanban'))
+
+        publicador = Group.objects.get(name='Publicador')
+        publicador.permissions.add(Permission.objects.get(codename='ver_a_publicar'))
+        publicador.permissions.add(Permission.objects.get(codename='puede_publicar_rechazar'))
+        publicador.permissions.add(Permission.objects.get(codename='ver_todos_kanban'))
+
         # Crear usuarios y asignarlos a grupos
         usuarios = {
             'Derlis': 'Suscriptor',
@@ -66,6 +80,9 @@ class Command(BaseCommand):
             
             grupo = Group.objects.get(name=nombre_grupo)
             user.groups.add(grupo)
+
+        fran = User.objects.get(username='fran')
+        fran.user_permissions.add(Permission.objects.get(codename='puede_publicar_no_moderada'))
 
         # Crear categorías
         categorias = ['Deporte', 'Ciencia', 'Cultura', 'Politica', 'Informatica']
