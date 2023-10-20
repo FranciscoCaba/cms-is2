@@ -2,38 +2,20 @@
 {%block titulo%}Resultado de busqueda{% endblock %}
 {% block contenido %}
 <h1>Resultados de búsqueda para: "{{ query }}"</h1>
-    <ul>
+    <hr>
+        {% if contenidos.count >= 1 %}
         
-            {% if contenidos.count != 0 %}
-            <hr>
-            <h1>Resultados en contenidos ({{ contenidos.count }}) :</h1>
-            {% for item in contenidos %}
-                <li>
-                    <h2>{{ item.titulo }}</h2>
-                    <p>Categoría: {{ item.categoria.nombre }}</p>
-                    <p>{{ item.descripcion }}</p>
-                </li>
-            {% endfor %}
-            {% endif %}
-        
-            {% if categorias.count != 0 %}
-            <hr>
-            <h1>Resultados en categorias ({{ categorias.count }}):</h1>
-            {% for item in categorias %}
-                <li>
-                    <h2>{{ item.nombre }}</h2>
-                </li>
-            {% endfor %}
-            {% endif %}
-            {% if usuarios.count != 0 %}
-            <hr>
-            <h1>Resultados en usuarios ({{ usuarios.count }}):</h1>
-            {% for item in usuarios %}
-                <li>
-                    <h2>{{ item.username }}</h2>
-                </li>
-            {% endfor %}
-            {% endif %}
-        <hr>
-    </ul>
+        <ul>
+        {% for item in contenidos %}
+            <li><h4><a href="{% url 'detalle_contenido' item.id %}">{{ item.titulo }}</a></h4>
+                 Categoría: <a href="{% url 'mostrar_contenidos' item.categoria.id %}">{{ item.categoria.nombre }}</a>
+                 | Autor: <a href="{% url 'detalle_autor' item.user.pk %}">{{ item.user.username }}</a> | Fecha: {{ item.fecha }}
+                <p>{{ item.resumen }}</p>
+            </li>
+        {% endfor %}
+        {% else %}
+        <h1>No se encontraron resultados</h1>
+        {% endif %}
+        </ul>
+    <hr>
 {% endblock %}
