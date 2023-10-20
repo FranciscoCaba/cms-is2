@@ -77,6 +77,7 @@ class Contenido(models.Model):
             ('puede_editar_aceptar', 'Puede editar o aceptar'),
             ('ver_todos_borradores', 'Ver todos los borradores'),
             ('puede_publicar_no_moderada', 'Puede publicar en categoria no moderada'),
+            ('ver_historial', 'Ver historial'),
         ]
     
 

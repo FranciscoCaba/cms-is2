@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('crear', login_required(views.ContenidoFormView.as_view()) , name='contenido-crear'),
     path('version', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
+    path('historial', login_required(views.ContenidoHistorialListView.as_view()) , name='contenido-historial'),
     path('categoria/crear', login_required(views.CategoriaFormView.as_view()), name='categoria-crear'),
     path('categoria', views.CategoriaListView.as_view(), name='categoria-list'),
     path('categoria/<int:pk>/', views.CategoriaDetailView.as_view(), name='categoria-detail'),
@@ -38,6 +39,7 @@ urlpatterns = [
 
     path('borrador/<int:pk>/editar/', views.EditarBorradorView.as_view(), name='editar-borrador'),
     path('version/<int:version_id>/editar/', views.editar_version, name='editar-version'),
+    path('historial/<int:version_id>/', views.detalle_historial, name='detalle-historial'),
     path('rechazado/<int:pk>/editar/', views.EditarRechazadoView.as_view(), name='editar-rechazado'),
 
     path('error/', views.error403, name='error403'),

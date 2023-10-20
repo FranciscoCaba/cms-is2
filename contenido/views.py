@@ -186,63 +186,73 @@ class UnContenidoApublicarView(ListView):
     def get_queryset(self):
         return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk']).order_by('-fecha')
 
+@permission_required('contenido.puede_editar_aceptar')
 def apublicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
-    # Cambiar el estado del contenido a "A publicar"
-    contenido.estado = 'A publicar'
-    contenido.save(user=request.user)
-    content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
-    context = {
+    if request.method == 'POST':
+        nota = request.POST.get('nota')
+        contenido.nota = nota
+        # Cambiar el estado del contenido a "A publicar"
+        contenido.estado = 'A publicar'
+        contenido.save(user=request.user)
+        content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
+        context = {
             'titulo': contenido.titulo,
             'content_url': content_url,    
         }      
-    html_template = 'notificaciones/a_publicar.html'
-    html_message = render_to_string(html_template, context)
-    subject = 'Cambio de estado de publicación'
-    message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
-    message.content_subtype = 'html'
-    message.send()
+        html_template = 'notificaciones/a_publicar.html'
+        html_message = render_to_string(html_template, context)
+        subject = 'Cambio de estado de publicación'
+        message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
+        message.content_subtype = 'html'
+        message.send()
 
-    # Redirigir a la lista de revisiones
-    return redirect('listar_revisiones')
+        # Redirigir a la lista de revisiones
+        return redirect('listar_revisiones')
+    
+    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'revision'})
 
 @permission_required('contenido.puede_publicar_rechazar')
 def publicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
-    # Cambiar el estado del contenido a "Publicado"
-    contenido.estado = 'Publicado'
-    contenido.save(user=request.user)
-    content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
-    context = {
+    if request.method == 'POST':
+        nota = request.POST.get('nota')
+        contenido.nota = nota
+        # Cambiar el estado del contenido a "Publicado"
+        contenido.estado = 'Publicado'
+        contenido.save(user=request.user)
+        content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
+        context = {
             'titulo': contenido.titulo,
             'content_url': content_url,   
         }      
-    html_template = 'notificaciones/publicado.html'
-    html_message = render_to_string(html_template, context)
-    subject = 'Cambio de estado de publicación'
-    message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
-    message.content_subtype = 'html'
-    message.send()
+        html_template = 'notificaciones/publicado.html'
+        html_message = render_to_string(html_template, context)
+        subject = 'Cambio de estado de publicación'
+        message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
+        message.content_subtype = 'html'
+        message.send()
 
-    # Redirigir a la lista de a publicar
-    return redirect('list_a_publicar')
+        # Redirigir a la lista de a publicar
+        return redirect('list_a_publicar')
+    
+    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'publicar'})
 
 @permission_required('contenido.puede_publicar_rechazar')
 def rechazar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
-    # Cambiar el estado del contenido a "Rechazado"
-    contenido.estado = 'Rechazado'
-    contenido.save(user=request.user)
     if request.method == 'POST':
-        nota = request.POST.get('razon_rechazo')
+        nota = request.POST.get('nota')
         contenido.nota = nota
-        contenido.save()
+        # Cambiar el estado del contenido a "Rechazado"
+        contenido.estado = 'Rechazado'
+        contenido.save(user=request.user)
         content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
         context = {
             'titulo': contenido.titulo,  
-            'razon_rechazo': contenido.nota,   
+            'nota': contenido.nota,   
             'content_url': content_url, 
         }      
         html_template = 'notificaciones/rechazado.html'
@@ -253,7 +263,7 @@ def rechazar_contenido(request, pk):
         message.send()
         return redirect('list_a_publicar')
 
-    return render(request, 'contenido/razon_rechazo_form.html', {'contenido': contenido})
+    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'rechazar'})
 
 class ContenidoBorradorListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Contenido
@@ -333,6 +343,11 @@ class EditarContenidoView(UpdateView, PermissionRequiredMixin):
         contenido.save(user=self.request.user)
 
         return redirect(reverse_lazy('listar_revisiones'))
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 class EditarBorradorView(UpdateView):
     model = Contenido
@@ -520,17 +535,22 @@ def delete_archivo(request, archivo_id):
             pass
         return redirect(edit_url, pk=content_pk)
 
-class ContenidoVersionListView(LoginRequiredMixin, ListView):
+
+class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = VersionContenido
-    template_name = 'version/version_lista.html'
+    template_name = 'version/historial_lista.html'
+    permission_required = 'contenido.add_contenido'
     context_object_name = 'version_contenidos'
 
     def get_queryset(self):
+        micontenido = Contenido.objects.filter(user = self.request.user)
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return VersionContenido.objects.all().order_by('-contenido_id', 'version')
+        return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
     
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modo'] = 'versiones'
+        return context
 def editar_version(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
     
@@ -550,9 +570,29 @@ def editar_version(request, version_id):
             contenido.descripcion = nueva_version.descripcion
             contenido.categoria = nueva_version.categoria
             contenido.estado = nueva_version.estado
-            contenido.save()
+            contenido.nota = nueva_version.nota
+            contenido.save(user=request.user)
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
         form = VersionContenidoEditForm(instance=version, user_request=request.user)
     
     return render(request, 'version/version_editar.html', {'form': form, 'version': version})
+    
+class ContenidoHistorialListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    model = VersionContenido
+    template_name = 'version/historial_lista.html'
+    permission_required = 'contenido.ver_historial'
+    context_object_name = 'version_contenidos'
+
+    def get_queryset(self):
+        # Obtener los contenidos en estado "borrador" del usuario actual
+        return VersionContenido.objects.all().order_by('-fecha_modificacion')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modo'] = 'historial'
+        return context
+    
+def detalle_historial(request, version_id):
+    version = get_object_or_404(VersionContenido, pk=version_id)
+    return render(request, 'version/historial_vista.html', {'version': version})
