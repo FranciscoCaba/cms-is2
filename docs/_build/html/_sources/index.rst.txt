@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Bienvenido a la documentacion del cms-is2-eq01-v.1.2.0
+Bienvenido a la documentacion del cms-is2-eq01-v.1.3.0
 ======================================================
 Integrantes
  - Osmani Jose Mestre Riveros
@@ -23,6 +23,14 @@ Y ejecutando el comando  " pip install -r requirements.txt " estaremos instaland
  - Sphinx==7.2.4
  - sphinx_rtd_theme==1.3.0
  - django-ckeditor==6.7.0
+ - lorem
+ - gunicorn
+ - django-cloudinary-storage==0.3.0
+ - cloudinary==1.35.0
+ - python-decouple==3.8
+ - python-magic==0.4.27
+ - django-storages==1.14
+ - Pillow==9.0.1
 
 que tambien son requisitos para poder correr correctamente el proyecto
 

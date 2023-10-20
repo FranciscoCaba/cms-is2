@@ -57,6 +57,18 @@ Configuraciones Del proyecto
       'ckeditor_uploader',
    ]
 
+
+Ruta donde se sube imagenes desde el ckeditor
+::
+
+   CKEDITOR_UPLOAD_PATH = "uploads/"
+   CKEDITOR_CONFIGS = {
+      'default': {
+         'removePlugins': 'exportpdf',
+      }
+   }
+
+
 Lineas necesarias para que funcione la libreria que se encarga de formatear 
 los formularios::
 
@@ -174,3 +186,13 @@ Configuracion para la conexion con la base de datos::
          'PORT': '5432',
       }
    }
+
+Configuracion para enviar emails
+::
+
+   EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+   EMAIL_HOST = 'smtp.gmail.com'
+   EMAIL_PORT = 587
+   EMAIL_USE_TLS = True
+   EMAIL_HOST_USER = 'cmsis2eq01@gmail.com'  
+   EMAIL_HOST_PASSWORD = 'gpvi mjlq mopw grde '
