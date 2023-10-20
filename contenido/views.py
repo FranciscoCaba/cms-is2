@@ -182,7 +182,7 @@ def apublicar_contenido(request, pk):
         # Redirigir a la lista de revisiones
         return redirect('listar_revisiones')
     
-    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'revisado'})
+    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'revision'})
 
 @permission_required('contenido.puede_publicar_rechazar')
 def publicar_contenido(request, pk):
