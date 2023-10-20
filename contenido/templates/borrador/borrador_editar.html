@@ -2,6 +2,14 @@
 {% block titulo %}Editar borrador{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
+{% if not contenido.nota == "" and not contenido.nota == None %}
+<div class="card text-dark mx-auto mb-3 mt-3" style="width: 60%;background-color: #f3b805;">
+    <div class="card-header" style="font-weight: bold;">Nota del Borrador</div>
+    <div class="card-body">
+        <p class="card-text">{{ contenido.nota }}</p>
+    </div>
+</div>
+{% endif %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="card mx-auto" style="width: 60%">
@@ -9,7 +17,6 @@
             <h4 class="card-title">Complete los campos:</h4>
             {{ form.media }}
             {{ form.as_p }}
-            
             
             {% if contenido.images.all %}
                 <h2>Imágenes:</h2>

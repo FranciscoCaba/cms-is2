@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{%block titulo%}
+{% if opcion == 'rechazar' %}
+  Razon de rechazo
+{% elif opcion == 'revision' %}
+  Nota de revision
+{% else %}
+  Nota de publicación
+{% endif %}
+{% endblock %}
+{% block contenido %}
+<form method="post" class="mt-3 w-75 mx-auto">
+    {% csrf_token %}
+    <div class="form-group">
+      {% if opcion == 'rechazar' %}
+        <label for="nota">Razón de Rechazo(Puede dejar vacio):</label>
+      {% elif opcion == 'revision' %}
+        <label for="nota">Nota de Revisión(Puede dejar vacio):</label>
+      {% else %}
+        <label for="nota">Nota de Publicación(Puede dejar vacio):</label>
+      {% endif %}
+      <textarea class="form-control" name="nota" rows="4" cols="50" required></textarea>
+    </div>
+    {% if opcion == 'rechazar' %}
+      <button type="submit" class="btn btn-primary btn-group w-100">Guardar Razón</button>
+    {% elif opcion == 'revision' %}
+      <button type="submit" class="btn btn-primary btn-group w-100">Guardar Revisión</button>
+    {% else %}
+      <button type="submit" class="btn btn-primary btn-group w-100">Guardar Nota</button>
+    {% endif %}
+  </form>
+{% endblock %}
+

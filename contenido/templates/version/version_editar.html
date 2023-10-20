@@ -3,6 +3,16 @@
 {% block contenido %}
 {% load crispy_forms_tags %}
 {% if version.contenido.estado == 'Borrador' %}
+<div class="card text-dark mx-auto mb-3 mt-3" style="width:60%;background-color: #f3b805;">
+    <div class="card-header" style="font-weight: bold;">Nota del Borrador</div>
+    <div class="card-body">
+        {% if version.contenido.nota != "" or version.contenido.nota != None %}
+            <p class="card-text">{{ version.nota }}</p>
+        {% else %}
+            <p class="card-text" style="font-style: italic;">Sin Nota</p>
+        {% endif %}
+    </div>
+</div>
 <form method="post">
     {% csrf_token %}
     <div class="card mx-auto" style="width: 60%">
@@ -32,6 +42,16 @@
             Descripción:
         </h4>
         {{ version.descripcion | safe }}
+        <div class="card text-dark mx-auto mb-3 mt-3" style="background-color: #f3b805;">
+            <div class="card-header" style="font-weight: bold;">Nota del Borrador</div>
+            <div class="card-body">
+                {% if version.contenido.nota != "" or version.contenido.nota != None %}
+                    <p class="card-text">{{ version.nota }}</p>
+                {% else %}
+                    <p class="card-text" style="font-style: italic;">Sin Nota</p>
+                {% endif %}
+            </div>
+        </div>
         {% if version.contenido.images.all %}
             <h2>Imágenes:</h2>
             <ul>

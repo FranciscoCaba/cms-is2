@@ -163,57 +163,67 @@ class UnContenidoApublicarView(ListView):
     def get_queryset(self):
         return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk']).order_by('-fecha')
 
+@permission_required('contenido.puede_editar_aceptar')
 def apublicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
-    # Cambiar el estado del contenido a "A publicar"
-    contenido.estado = 'A publicar'
-    contenido.save(user=request.user)
-    context = {
-            'titulo': contenido.titulo,      
-        }      
-    message = strip_tags(render_to_string('notificaciones/a_publicar.html', context))
-    send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+    if request.method == 'POST':
+        nota = request.POST.get('nota')
+        contenido.nota = nota
+        # Cambiar el estado del contenido a "A publicar"
+        contenido.estado = 'A publicar'
+        contenido.save(user=request.user)
+        context = {
+                'titulo': contenido.titulo,      
+            }      
+        message = strip_tags(render_to_string('notificaciones/a_publicar.html', context))
+        send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
 
-    # Redirigir a la lista de revisiones
-    return redirect('listar_revisiones')
+        # Redirigir a la lista de revisiones
+        return redirect('listar_revisiones')
+    
+    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'revisado'})
 
 @permission_required('contenido.puede_publicar_rechazar')
 def publicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
-    # Cambiar el estado del contenido a "Publicado"
-    contenido.estado = 'Publicado'
-    contenido.save(user=request.user)
-    context = {
-            'titulo': contenido.titulo,      
-        }      
-    message = strip_tags(render_to_string('notificaciones/publicado.html', context))
-    send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+    if request.method == 'POST':
+        nota = request.POST.get('nota')
+        contenido.nota = nota
+        # Cambiar el estado del contenido a "Publicado"
+        contenido.estado = 'Publicado'
+        contenido.save(user=request.user)
+        context = {
+                'titulo': contenido.titulo,      
+            }      
+        message = strip_tags(render_to_string('notificaciones/publicado.html', context))
+        send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
 
-    # Redirigir a la lista de a publicar
-    return redirect('list_a_publicar')
+        # Redirigir a la lista de a publicar
+        return redirect('list_a_publicar')
+    
+    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'publicar'})
 
 @permission_required('contenido.puede_publicar_rechazar')
 def rechazar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
 
-    # Cambiar el estado del contenido a "Rechazado"
-    contenido.estado = 'Rechazado'
-    contenido.save(user=request.user)
     if request.method == 'POST':
-        nota = request.POST.get('razon_rechazo')
+        nota = request.POST.get('nota')
         contenido.nota = nota
-        contenido.save()
+        # Cambiar el estado del contenido a "Rechazado"
+        contenido.estado = 'Rechazado'
+        contenido.save(user=request.user)
         context = {
             'titulo': contenido.titulo,  
-            'razon_rechazo': contenido.nota,    
+            'nota': contenido.nota,    
         }      
         message = strip_tags(render_to_string('notificaciones/rechazado.html', context))
         send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
         return redirect('list_a_publicar')
 
-    return render(request, 'contenido/razon_rechazo_form.html', {'contenido': contenido})
+    return render(request, 'contenido/dar_nota_form.html', {'contenido': contenido, 'opcion': 'rechazar'})
 
 class ContenidoBorradorListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Contenido
@@ -290,6 +300,11 @@ class EditarContenidoView(UpdateView, PermissionRequiredMixin):
         contenido.save(user=self.request.user)
 
         return redirect(reverse_lazy('listar_revisiones'))
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 class EditarBorradorView(UpdateView):
     model = Contenido
@@ -302,14 +317,14 @@ class EditarBorradorView(UpdateView):
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
-                context = {'titulo': contenido.titulo, }      
+                context = {'titulo': form.instance.titulo, }      
                 message = strip_tags(render_to_string('notificaciones/en_revision.html', context))
-                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [contenido.user.email]  , fail_silently=False)
+                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [form.instance.user.email]  , fail_silently=False)
             else:
                 form.instance.estado = 'Publicado'
-                context = {'titulo': contenido.titulo, }      
+                context = {'titulo': form.instance.titulo, }      
                 message = strip_tags(render_to_string('notificaciones/publicado.html', context))
-                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [contenido.user.email]  , fail_silently=False)
+                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [form.instance.user.email]  , fail_silently=False)
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
@@ -433,6 +448,7 @@ def editar_version(request, version_id):
             contenido.descripcion = nueva_version.descripcion
             contenido.categoria = nueva_version.categoria
             contenido.estado = nueva_version.estado
+            contenido.nota = nueva_version.nota
             contenido.save()
 
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
