@@ -4,7 +4,7 @@ from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEdi
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
 from .models import Categoria, Contenido, Like,VersionContenido, Image, Video, Archivos
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
@@ -23,11 +23,22 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        if  'crear' in self.request.POST:
+        # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
+        if 'borradorcito' in self.request.POST:
+            form.instance.estado = 'Borrador'
+        if 'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
+            else:
+                form.instance.estado = 'Publicado'
+        contenido = form.save(commit=False)
+        contenido.save(user=self.request.user)
+        if  'crear' in self.request.POST:
+            if form.instance.categoria.moderada :
+                content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
                 context = {
-                    'titulo': form.instance.titulo,      
+                    'titulo': form.instance.titulo,
+                    'content_url': content_url,
                 }      
                 html_template = 'notificaciones/en_revision.html'
                 html_message = render_to_string(html_template, context)
@@ -36,9 +47,10 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
                 message.content_subtype = 'html'
                 message.send()
             else:
-                form.instance.estado = 'Publicado'
+                content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
                 context = {
-                    'titulo': form.instance.titulo,      
+                    'titulo': form.instance.titulo,
+                    'content_url': content_url,
                 }      
                 html_template = 'notificaciones/publicado_no_moderada.html'
                 html_message = render_to_string(html_template, context)
@@ -46,19 +58,16 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
                 message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
                 message.content_subtype = 'html'
                 message.send()
-        # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
-            form.instance.estado = 'Borrador'
-        contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
-        if 'borradorcito' in self.request.POST:
+            content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
             context = {
-                    'titulo': form.instance.titulo,      
+                    'titulo': contenido.titulo,
+                    'content_url': content_url,
                 }      
             html_template = 'notificaciones/borrador.html'
             html_message = render_to_string(html_template, context)
             subject = 'Cambio de estado de publicación'
-            message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+            message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
             message.content_subtype = 'html'
             message.send()
         for image in self.request.FILES.getlist('images'):
@@ -179,12 +188,13 @@ class UnContenidoApublicarView(ListView):
 
 def apublicar_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
-
     # Cambiar el estado del contenido a "A publicar"
     contenido.estado = 'A publicar'
     contenido.save(user=request.user)
+    content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
     context = {
-            'titulo': contenido.titulo,      
+            'titulo': contenido.titulo,
+            'content_url': content_url,    
         }      
     html_template = 'notificaciones/a_publicar.html'
     html_message = render_to_string(html_template, context)
@@ -203,8 +213,10 @@ def publicar_contenido(request, pk):
     # Cambiar el estado del contenido a "Publicado"
     contenido.estado = 'Publicado'
     contenido.save(user=request.user)
+    content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
     context = {
-            'titulo': contenido.titulo,      
+            'titulo': contenido.titulo,
+            'content_url': content_url,   
         }      
     html_template = 'notificaciones/publicado.html'
     html_message = render_to_string(html_template, context)
@@ -227,9 +239,11 @@ def rechazar_contenido(request, pk):
         nota = request.POST.get('razon_rechazo')
         contenido.nota = nota
         contenido.save()
+        content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
         context = {
             'titulo': contenido.titulo,  
-            'razon_rechazo': contenido.nota,    
+            'razon_rechazo': contenido.nota,   
+            'content_url': content_url, 
         }      
         html_template = 'notificaciones/rechazado.html'
         html_message = render_to_string(html_template, context)
@@ -328,33 +342,38 @@ class EditarBorradorView(UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        if  'crear' in self.request.POST:
+        # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
+        if 'borradorcito' in self.request.POST:
+            form.instance.estado = 'Borrador'
+        if 'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
+            else:
+                form.instance.estado = 'Publicado'
+        contenido = form.save(commit=False)
+        contenido.save(user=self.request.user)
+        if  'crear' in self.request.POST:
+            if form.instance.categoria.moderada :
+                content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
                 context = {
-                    'titulo': form.instance.titulo,      
+                    'titulo': form.instance.titulo,  
+                    'content_url': content_url,    
                 }      
                 html_template = 'notificaciones/en_revision.html'
                 html_message = render_to_string(html_template, context)
                 subject = 'Cambio de estado de publicación'
-                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
                 message.content_subtype = 'html'
                 message.send()
             else:
-                form.instance.estado = 'Publicado'
-                context = {'titulo': form.instance.titulo, }      
+                content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
+                context = {'titulo': form.instance.titulo,'content_url': content_url,}      
                 html_template = 'notificaciones/publicado_no_moderada.html'
                 html_message = render_to_string(html_template, context)
                 subject = 'Cambio de estado de publicación'
-                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
                 message.content_subtype = 'html'
                 message.send()
-        # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
-        if 'borradorcito' in self.request.POST:
-            form.instance.estado = 'Borrador'
-
-        contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
 
         for image in self.request.FILES.getlist('images'):
             Image.objects.create(contenido=contenido, image=image)
@@ -377,42 +396,50 @@ class EditarRechazadoView(UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        if  'crear' in self.request.POST:
+        if 'borradorcito' in self.request.POST:
+            form.instance.estado = 'Borrador'
+        if 'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
+            else:
+                form.instance.estado = 'Publicado'
+        contenido = form.save(commit=False)
+        contenido.save(user=self.request.user)
+        if  'crear' in self.request.POST:
+            if form.instance.categoria.moderada :
+                content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
                 context = {
-                    'titulo': form.instance.titulo,      
+                    'titulo': form.instance.titulo,  
+                    'content_url': content_url,    
                 }      
                 html_template = 'notificaciones/en_revision.html'
                 html_message = render_to_string(html_template, context)
                 subject = 'Cambio de estado de publicación'
-                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
                 message.content_subtype = 'html'
                 message.send()
             else:
-                form.instance.estado = 'Publicado'
-                context = {'titulo': form.instance.titulo, }      
+                content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
+                context = {'titulo': form.instance.titulo,'content_url': content_url,}      
                 html_template = 'notificaciones/publicado_no_moderada.html'
                 html_message = render_to_string(html_template, context)
                 subject = 'Cambio de estado de publicación'
-                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
                 message.content_subtype = 'html'
                 message.send()
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
-            form.instance.estado = 'Borrador'
+            content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
             context = {
                     'titulo': form.instance.titulo,      
+                    'content_url': content_url,
                 }      
             html_template = 'notificaciones/borrador.html'
             html_message = render_to_string(html_template, context)
             subject = 'Cambio de estado de publicación'
-            message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+            message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
             message.content_subtype = 'html'
             message.send()
-        contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
-
         for image in self.request.FILES.getlist('images'):
             Image.objects.create(contenido=contenido, image=image)
         for video in self.request.FILES.getlist('videos'):
