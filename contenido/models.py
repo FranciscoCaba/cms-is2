@@ -127,3 +127,9 @@ class Video(models.Model):
 class Archivos(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='archivos')
     archivo = models.ImageField(upload_to='contenido/archivos', null=True, blank=True,storage=RawMediaCloudinaryStorage())
+    
+class Comentario(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    texto = models.TextField() 
