@@ -123,4 +123,10 @@ class Image(models.Model):
 class Video(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='videos')
     video = models.ImageField(upload_to='contenido/videos', null=True,blank=True, storage=VideoMediaCloudinaryStorage(),
-                              validators=[validate_video])   
+                              validators=[validate_video])
+    
+class Comentario(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    texto = models.TextField()

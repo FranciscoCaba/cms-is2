@@ -218,13 +218,12 @@ def buscar_contenido(request):
 def resultados_busqueda(request):
     query = request.GET.get('q')
     contenidos = ()
-    categorias = ()
-    usuarios = ()
-    if query != None:
-        contenidos = Contenido.objects.filter(Q(titulo__icontains=query) | Q(descripcion__icontains=query))
-        categorias = Categoria.objects.filter(Q(nombre__icontains=query))
-        usuarios = User.objects.filter(Q(username__icontains=query))
+    if query != None and query != ' ':
+        contenidos = Contenido.objects.filter(  Q(titulo__icontains=query)
+                                              | Q(descripcion__icontains=query)
+                                              | Q(resumen__icontains=query)
+                                              | Q(categoria__nombre__icontains=query)
+                                              | Q(user__username__icontains=query))
     else:
         query = ''    
-
-    return render(request, 'busqueda/resultado.html', {'contenidos': contenidos, 'categorias': categorias, 'usuarios': usuarios, 'query': query})
+    return render(request, 'busqueda/resultado.html', {'contenidos': contenidos, 'query': query})
