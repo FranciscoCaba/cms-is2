@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseForbidden
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
@@ -29,15 +29,23 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
                 context = {
                     'titulo': form.instance.titulo,      
                 }      
-                message = strip_tags(render_to_string('notificaciones/en_revision.html', context))
-                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[self.request.user.email], fail_silently=False)
+                html_template = 'notificaciones/en_revision.html'
+                html_message = render_to_string(html_template, context)
+                subject = 'Cambio de estado de publicación'
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message.content_subtype = 'html'
+                message.send()
             else:
                 form.instance.estado = 'Publicado'
                 context = {
                     'titulo': form.instance.titulo,      
                 }      
-                message = strip_tags(render_to_string('notificaciones/publicado.html', context))
-                send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[self.request.user.email], fail_silently=False)
+                html_template = 'notificaciones/publicado_no_moderada.html'
+                html_message = render_to_string(html_template, context)
+                subject = 'Cambio de estado de publicación'
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message.content_subtype = 'html'
+                message.send()
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
@@ -47,8 +55,12 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             context = {
                     'titulo': form.instance.titulo,      
                 }      
-            message = strip_tags(render_to_string('notificaciones/borrador.html', context))
-            send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[self.request.user.email], fail_silently=False)
+            html_template = 'notificaciones/borrador.html'
+            html_message = render_to_string(html_template, context)
+            subject = 'Cambio de estado de publicación'
+            message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+            message.content_subtype = 'html'
+            message.send()
         for image in self.request.FILES.getlist('images'):
             Image.objects.create(contenido=contenido, image=image)
         for video in self.request.FILES.getlist('videos'):
@@ -174,8 +186,12 @@ def apublicar_contenido(request, pk):
     context = {
             'titulo': contenido.titulo,      
         }      
-    message = strip_tags(render_to_string('notificaciones/a_publicar.html', context))
-    send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+    html_template = 'notificaciones/a_publicar.html'
+    html_message = render_to_string(html_template, context)
+    subject = 'Cambio de estado de publicación'
+    message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
+    message.content_subtype = 'html'
+    message.send()
 
     # Redirigir a la lista de revisiones
     return redirect('listar_revisiones')
@@ -190,8 +206,12 @@ def publicar_contenido(request, pk):
     context = {
             'titulo': contenido.titulo,      
         }      
-    message = strip_tags(render_to_string('notificaciones/publicado.html', context))
-    send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+    html_template = 'notificaciones/publicado.html'
+    html_message = render_to_string(html_template, context)
+    subject = 'Cambio de estado de publicación'
+    message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
+    message.content_subtype = 'html'
+    message.send()
 
     # Redirigir a la lista de a publicar
     return redirect('list_a_publicar')
@@ -211,8 +231,12 @@ def rechazar_contenido(request, pk):
             'titulo': contenido.titulo,  
             'razon_rechazo': contenido.nota,    
         }      
-        message = strip_tags(render_to_string('notificaciones/rechazado.html', context))
-        send_mail('Cambio de estado de publicacion',message,'cmsis2eq01@gmail.com',[contenido.user.email], fail_silently=False)
+        html_template = 'notificaciones/rechazado.html'
+        html_message = render_to_string(html_template, context)
+        subject = 'Cambio de estado de publicación'
+        message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
+        message.content_subtype = 'html'
+        message.send()
         return redirect('list_a_publicar')
 
     return render(request, 'contenido/razon_rechazo_form.html', {'contenido': contenido})
@@ -307,14 +331,24 @@ class EditarBorradorView(UpdateView):
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
-                context = {'titulo':form.instance.titulo, }      
-                message = strip_tags(render_to_string('notificaciones/en_revision.html', context))
-                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [self.request.user.email]  , fail_silently=False)
+                context = {
+                    'titulo': form.instance.titulo,      
+                }      
+                html_template = 'notificaciones/en_revision.html'
+                html_message = render_to_string(html_template, context)
+                subject = 'Cambio de estado de publicación'
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message.content_subtype = 'html'
+                message.send()
             else:
                 form.instance.estado = 'Publicado'
                 context = {'titulo': form.instance.titulo, }      
-                message = strip_tags(render_to_string('notificaciones/publicado.html', context))
-                send_mail('Cambio de estado de publicacion', message, 'cmsis2eq01@gmail.com' , [self.request.user.email]  , fail_silently=False)
+                html_template = 'notificaciones/publicado_no_moderada.html'
+                html_message = render_to_string(html_template, context)
+                subject = 'Cambio de estado de publicación'
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message.content_subtype = 'html'
+                message.send()
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
@@ -346,11 +380,36 @@ class EditarRechazadoView(UpdateView):
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 form.instance.estado = 'En revisión'
+                context = {
+                    'titulo': form.instance.titulo,      
+                }      
+                html_template = 'notificaciones/en_revision.html'
+                html_message = render_to_string(html_template, context)
+                subject = 'Cambio de estado de publicación'
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message.content_subtype = 'html'
+                message.send()
             else:
                 form.instance.estado = 'Publicado'
+                context = {'titulo': form.instance.titulo, }      
+                html_template = 'notificaciones/publicado_no_moderada.html'
+                html_message = render_to_string(html_template, context)
+                subject = 'Cambio de estado de publicación'
+                message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+                message.content_subtype = 'html'
+                message.send()
         # Busca el nombre 'borradorcito' entre los atributos del elemento para distinguir el boton
         if 'borradorcito' in self.request.POST:
             form.instance.estado = 'Borrador'
+            context = {
+                    'titulo': form.instance.titulo,      
+                }      
+            html_template = 'notificaciones/borrador.html'
+            html_message = render_to_string(html_template, context)
+            subject = 'Cambio de estado de publicación'
+            message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [self.request.user.email])
+            message.content_subtype = 'html'
+            message.send()
         contenido = form.save(commit=False)
         contenido.save(user=self.request.user)
 
@@ -412,6 +471,8 @@ def delete_video(request, video_id):
             edit_url = 'editar-borrador'
         elif estado == 'Publicado' or 'En revisión':
             edit_url = 'editar-contenido'
+        elif estado == 'Rechazado':
+            edit_url = 'editar-rechazado'
         else:
             pass
         return redirect(edit_url, pk=content_pk)
@@ -426,9 +487,10 @@ def delete_archivo(request, archivo_id):
             edit_url = 'editar-borrador'
         elif estado == 'Publicado' or estado == 'En revisión':  # Fix the 'or' condition
             edit_url = 'editar-contenido'
+        elif estado == 'Rechazado':
+            edit_url = 'editar-rechazado'
         else:
-            edit_url = 'another-view-name'  # Specify a fallback URL
-
+            pass
         return redirect(edit_url, pk=content_pk)
 
 class ContenidoVersionListView(LoginRequiredMixin, ListView):
@@ -451,6 +513,10 @@ def editar_version(request, version_id):
             nueva_version = form.save(commit=False)
 
         if version.contenido.estado == 'Borrador':
+            for video in request.FILES.getlist('videos'):
+                Video.objects.create(contenido=nueva_version.contenido, video=video)
+            for archivo in request.FILES.getlist('archivos'):
+                Archivos.objects.create(contenido=nueva_version.contenido, archivo=archivo)
             contenido = version.contenido
             contenido.titulo = nueva_version.titulo
             contenido.resumen = nueva_version.resumen
@@ -458,7 +524,6 @@ def editar_version(request, version_id):
             contenido.categoria = nueva_version.categoria
             contenido.estado = nueva_version.estado
             contenido.save()
-
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
         form = VersionContenidoEditForm(instance=version, user_request=request.user)
