@@ -5,7 +5,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.utils.text import Truncator
 from django.core.files.storage import default_storage 
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage, RawMediaCloudinaryStorage
 from cloudinary_storage.validators import validate_video
 # Create your models here.
 class Categoria(models.Model):
@@ -125,9 +125,12 @@ class Video(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='videos')
     video = models.ImageField(upload_to='contenido/videos', null=True,blank=True, storage=VideoMediaCloudinaryStorage(),
                               validators=[validate_video])
+class Archivos(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='archivos')
+    archivo = models.ImageField(upload_to='contenido/archivos', null=True, blank=True,storage=RawMediaCloudinaryStorage())
     
 class Comentario(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    texto = models.TextField()
+    texto = models.TextField() 

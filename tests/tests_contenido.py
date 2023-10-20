@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User, Permission
-from contenido.models import Contenido, Categoria, Image, Video
+from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido
 from contenido.forms import ContenidoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -27,9 +27,9 @@ class ContenidoFormViewTests(TestCase):
             'titulo': 'Titulo',
             'categoria': categoria.id,
             'descripcion': 'Descripcion',
+            'resumen': 'Resumen',
         }
         response = self.client.post(reverse('contenido-crear'), data)
-        print(response.content.decode())  # Print the response content for debugging
         self.assertEqual(response.status_code, 302,'Error al cargar pagina')  
         created_contenido = Contenido.objects.first()
         self.assertIsNotNone(created_contenido,'Contenido no creado')
@@ -44,6 +44,7 @@ class ContenidoFormViewTests(TestCase):
             'categoria': categoria.id,
             'descripcion': 'Descripcion',
             'crear': 'Crear',  
+            'resumen': 'Resumen',
         }
         response = self.client.post(reverse('contenido-crear'), data)
         self.assertEqual(response.status_code, 302, 'Error al cargar pagina')  
@@ -58,6 +59,7 @@ class ContenidoFormViewTests(TestCase):
             'categoria': categoria.id,
             'descripcion': 'Descripcion',
             'borradorcito': 'Guardar Borrador', 
+            'resumen': 'Resumen',
         }
         response = self.client.post(reverse('contenido-crear'), data)
         self.assertEqual(response.status_code, 302, 'Error al cargar pagina')  
@@ -78,12 +80,37 @@ class ContenidoFormViewTests(TestCase):
             'titulo': 'Edited Title',
             'categoria': categoria.id,
             'descripcion': 'Edited Description',
+            'resumen': 'Resumen',
         }
         response = self.client.post(reverse('editar-contenido', kwargs={'pk': contenido.pk}), data)
         self.assertEqual(response.status_code, 302, 'Error al cargar pagina')  
         edited_contenido = Contenido.objects.get(pk=contenido.pk)
         self.assertEqual(edited_contenido.titulo, 'Edited Title', 'Titulo incorrecto')
         self.assertEqual(edited_contenido.descripcion, 'Edited Description', 'Descripcion incorrecta')
+
+    def test_edit_borrador(self):
+        categoria = Categoria.objects.create(nombre='Categoria', moderada=True, is_active=True)
+        contenido = Contenido.objects.create(
+            categoria=categoria,
+            user=self.user,
+            titulo='Original Title',
+            descripcion='Original Description',
+            estado='Borrador',
+            resumen='Original Resumen'
+        )
+        data = {
+            'titulo': 'Edited Title',
+            'categoria': categoria.id,
+            'descripcion': 'Edited Description',
+            'resumen': 'Edited Resumen',
+        }
+        response = self.client.post(reverse('editar-borrador', kwargs={'pk': contenido.pk}), data)
+        self.assertEqual(response.status_code, 302, 'Error al cargar página')
+        edited_contenido = Contenido.objects.get(pk=contenido.pk)
+        self.assertEqual(edited_contenido.titulo, 'Edited Title', 'Titulo incorrecto')
+        self.assertEqual(edited_contenido.resumen, 'Edited Resumen', 'Resumen incorrecto')
+        self.assertEqual(edited_contenido.descripcion, 'Edited Description', 'Descripción incorrecta')
+        self.assertFalse(edited_contenido.solo_suscriptores, 'Solo Suscriptores incorrecto')
 
 class VideoModelTests(TestCase):
     def setUp(self):
@@ -143,6 +170,36 @@ class ImageModelTests(TestCase):
         self.assertIsNotNone(image, 'Imagen no creada')
         self.assertEqual(image.contenido, self.contenido, 'Contenido incorrecto')
 
+class ArchivosModelTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        categoria = Categoria.objects.create(
+            nombre='Categoria',
+            moderada=True,
+            is_active=True
+        )
+        self.contenido = Contenido.objects.create(
+            titulo='Sample Contenido',
+            categoria_id=categoria.id, 
+            descripcion='Sample Description',
+            user=self.user
+        )
+
+    def test_archivos_creation(self):
+        sample_archivo_path = os.path.join(os.path.dirname(__file__), 'sample.pdf')
+        sample_archivo = SimpleUploadedFile(
+            name='sample.pdf',
+            content=open(sample_archivo_path, 'rb').read(),
+            content_type='application/pdf'
+        )
+        archivo = Archivos.objects.create(
+            contenido=self.contenido,
+            archivo=sample_archivo
+        )
+        self.assertTrue(archivo.archivo.url.startswith('https://res.cloudinary.com/'), 'Archivo no creado')
+        self.assertIsNotNone(archivo, 'Archivo no creado')
+        self.assertEqual(archivo.contenido, self.contenido, 'Contenido incorrecto')
+
 class EstadoChangeTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
@@ -185,3 +242,45 @@ class EmailTest(TestCase):
         self.assertEqual(sent_email.body, message)
         self.assertEqual(sent_email.from_email, from_email)
         self.assertEqual(sent_email.to, recipient_list)
+
+class EditVersionTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.user.is_staff = True  
+        self.user.save()
+        self.client.login(username='testuser', password='testpassword')
+
+    def create_version(self):
+        categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
+        contenido = Contenido.objects.create(
+            categoria=categoria,
+            user=self.user,
+            titulo='Original Title',
+            descripcion='Original Description',
+            estado='Borrador',
+            resumen='Original Resumen'
+        )
+        version = VersionContenido.objects.create(
+            contenido=contenido,
+            user_modificacion=self.user,
+            categoria=categoria,
+            titulo='Original Title',
+            descripcion='Original Description',
+            estado='Borrador',
+        )
+        return version
+
+    def test_edit_version_view(self):
+        version = self.create_version()
+        data = {
+            'titulo': 'Edited Title',
+            'resumen': 'Edited Resumen',
+            'categoria': version.categoria.id,
+            'descripcion': 'Edited Description',
+        }
+        response = self.client.post(reverse('editar-version', kwargs={'version_id': version.id}), data)
+        self.assertEqual(response.status_code, 302, 'Error al cargar página')
+        edited_version = VersionContenido.objects.get(id=version.id+1)
+        self.assertEqual(edited_version.titulo, 'Edited Title', 'Titulo incorrecto')
+        self.assertEqual(edited_version.resumen, 'Edited Resumen', 'Resumen incorrecto')
+        self.assertEqual(edited_version.descripcion, 'Edited Description', 'Descripción incorrecta')

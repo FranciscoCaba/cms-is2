@@ -30,6 +30,7 @@ urlpatterns = [
     path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido'),
     path('delete_image/<int:image_id>/', views.delete_image, name='delete_image'),
     path('delete_video/<int:video_id>/', views.delete_video, name='delete_video'),
+    path('delete_archivo/<int:archivo_id>/', views.delete_archivo, name='delete_archivo'),
 
     path('autor/<int:pk>/', views.detalle_autor, name='detalle_autor'),
 
