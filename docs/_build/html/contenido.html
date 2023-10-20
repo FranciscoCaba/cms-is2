@@ -102,12 +102,83 @@
 <section id="formularios-de-contenido">
 <h3>Formularios de Contenido<a class="headerlink" href="#formularios-de-contenido" title="Link to this heading"></a></h3>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidoForm</span></code> importa una libreria llamada <code class="docutils literal notranslate"><span class="pre">CKEditorWidget</span></code> que nos permite utilizar texto enriquecido.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>campos de = (&#39;titulo&#39;, &#39;resumen&#39;, &#39;categoria&#39;, &#39;descripcion&#39;, &#39;solo_suscriptores&#39;)
+
+modelo Contenido
+
+widgets = &#39;categoria&#39; objeto tipo Select,
+&#39;descripcion&#39; objeto tipo CharField,
+&#39;resumen&#39; objeto tipo TextInput,
+&#39;solo_suscriptores&#39; objeto tipo CheckboxInput,
+&#39;titulo&#39; objeto tipo TextInput
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidoEditForm</span></code> es el formulario de la vista de edicion de contenido.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Posee los campos de = (&#39;titulo&#39;, &#39;resumen&#39;, &#39;categoria&#39;, &#39;descripcion&#39;, &#39;solo_suscriptores&#39;)
+
+modelo Contenido
+
+widgets = &#39;categoria&#39; objeto tipo Select,
+&#39;descripcion&#39; objeto tipo CharField,
+&#39;resumen&#39; objeto tipo TextInput,
+&#39;solo_suscriptores&#39; objeto tipo CheckboxInput,
+&#39;titulo&#39; objeto tipo TextInput
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CategoriaForm</span></code> forumalio para la creacion de categoria.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Los campos que posee son = [&#39;nombre&#39;, &#39;moderada&#39;]
+
+modelo Categoria
+
+utiliza widgets = &#39;moderada&#39; objeto tipo CheckboxInput,
+&#39;nombre&#39; objeto tipo TextInput
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CategoriaEditForm</span></code>  formulario para la edicion de categoria.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Los campos que posee son = [&#39;nombre&#39;, &#39;moderada&#39;]
+
+modelo Categoria
+
+utiliza widgets = &#39;moderada&#39;: objeto tipo CheckboxInput,
+&#39;nombre&#39;objeto tipo TextInput
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">BorradorEditForm</span></code> es el formulario de edicion de borrador de contenido.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Los</span> <span class="n">campos</span> <span class="n">que</span> <span class="n">posee</span> <span class="n">son</span>  <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">,</span> <span class="s1">&#39;resumen&#39;</span><span class="p">,</span> <span class="s1">&#39;categoria&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="s1">&#39;solo_suscriptores&#39;</span><span class="p">)</span>
+
+<span class="n">modelo</span> <span class="n">Contenido</span>
+
+<span class="n">utiliza</span> <span class="n">widgets</span> <span class="o">=</span> <span class="s1">&#39;categoria&#39;</span> <span class="n">tipo</span> <span class="n">objeto</span> <span class="n">Select</span> <span class="p">,</span>
+<span class="s1">&#39;descripcion&#39;</span> <span class="n">tipo</span> <span class="n">objeto</span> <span class="n">CharField</span><span class="p">,</span>
+<span class="s1">&#39;resumen&#39;</span> <span class="n">tipo</span> <span class="n">objeto</span> <span class="n">TextInput</span> <span class="p">,</span>
+<span class="s1">&#39;solo_suscriptores&#39;</span><span class="n">tipo</span> <span class="n">objeto</span> <span class="n">CheckboxInput</span> <span class="p">,</span>
+<span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">tipo</span> <span class="n">objeto</span> <span class="n">TextInput</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">VersionContenidoEditForm</span></code> es el formulario de edicion de versiones de contenido.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>campos  = (&#39;titulo&#39;, &#39;resumen&#39;, &#39;categoria&#39;, &#39;descripcion&#39;, &#39;solo_suscriptores&#39;)
+
+modelo VersionContenido
+
+widgets = &#39;categoria&#39; objeto tipo Select,
+&#39;descripcion&#39; objeto tipo CharField,
+&#39;resumen&#39; objeto tipo TextInput,
+&#39;solo_suscriptores&#39; objeto tipo CheckboxInput,
+&#39;titulo&#39; objeto tipo TextInput
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">RechazadoEditForm</span></code> es el formulario de edicion de contenidos en estado rechazado.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>campos = (&#39;titulo&#39;, &#39;resumen&#39;, &#39;categoria&#39;, &#39;descripcion&#39;, &#39;solo_suscriptores&#39;)
+
+modelo  Contenido
+
+widgets = &#39;categoria&#39; objeto tipo Select,
+&#39;descripcion&#39; objeto tipo CharField,
+&#39;resumen&#39; objeto tipo TextInput,
+&#39;solo_suscriptores&#39; objeto tipo CheckboxInput,
+&#39;titulo&#39; objeto tipo TextInput
+</pre></div>
+</div>
 <dl class="py class" id="module-contenido.forms">
 <dt class="sig sig-object py" id="contenido.forms.BorradorEditForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.forms.</span></span><span class="sig-name descname"><span class="pre">BorradorEditForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/forms.html#BorradorEditForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.forms.BorradorEditForm" title="Link to this definition"></a></dt>
@@ -422,12 +493,122 @@
 <h2>contenido.models module<a class="headerlink" href="#contenido-models-module" title="Link to this heading"></a></h2>
 <section id="modelos-de-contenido">
 <h3>Modelos de Contenido<a class="headerlink" href="#modelos-de-contenido" title="Link to this heading"></a></h3>
-<p>La clase <code class="docutils literal notranslate"><span class="pre">Cotenido</span></code> es el modelo de contenido que importa RichTextField de CKEditorWidget para el texto enriquecido.
-El modelo cuenta con 5 estados, y algunos permisos necesarios para el funcionamiento correcto del programa.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">Cotenido</span></code> es el modelo de contenido que importa RichTextField de CKEditorWidget para el texto enriquecido.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">El</span> <span class="n">modelo</span> <span class="n">cuenta</span> <span class="n">con</span> <span class="mi">5</span> <span class="n">estados</span><span class="p">,</span> <span class="n">y</span> <span class="n">algunos</span> <span class="n">permisos</span> <span class="n">necesarios</span> <span class="n">para</span> <span class="n">el</span> <span class="n">funcionamiento</span> <span class="n">correcto</span> <span class="k">del</span> <span class="n">programa</span><span class="o">.</span>
+
+<span class="n">Los</span> <span class="n">campos</span> <span class="n">que</span> <span class="n">posee</span> <span class="n">son</span><span class="p">:</span>
+
+<span class="n">ESTADO_CHOICES</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;borrador&#39;</span><span class="p">,</span> <span class="s1">&#39;Borrador&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;revision&#39;</span><span class="p">,</span> <span class="s1">&#39;En revisión&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;apublicar&#39;</span><span class="p">,</span> <span class="s1">&#39;A publicar&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;rechazado&#39;</span><span class="p">,</span> <span class="s1">&#39;Rechazado&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;publicado&#39;</span><span class="p">,</span> <span class="s1">&#39;Publicado&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;inactivo&#39;</span><span class="p">,</span> <span class="s1">&#39;Inactivo&#39;</span><span class="p">))</span>
+
+<span class="n">categoria</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">objeto</span> <span class="n">relacionado</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">adelante</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span> <span class="n">o</span> <span class="n">uno</span> <span class="n">a</span> <span class="n">uno</span> <span class="p">(</span><span class="n">a</span> <span class="n">través</span> <span class="n">de</span> <span class="n">una</span> <span class="n">subclase</span> <span class="n">ForwardOneToOneDescriptor</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">descripcion</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">estado</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">fecha</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="nb">id</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">images</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span><span class="o">.</span>
+
+<span class="n">is_active</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">like_set</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span><span class="o">.</span>
+
+<span class="n">likes</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">los</span> <span class="n">lados</span> <span class="n">directo</span> <span class="n">e</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">muchos</span><span class="o">.</span>
+
+<span class="n">nota</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">reportado</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">resumen</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">save</span><span class="p">:</span> <span class="n">Guardar</span> <span class="n">la</span> <span class="n">instancia</span> <span class="n">actual</span><span class="o">.</span> <span class="n">Sobrescribe</span> <span class="n">esto</span> <span class="n">en</span> <span class="n">una</span> <span class="n">subclase</span> <span class="n">si</span> <span class="n">deseas</span> <span class="n">controlar</span> <span class="n">el</span> <span class="n">proceso</span> <span class="n">de</span> <span class="n">guardado</span><span class="o">.</span>
+<span class="n">Los</span> <span class="n">parámetros</span> <span class="s1">&#39;force_insert&#39;</span> <span class="n">y</span> <span class="s1">&#39;force_update&#39;</span> <span class="n">se</span> <span class="n">pueden</span> <span class="n">utilizar</span> <span class="n">para</span> <span class="n">insistir</span> <span class="n">en</span> <span class="n">que</span> <span class="n">el</span> <span class="s2">&quot;guardado&quot;</span> <span class="n">debe</span> <span class="n">ser</span> <span class="n">una</span> <span class="n">inserción</span> <span class="n">o</span>
+<span class="n">actualización</span> <span class="n">de</span> <span class="n">SQL</span> <span class="p">(</span><span class="n">o</span> <span class="n">equivalente</span> <span class="n">para</span> <span class="n">sistemas</span> <span class="n">que</span> <span class="n">no</span> <span class="n">utilizan</span> <span class="n">SQL</span><span class="p">),</span> <span class="n">respectivamente</span><span class="o">.</span> <span class="n">Normalmente</span><span class="p">,</span> <span class="n">no</span> <span class="n">deben</span> <span class="n">establecerse</span><span class="o">.</span>
+
+<span class="n">solo_suscriptores</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">titulo</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">user</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">objeto</span> <span class="n">relacionado</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">directo</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span> <span class="n">o</span> <span class="n">de</span> <span class="n">uno</span> <span class="n">a</span> <span class="n">uno</span> <span class="p">(</span><span class="n">a</span> <span class="n">través</span> <span class="n">de</span> <span class="n">una</span> <span class="n">subclase</span> <span class="n">ForwardOneToOneDescriptor</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">versiones</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span><span class="o">.</span>
+
+<span class="n">videos</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">Categoria</span></code> es el modelo de categoria que posee un campo de moderacion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Los</span> <span class="n">campos</span> <span class="n">que</span> <span class="n">posee</span> <span class="n">son</span><span class="p">:</span>
+
+<span class="n">Categoria</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span><span class="o">.</span>
+
+<span class="nb">id</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">diferida</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">categoria_version</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">opuesto</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span>
+
+<span class="n">is_active</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">moderada</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">nombre</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">VersionContenido</span></code> es el modelo para realizar un historial de cambios(versiones) del contenido.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">los</span> <span class="n">campos</span> <span class="n">que</span> <span class="n">posee</span> <span class="n">son</span><span class="p">:</span>
+
+<span class="n">categoria</span><span class="p">:</span> <span class="s2">&quot;Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).</span>
+
+<span class="n">contenido</span><span class="p">:</span> <span class="s2">&quot;Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).</span>
+
+<span class="n">descripcion</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">estado</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">fecha_modificacion</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="nb">id</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">nota</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">resumen</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">save</span><span class="p">:</span> <span class="n">Guardar</span> <span class="n">la</span> <span class="n">instancia</span> <span class="n">actual</span><span class="o">.</span> <span class="n">Sobrescribe</span> <span class="n">esto</span> <span class="n">en</span> <span class="n">una</span> <span class="n">subclase</span> <span class="n">si</span> <span class="n">deseas</span> <span class="n">controlar</span> <span class="n">el</span> <span class="n">proceso</span> <span class="n">de</span> <span class="n">guardado</span><span class="o">.</span>
+<span class="n">Los</span> <span class="n">parámetros</span> <span class="s1">&#39;force_insert&#39;</span> <span class="n">y</span> <span class="s1">&#39;force_update&#39;</span> <span class="n">se</span> <span class="n">pueden</span> <span class="n">utilizar</span> <span class="n">para</span> <span class="n">insistir</span> <span class="n">en</span> <span class="n">que</span> <span class="n">el</span> <span class="s2">&quot;guardado&quot;</span> <span class="n">debe</span> <span class="n">ser</span> <span class="n">una</span> <span class="n">inserción</span> <span class="n">o</span>
+<span class="n">actualización</span> <span class="n">de</span> <span class="n">SQL</span> <span class="p">(</span><span class="n">o</span> <span class="n">equivalente</span> <span class="n">para</span> <span class="n">sistemas</span> <span class="n">que</span> <span class="n">no</span> <span class="n">utilizan</span> <span class="n">SQL</span><span class="p">),</span> <span class="n">respectivamente</span><span class="o">.</span> <span class="n">Normalmente</span><span class="p">,</span> <span class="n">no</span> <span class="n">deben</span> <span class="n">establecerse</span><span class="o">.</span>
+
+<span class="n">solo_suscriptores</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">titulo</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">user_modificacion</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">objeto</span> <span class="n">relacionado</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">directo</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span> <span class="n">o</span> <span class="n">de</span> <span class="n">uno</span> <span class="n">a</span> <span class="n">uno</span> <span class="p">(</span><span class="n">a</span> <span class="n">través</span> <span class="n">de</span> <span class="n">una</span> <span class="n">subclase</span> <span class="n">de</span> <span class="n">ForwardOneToOneDescriptor</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">version</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">Like</span></code> es el modelo para dar likes a los contenidos.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Los</span> <span class="n">campos</span> <span class="n">que</span> <span class="n">posee</span> <span class="n">son</span><span class="p">:</span>
+
+<span class="n">contenido</span><span class="p">:</span> <span class="n">Accessor</span> <span class="n">to</span> <span class="n">the</span> <span class="n">related</span> <span class="nb">object</span> <span class="n">on</span> <span class="n">the</span> <span class="n">forward</span> <span class="n">side</span> <span class="n">of</span> <span class="n">a</span> <span class="n">many</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">one</span> <span class="ow">or</span> <span class="n">one</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">one</span> <span class="p">(</span><span class="n">via</span> <span class="n">ForwardOneToOneDescriptor</span> <span class="n">subclass</span><span class="p">)</span> <span class="n">relation</span><span class="o">.</span>
+
+<span class="n">created_ad</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="nb">id</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">user</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">objeto</span> <span class="n">relacionado</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">directo</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span> <span class="n">o</span> <span class="n">de</span> <span class="n">uno</span> <span class="n">a</span> <span class="n">uno</span> <span class="p">(</span><span class="n">a</span> <span class="n">través</span> <span class="n">de</span> <span class="n">una</span> <span class="n">subclase</span> <span class="n">ForwardOneToOneDescriptor</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">Image</span></code> es el modelo para insertar imagenes en el texto y guardarlas en la nube.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Los</span> <span class="n">campos</span> <span class="n">que</span> <span class="n">posee</span> <span class="n">son</span><span class="p">:</span>
+
+<span class="n">contenido</span><span class="p">:</span> <span class="n">Accessor</span> <span class="n">to</span> <span class="n">the</span> <span class="n">related</span> <span class="nb">object</span> <span class="n">on</span> <span class="n">the</span> <span class="n">forward</span> <span class="n">side</span> <span class="n">of</span> <span class="n">a</span> <span class="n">many</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">one</span> <span class="ow">or</span> <span class="n">one</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">one</span> <span class="p">(</span><span class="n">via</span> <span class="n">ForwardOneToOneDescriptor</span> <span class="n">subclass</span><span class="p">)</span> <span class="n">relation</span><span class="o">.</span>
+
+<span class="nb">id</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">image</span><span class="p">:</span> <span class="n">Similar</span> <span class="n">al</span> <span class="n">FileDescriptor</span><span class="p">,</span> <span class="n">pero</span> <span class="n">para</span> <span class="n">ImageFields</span><span class="o">.</span> <span class="n">La</span> <span class="n">única</span> <span class="n">diferencia</span> <span class="n">es</span> <span class="n">asignar</span> <span class="n">el</span> <span class="n">ancho</span><span class="o">/</span><span class="n">alto</span> <span class="n">al</span> <span class="n">campo</span> <span class="n">width_field</span><span class="o">/</span><span class="n">height_field</span><span class="p">,</span> <span class="n">si</span> <span class="n">es</span> <span class="n">apropiado</span><span class="o">.</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">Video</span></code> es el modelo para insertar videos en el texto y guardarlas en la nube.</p>
 <dl class="py class" id="module-contenido.models">
 <dt class="sig sig-object py" id="contenido.models.Categoria">
@@ -1115,9 +1296,11 @@ assigning the width/height to the width_field/height_field, if appropriate.</p>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;categoria/&lt;int:pk&gt;/activar&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ActivarCategoriaView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;activar-categoria&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;categoria/&lt;int:pk&gt;/listar&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">MostrarContenidosView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mostrar_contenidos&#39;</span><span class="p">),</span>
 
-   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;publicar/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">apublicar_contenido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a-publicar&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;publicar/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">ContenidosApublicarView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span> <span class="s1">&#39;list_a_publicar&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;publicar/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">apublicar_contenido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a-publicar&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;publicar/ver/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">UnContenidoApublicarView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;list_un_a_publicar&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;revision/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ListarRevisionesView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listar_revisiones&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;revision/ver/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ListarUnaRevisionView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listar_una_revision&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:pk&gt;/publicar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">publicar_contenido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;publicar_contenido&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:pk&gt;/rechazar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">rechazar_contenido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;rechazar_contenido&#39;</span><span class="p">),</span>
 
@@ -1134,6 +1317,7 @@ assigning the width/height to the width_field/height_field, if appropriate.</p>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;autor/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">detalle_autor</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;detalle_autor&#39;</span><span class="p">),</span>
 
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;kanban/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">kanban_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;kanban&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;kanban/all/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">all_kanban_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;all_kanban&#39;</span><span class="p">),</span>
 
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;borrador/&lt;int:pk&gt;/editar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">EditarBorradorView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editar-borrador&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;version/&lt;int:version_id&gt;/editar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">editar_version</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editar-version&#39;</span><span class="p">),</span>
@@ -1150,31 +1334,227 @@ assigning the width/height to the width_field/height_field, if appropriate.</p>
 <section id="vistas-de-contenido">
 <h3>Vistas de Contenido<a class="headerlink" href="#vistas-de-contenido" title="Link to this heading"></a></h3>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidoFormView</span></code> es la vista del contenido con texto enriquecido.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>utiliza el form ContenidoForm
+
+form_valid(form)
+
+   Si el form es valido, relaciona con el modelo.
+
+get_form_kwargs()[source]
+
+   Devuelve los argumentos de palabra clave para instanciar el formulario
+
+get_success_url()[source]
+
+   Devuelve la URL a la que redirigir después de procesar un formulario válido.
+
+requiere del permiso = &#39;contenido.add_contenido&#39;
+
+el url exitoso es = &#39;/&#39;
+
+el template que utiliza es  = &#39;contenido/contenido_crear.html&#39;
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CategoriaFormView</span></code> es la vista de la categoria con o sin moderacion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>utiliza el form CategoriaForm
+
+valida el form, si el form es valido, guarda el modelo asociado.
+
+requiere del permiso = &#39;contenido.add_categoria&#39;
+
+la url de exito es  = &#39;/contenido/categoria&#39;
+
+utiliza el template = &#39;categoria/categoria_crear.html&#39;
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CategoriaListView</span></code> es la vista de las categorias ya creadas.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trae</span> <span class="n">el</span> <span class="n">objeto</span> <span class="n">contexto</span> <span class="o">=</span> <span class="s1">&#39;categorias&#39;</span>
+
+<span class="n">modelo</span> <span class="n">Categoria</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;categoria/categoria_list.html&#39;</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CategoriaDetailView</span></code> es la vista de los detalles de la categoria.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trae</span> <span class="n">el</span> <span class="n">objeto</span> <span class="n">contexto</span> <span class="o">=</span> <span class="s1">&#39;categoria&#39;</span>
+
+<span class="n">modelo</span> <span class="n">Categoria</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span>  <span class="o">=</span> <span class="s1">&#39;categoria/categoria_detail.html&#39;</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">CategoriaUpdateView</span></code> es la vista para la actualizacion de las categorias.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>utiliza el form CategoriaEditForm
+
+modelo Categoria
+
+requiere permiso de = &#39;contenido.change_categoria&#39;
+
+la url de exito es  = &#39;/contenido/categoria&#39;
+
+el template que utiliza es  = &#39;categoria/categoria_edit.html&#39;
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">DesactivarCategoriaView</span></code> sirve para dar de baja una categoria.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">get</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="n">modelo</span> <span class="n">Categoria</span>
+
+<span class="n">requiere</span> <span class="n">el</span> <span class="n">permiso</span>  <span class="o">=</span> <span class="s1">&#39;contenido.delete_categoria&#39;</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;categoria/desactivar_categoria.html&#39;</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ActivarCategoriaView</span></code> sirve para reactivar una categoria.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">realiza</span> <span class="n">un</span>  <span class="n">get</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="n">modelo</span> <span class="n">Categoria</span>
+
+<span class="n">necesita</span> <span class="k">del</span> <span class="n">permiso</span>  <span class="o">=</span> <span class="s1">&#39;contenido.delete_categoria&#39;</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span>  <span class="o">=</span> <span class="s1">&#39;categoria/activar_categoria.html&#39;</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">MostrarContenidosView</span></code> es la vista para mostrar los contenidos.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ListarRevisionesView</span></code> es la vista para mostrar los contenidos en revision.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trae</span> <span class="n">el</span> <span class="n">objeto</span> <span class="n">contexto</span> <span class="o">=</span> <span class="s1">&#39;por_revisar&#39;</span>
+
+<span class="n">get_queryset</span><span class="p">()</span>
+
+  <span class="n">Devolver</span> <span class="n">la</span> <span class="n">lista</span> <span class="n">de</span> <span class="n">elementos</span> <span class="n">para</span> <span class="n">esta</span> <span class="n">vista</span><span class="o">.</span>
+
+   <span class="n">El</span> <span class="n">valor</span> <span class="n">devuelto</span> <span class="n">debe</span> <span class="n">ser</span> <span class="n">un</span> <span class="n">iterable</span> <span class="n">y</span> <span class="n">puede</span> <span class="n">ser</span> <span class="n">una</span> <span class="n">instancia</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="p">,</span> <span class="n">en</span> <span class="n">cuyo</span> <span class="n">caso</span> <span class="n">se</span> <span class="n">habilitará</span> <span class="n">el</span> <span class="n">comportamiento</span> <span class="n">específico</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="o">.</span>
+
+<span class="n">modelo</span> <span class="n">Contenido</span>
+
+<span class="n">requiere</span> <span class="n">el</span> <span class="n">permiso</span> <span class="o">=</span> <span class="s1">&#39;contenido.ver_revisiones&#39;</span>
+
+<span class="n">el</span> <span class="n">nombre</span> <span class="k">del</span> <span class="n">template</span> <span class="n">es</span> <span class="o">=</span> <span class="s1">&#39;listar_revisiones.html&#39;</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidosApublicarView</span></code> es la vista para mostrar contenidos a publicar.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trae</span> <span class="n">el</span> <span class="n">objeto</span> <span class="n">contexto</span> <span class="o">=</span> <span class="s1">&#39;revisados&#39;</span>
+
+<span class="n">get_queryset</span><span class="p">()</span>
+
+   <span class="n">Devuelve</span> <span class="n">la</span> <span class="n">lista</span> <span class="n">de</span> <span class="n">elementos</span> <span class="n">para</span> <span class="n">esta</span> <span class="n">vista</span><span class="o">.</span>
+
+<span class="n">El</span> <span class="n">valor</span> <span class="n">devuelto</span> <span class="n">debe</span> <span class="n">ser</span> <span class="n">un</span> <span class="n">iterable</span> <span class="n">y</span> <span class="n">puede</span> <span class="n">ser</span> <span class="n">una</span> <span class="n">instancia</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="p">,</span> <span class="n">en</span> <span class="n">cuyo</span> <span class="n">caso</span> <span class="n">se</span> <span class="n">habilitará</span> <span class="n">el</span> <span class="n">comportamiento</span> <span class="n">específico</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="o">.</span>
+
+<span class="n">modelo</span> <span class="n">Contenido</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;contenido/contenido_a_publicar.html&#39;</span>
+</pre></div>
+</div>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">apublicar_contenido</span></code> es la encargada de mandar contenidos de en revision a publicar.</p>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">publicar_contenido</span></code> es la encargada de mandar contenido a publicar a publicado.</p>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">rechazar_contenido</span></code> es la encargada de rechazar un contenido a publicar.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidoBorradorListView</span></code> es la vista de la lista de los borradores del contenido creado por el autor.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trae</span> <span class="n">el</span> <span class="n">objeto</span> <span class="n">contexto</span> <span class="o">=</span> <span class="s1">&#39;contenidos_borrador&#39;</span>
+
+<span class="n">hace</span> <span class="n">una</span> <span class="n">funcion</span> <span class="n">get_queryset</span><span class="p">()</span>
+
+   <span class="n">Devuelve</span> <span class="n">la</span> <span class="n">lista</span> <span class="n">de</span> <span class="n">elementos</span> <span class="n">para</span> <span class="n">esta</span> <span class="n">vista</span><span class="o">.</span>
+
+   <span class="n">El</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">retorno</span> <span class="n">debe</span> <span class="n">ser</span> <span class="n">iterable</span> <span class="n">y</span> <span class="n">puede</span> <span class="n">ser</span> <span class="n">una</span> <span class="n">instancia</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="p">,</span> <span class="n">en</span> <span class="n">cuyo</span> <span class="n">caso</span> <span class="n">se</span> <span class="n">habilitará</span> <span class="n">el</span> <span class="n">comportamiento</span> <span class="n">específico</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="o">.</span>
+
+<span class="n">modelo</span> <span class="n">Contenido</span>
+
+<span class="n">requiere</span> <span class="k">del</span> <span class="n">permiso</span> <span class="o">=</span> <span class="s1">&#39;contenido.add_contenido&#39;</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;borrador/borradores_lista.html&#39;</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidoRechazadoListView</span></code> es la vista de la lista contenidos rechazados.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trae</span> <span class="n">el</span> <span class="n">objeto</span> <span class="n">contexto</span> <span class="o">=</span> <span class="s1">&#39;contenidos_rechazados&#39;</span>
+
+<span class="n">get_queryset</span><span class="p">()</span>
+
+   <span class="n">Devuelve</span> <span class="n">la</span> <span class="n">lista</span> <span class="n">de</span> <span class="n">elementos</span> <span class="n">para</span> <span class="n">esta</span> <span class="n">vista</span><span class="o">.</span>
+
+   <span class="n">El</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">retorno</span> <span class="n">debe</span> <span class="n">ser</span> <span class="n">un</span> <span class="n">iterable</span> <span class="n">y</span> <span class="n">puede</span> <span class="n">ser</span> <span class="n">una</span> <span class="n">instancia</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="p">,</span> <span class="n">en</span> <span class="n">cuyo</span> <span class="n">caso</span> <span class="n">se</span> <span class="n">habilitará</span> <span class="n">el</span> <span class="n">comportamiento</span> <span class="n">específico</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="o">.</span>
+
+<span class="n">modelo</span> <span class="n">Contenido</span>
+
+<span class="n">requiere</span> <span class="k">del</span> <span class="n">permiso</span> <span class="o">=</span> <span class="s1">&#39;contenido.add_contenido&#39;</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;contenido/rechazados_lista.htm</span>
+</pre></div>
+</div>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">detalle_contenido</span></code> es la encargada de mostrar el detalle de los contenidos (likes ,comentarios).</p>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">toggle_like</span></code> es la funcion encargada de dar o quitar el like en una publicacion.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">EditarContenidoView</span></code> es la vista para editar el contenido en revision.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>utiliza el form ContenidoEditForm
+
+form_valid(form)
+
+   Si el form es correcto, guarda el modelo asociado.
+
+modelo Contenido
+
+requiere del permiso = &#39;contenido.change_contenido&#39;
+
+url exitosa = &#39;/contenido/revision/&#39;
+
+nombre del template  = &#39;contenido/contenido_editar.html&#39;
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">EditarBorradorView</span></code> es la vista para editar el contenido en borrador.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>utiliza el formulario BorradorEditForm
+
+form_valid(form)
+
+   Si el form es valido, guarda el modelo asociado.
+
+get_form_kwargs()
+
+   Devuelve los argumentos de palabra clave para instanciar el formulario.
+
+modelo Contenido
+
+url exitosa = &#39;/contenido/borradores/&#39;
+
+el template que utiliza es  = &#39;borrador/borrador_editar.html&#39;
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">EditarRechazadoView</span></code> es la vista para editar el contenido rechazado.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>utiliza el form RechazadoEditForm
+
+form_valid(form)
+
+   Si el form es valido, guarda el modelo asociado.
+
+get_form_kwargs()
+
+   Devuelve los argumentos de palabra clave para instanciar el formulario.
+
+modelo Contenido
+
+url exitosa = &#39;/contenido/rechazados/&#39;
+
+utiliza el template = &#39;contenido/rechazado_editar.html&#39;
+</pre></div>
+</div>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">detalle_autor</span></code> es la funcion para ver los contenidos de un autor en especifico.</p>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">kanban_view</span></code> es la funcion que muestra el kanban correspondiente al usuario logueado.</p>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">delete_image</span></code> es la funcion para eliminar una imagen del contenido de texto enriquesido.</p>
 <p>La funcion <code class="docutils literal notranslate"><span class="pre">delete_video</span></code> es la funcion para eliminar un video del contenido de texto enriquesido.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ContenidoVersionListView</span></code> es la vista de la lista de las versiones del contenido.</p>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">editar_version</span></code> es la funcion encargada de elejir la version deseada y usarla como ultima version (solo para borradores).</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">UnContenidoApublicarView</span></code> es la vista para un contenido a publicar</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">trae</span> <span class="n">el</span> <span class="n">objeto</span> <span class="n">contexto</span> <span class="o">=</span> <span class="s1">&#39;revisados&#39;</span>
+
+<span class="n">get_queryset</span><span class="p">()</span>
+
+   <span class="n">Devolver</span> <span class="n">la</span> <span class="n">lista</span> <span class="n">de</span> <span class="n">elementos</span> <span class="n">para</span> <span class="n">esta</span> <span class="n">vista</span><span class="o">.</span>
+
+   <span class="n">El</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">retorno</span> <span class="n">debe</span> <span class="n">ser</span> <span class="n">un</span> <span class="n">iterable</span> <span class="n">y</span> <span class="n">puede</span> <span class="n">ser</span> <span class="n">una</span> <span class="n">instancia</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="p">,</span> <span class="n">en</span> <span class="n">cuyo</span> <span class="n">caso</span> <span class="n">se</span> <span class="n">habilitará</span> <span class="n">el</span> <span class="n">comportamiento</span> <span class="n">específico</span> <span class="n">de</span> <span class="n">QuerySet</span><span class="o">.</span>
+
+<span class="n">modelo</span> <span class="n">Contenido</span>
+
+<span class="n">utiliza</span> <span class="n">el</span> <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;contenido/contenido_a_publicar.html&#39;</span>
+</pre></div>
+</div>
 <dl class="py class" id="module-contenido.views">
 <dt class="sig sig-object py" id="contenido.views.ActivarCategoriaView">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">ActivarCategoriaView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#ActivarCategoriaView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.ActivarCategoriaView" title="Link to this definition"></a></dt>
