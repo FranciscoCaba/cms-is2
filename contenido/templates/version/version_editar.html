@@ -2,7 +2,6 @@
 {%block titulo%}Editar version{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
-{% if version.contenido.estado == 'Borrador' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width:60%;background-color: #f3b805;">
     <div class="card-header" style="font-weight: bold;">Nota del Borrador</div>
     <div class="card-body">
@@ -24,60 +23,4 @@
         </div>
     </div>
 </form>
-{% else %}
-<div class="contenido-detallado">
-    <div class="contenido-title">
-        <h1>{{ version.titulo }}</h1>
-    </div>
-    <div class="contenido-references">
-        <p>Autor: <a href="{% url 'detalle_autor' version.contenido.user.pk %}">{{ version.contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' version.contenido.categoria.pk %}">{{ version.categoria }}</a> | {{ version.fecha_modificacion }}</p>
-    </div>
-    <div class="contenido-body">
-        <h4>
-            Resumen:
-        </h4>
-        {{ version.contenido.resumen }}
-        <hr>
-        <h4>
-            Descripción:
-        </h4>
-        {{ version.descripcion | safe }}
-        <div class="card text-dark mx-auto mb-3 mt-3" style="background-color: #f3b805;">
-            <div class="card-header" style="font-weight: bold;">Nota del Borrador</div>
-            <div class="card-body">
-                {% if version.contenido.nota != "" or version.contenido.nota != None %}
-                    <p class="card-text">{{ version.nota }}</p>
-                {% else %}
-                    <p class="card-text" style="font-style: italic;">Sin Nota</p>
-                {% endif %}
-            </div>
-        </div>
-        {% if version.contenido.images.all %}
-            <h2>Imágenes:</h2>
-            <ul>
-                {% for image in version.contenido.images.all %}
-                    <li>
-                        <img src="{{ image.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        
-        {% if version.contenido.videos.all %}
-            <h2>Videos:</h2>
-            <ul>
-                {% for video in version.contenido.videos.all %}
-                    <li>
-                        <video controls width="400" height="300">
-                            <source src="{{ video.video.url }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-</div>
-{% endif %}
 {% endblock %}

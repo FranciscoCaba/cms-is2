@@ -422,9 +422,10 @@ def delete_video(request, video_id):
             pass
         return redirect(edit_url, pk=content_pk)
 
-class ContenidoVersionListView(LoginRequiredMixin, ListView):
+class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = VersionContenido
-    template_name = 'version/version_lista.html'
+    template_name = 'version/historial_lista.html'
+    permission_required = 'contenido.add_contenido'
     context_object_name = 'version_contenidos'
 
     def get_queryset(self):
@@ -432,8 +433,10 @@ class ContenidoVersionListView(LoginRequiredMixin, ListView):
         # Obtener los contenidos en estado "borrador" del usuario actual
         return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
     
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modo'] = 'versiones'
+        return context
 def editar_version(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
     
@@ -457,3 +460,22 @@ def editar_version(request, version_id):
         form = VersionContenidoEditForm(instance=version, user_request=request.user)
     
     return render(request, 'version/version_editar.html', {'form': form, 'version': version})
+    
+class ContenidoHistorialListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    model = VersionContenido
+    template_name = 'version/historial_lista.html'
+    permission_required = 'contenido.ver_historial'
+    context_object_name = 'version_contenidos'
+
+    def get_queryset(self):
+        # Obtener los contenidos en estado "borrador" del usuario actual
+        return VersionContenido.objects.all().order_by('-fecha_modificacion')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modo'] = 'historial'
+        return context
+    
+def detalle_historial(request, version_id):
+    version = get_object_or_404(VersionContenido, pk=version_id)
+    return render(request, 'version/historial_vista.html', {'version': version})
