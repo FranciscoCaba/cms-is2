@@ -101,6 +101,8 @@
 </li>
       <li><a href="app.html#app.views.ActivarUsuarioView">ActivarUsuarioView (class in app.views)</a>
 </li>
+      <li><a href="contenido.html#contenido.views.all_kanban_view">all_kanban_view() (in module contenido.views)</a>
+</li>
       <li>
     app
 
@@ -165,6 +167,8 @@
       <li><a href="contenido.html#contenido.forms.BorradorEditForm">BorradorEditForm (class in contenido.forms)</a>
 </li>
       <li><a href="contenido.html#contenido.forms.BorradorEditForm.Meta">BorradorEditForm.Meta (class in contenido.forms)</a>
+</li>
+      <li><a href="app.html#app.views.buscar_contenido">buscar_contenido() (in module app.views)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -254,8 +258,6 @@
         <li><a href="contenido.html#module-contenido.views">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.Image.contenido_id">contenido_id (contenido.models.Image attribute)</a>
 
       <ul>
@@ -266,6 +268,8 @@
         <li><a href="contenido.html#contenido.models.Video.contenido_id">(contenido.models.Video attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.views.ContenidoBorradorListView">ContenidoBorradorListView (class in contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.forms.ContenidoEditForm">ContenidoEditForm (class in contenido.forms)</a>
@@ -302,6 +306,10 @@
         <li><a href="contenido.html#contenido.views.ContenidoVersionListView.context_object_name">(contenido.views.ContenidoVersionListView attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ListarRevisionesView.context_object_name">(contenido.views.ListarRevisionesView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.ListarUnaRevisionView.context_object_name">(contenido.views.ListarUnaRevisionView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.UnContenidoApublicarView.context_object_name">(contenido.views.UnContenidoApublicarView attribute)</a>
 </li>
       </ul></li>
       <li><a href="app.html#app.views.create_group">create_group() (in module app.views)</a>
@@ -530,10 +538,10 @@
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.get_next_by_fecha">get_next_by_fecha() (contenido.models.Contenido method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.VersionContenido.get_next_by_fecha_modificacion">get_next_by_fecha_modificacion() (contenido.models.VersionContenido method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.Like.get_previous_by_created_at">get_previous_by_created_at() (contenido.models.Like method)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.get_previous_by_fecha">get_previous_by_fecha() (contenido.models.Contenido method)</a>
@@ -550,6 +558,10 @@
         <li><a href="contenido.html#contenido.views.ContenidoVersionListView.get_queryset">(contenido.views.ContenidoVersionListView method)</a>
 </li>
         <li><a href="contenido.html#contenido.views.ListarRevisionesView.get_queryset">(contenido.views.ListarRevisionesView method)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.ListarUnaRevisionView.get_queryset">(contenido.views.ListarUnaRevisionView method)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.UnContenidoApublicarView.get_queryset">(contenido.views.UnContenidoApublicarView method)</a>
 </li>
       </ul></li>
       <li><a href="contenido.html#contenido.views.ContenidoFormView.get_success_url">get_success_url() (contenido.views.ContenidoFormView method)</a>
@@ -633,6 +645,8 @@
       <li><a href="contenido.html#contenido.models.Contenido.likes">likes (contenido.models.Contenido attribute)</a>
 </li>
       <li><a href="contenido.html#contenido.views.ListarRevisionesView">ListarRevisionesView (class in contenido.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.views.ListarUnaRevisionView">ListarUnaRevisionView (class in contenido.views)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -733,6 +747,10 @@
 </li>
         <li><a href="contenido.html#contenido.views.ListarRevisionesView.model">(contenido.views.ListarRevisionesView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.ListarUnaRevisionView.model">(contenido.views.ListarUnaRevisionView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.UnContenidoApublicarView.model">(contenido.views.UnContenidoApublicarView attribute)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -767,6 +785,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.Categoria.nombre">nombre (contenido.models.Categoria attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.models.Contenido.nota">nota (contenido.models.Contenido attribute)</a>
+
+      <ul>
+        <li><a href="contenido.html#contenido.models.VersionContenido.nota">(contenido.models.VersionContenido attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -828,6 +854,8 @@
 </li>
         <li><a href="contenido.html#contenido.views.ListarRevisionesView.permission_required">(contenido.views.ListarRevisionesView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.ListarUnaRevisionView.permission_required">(contenido.views.ListarUnaRevisionView attribute)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -845,14 +873,22 @@
 </li>
       <li><a href="contenido.html#contenido.forms.RechazadoEditForm.Meta">RechazadoEditForm.Meta (class in contenido.forms)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.views.rechazar_contenido">rechazar_contenido() (in module contenido.views)</a>
 </li>
       <li><a href="app.html#app.views.register">register() (in module app.views)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.Contenido.reportado">reportado (contenido.models.Contenido attribute)</a>
 </li>
+      <li><a href="app.html#app.views.resultados_busqueda">resultados_busqueda() (in module app.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Contenido.resumen">resumen (contenido.models.Contenido attribute)</a>
+
+      <ul>
+        <li><a href="contenido.html#contenido.models.VersionContenido.resumen">(contenido.models.VersionContenido attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -866,7 +902,11 @@
 </li>
       </ul></li>
       <li><a href="contenido.html#contenido.models.Contenido.solo_suscriptores">solo_suscriptores (contenido.models.Contenido attribute)</a>
+
+      <ul>
+        <li><a href="contenido.html#contenido.models.VersionContenido.solo_suscriptores">(contenido.models.VersionContenido attribute)</a>
 </li>
+      </ul></li>
       <li><a href="app.html#app.views.UserCreateView.success_url">success_url (app.views.UserCreateView attribute)</a>
 
       <ul>
@@ -938,7 +978,11 @@
 </li>
         <li><a href="contenido.html#contenido.views.ListarRevisionesView.template_name">(contenido.views.ListarRevisionesView attribute)</a>
 </li>
+        <li><a href="contenido.html#contenido.views.ListarUnaRevisionView.template_name">(contenido.views.ListarUnaRevisionView attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.views.MostrarContenidosView.template_name">(contenido.views.MostrarContenidosView attribute)</a>
+</li>
+        <li><a href="contenido.html#contenido.views.UnContenidoApublicarView.template_name">(contenido.views.UnContenidoApublicarView attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -957,6 +1001,8 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.views.UnContenidoApublicarView">UnContenidoApublicarView (class in contenido.views)</a>
+</li>
       <li><a href="contenido.html#contenido.models.Contenido.user">user (contenido.models.Contenido attribute)</a>
 
       <ul>
@@ -969,10 +1015,10 @@
         <li><a href="contenido.html#contenido.models.Like.user_id">(contenido.models.Like attribute)</a>
 </li>
       </ul></li>
-      <li><a href="contenido.html#contenido.models.VersionContenido.user_modificacion">user_modificacion (contenido.models.VersionContenido attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.models.VersionContenido.user_modificacion">user_modificacion (contenido.models.VersionContenido attribute)</a>
+</li>
       <li><a href="contenido.html#contenido.models.VersionContenido.user_modificacion_id">user_modificacion_id (contenido.models.VersionContenido attribute)</a>
 </li>
       <li><a href="app.html#app.views.UserCreateView">UserCreateView (class in app.views)</a>

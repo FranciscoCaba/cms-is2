@@ -78,10 +78,13 @@
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">Group</span><span class="p">,</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">CustomUserCreationForm</span><span class="p">,</span> <span class="n">CustomUserChangeForm</span><span class="p">,</span> <span class="n">CustomAdminUserCreationForm</span><span class="p">,</span> <span class="n">CustomAdminUserChangeForm</span><span class="p">,</span> <span class="n">GroupCreationForm</span><span class="p">,</span> <span class="n">GroupEditForm</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">logout</span>
-<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span><span class="p">,</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
-<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Count</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Count</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">Value</span>
 <span class="kn">from</span> <span class="nn">contenido.models</span> <span class="kn">import</span> <span class="n">Categoria</span><span class="p">,</span> <span class="n">Contenido</span>
+<span class="kn">from</span> <span class="nn">django.db.models.functions</span> <span class="kn">import</span> <span class="n">Cast</span>
+
+
 
 <span class="c1"># Create your views here.</span>
 <div class="viewcode-block" id="CustomTemplateView">
@@ -346,6 +349,37 @@
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;no_encontrada.html&#39;</span><span class="p">)</span></div>
 </div>
+
+    
+
+<div class="viewcode-block" id="buscar_contenido">
+<a class="viewcode-back" href="../../app.html#app.views.buscar_contenido">[docs]</a>
+<span class="k">def</span> <span class="nf">buscar_contenido</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">query</span><span class="p">:</span>
+        <span class="c1"># Redirige a la vista de resultados de búsqueda</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;resultados_busqueda&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;?q=</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Redirige a la vista de inicio</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;resultados_busqueda&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="resultados_busqueda">
+<a class="viewcode-back" href="../../app.html#app.views.resultados_busqueda">[docs]</a>
+<span class="k">def</span> <span class="nf">resultados_busqueda</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+    <span class="n">contenidos</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">categorias</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">usuarios</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="k">if</span> <span class="n">query</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">contenidos</span> <span class="o">=</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">titulo__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">descripcion__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+        <span class="n">categorias</span> <span class="o">=</span> <span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">nombre__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+        <span class="n">usuarios</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">username__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>    
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;busqueda/resultado.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;contenidos&#39;</span><span class="p">:</span> <span class="n">contenidos</span><span class="p">,</span> <span class="s1">&#39;categorias&#39;</span><span class="p">:</span> <span class="n">categorias</span><span class="p">,</span> <span class="s1">&#39;usuarios&#39;</span><span class="p">:</span> <span class="n">usuarios</span><span class="p">,</span> <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query</span><span class="p">})</span></div>
 
 </pre></div>
 
