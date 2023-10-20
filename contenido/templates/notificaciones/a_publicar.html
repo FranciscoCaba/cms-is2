@@ -1,0 +1,7 @@
+{% extends "base_email.html" %}
+{% load static %}
+{% block titulo %}Cambio de estado de publicación {% endblock %}
+{% block contenido %}
+    Tu publicación {{ titulo }} ha sido aceptada por el editor y ahora se encuentra en A Publicar.
+    Para ver tu contenido, sigue este enlace: <a href="{{ content_url }}">Ver contenido</a></p>
+{% endblock %}

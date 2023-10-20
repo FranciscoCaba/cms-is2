@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{%block titulo%}Detalle Historial{% endblock %}
+{% block contenido %}
+{% load crispy_forms_tags %}
+<div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: lightblue;">
+    <div class="card-body">
+        <h1 class="text-center">Info de Version</h1>
+    </div>
+</div>
+<div class="mx-5">
+    <table class="table table-bordered">
+      <thead>
+          <th>ContenidoID</th>
+          <th>Version</th>
+          <th>Titulo</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Usuario</th>
+      </thead>
+      <tbody>
+            <tr>
+                <td>{{ version.contenido.id }}</td>
+                <td>{{ version.version }}</td>
+                <td>{{ version.titulo }}</td>
+                <td>{{ version.fecha_modificacion }}</td>
+                <td>{{ version.estado }}</td>
+                <td>{{ version.user_modificacion.username }}</td>
+            </tr>
+      </tbody>
+    </table>
+</div>
+
+
+<div class="card text-dark mx-auto mb-3 mt-3 w-50" style="background-color: #f3b805;">
+    <div class="card-header" style="font-weight: bold;">Nota del Contenido</div>
+    <div class="card-body">
+        {% if version.contenido.nota != "" or version.contenido.nota != None %}
+            <p class="card-text">{{ version.nota }}</p>
+        {% else %}
+            <p class="card-text" style="font-style: italic;">Sin Nota</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: lightblue;">
+    <div class="card-body">
+        <h1 class="text-center">Vista de Portlet</h1>
+    </div>
+</div>
+
+<div class="contenido-portlet">
+    <div class="portlet-title">
+        <h5><a href="{% url 'detalle_contenido' version.id %}">{{ version.titulo }}</a></h5>
+    </div>
+    <div class="portlet-references">
+        <p>Autor: <a href="{% url 'detalle_autor' version.contenido.user.pk %}">{{ version.contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' version.contenido.categoria.pk %}">{{ version.categoria }}</a> | {{ version.fecha_modificacion }}</p>
+    </div>
+    <div class="portlet-body">
+        {{ version.resumen }}
+    </div>
+</div>
+
+<div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: lightblue;">
+    <div class="card-body">
+        <h1 class="text-center">Vista de Detalle de Contenido</h1>
+    </div>
+</div>
+    <div class="contenido-detallado">
+        <div class="contenido-title">
+            <h1>{{ version.titulo }}</h1>
+        </div>
+        <div class="contenido-references">
+            <p>Autor: <a href="{% url 'detalle_autor' version.contenido.user.pk %}">{{ version.contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' version.contenido.categoria.pk %}">{{ version.categoria }}</a> | {{ version.fecha_modificacion }}</p>
+        </div>
+        <div class="contenido-body">
+            {{ version.descripcion | safe }}
+            {% if version.contenido.images.all %}
+                <h2>Imágenes:</h2>
+                <ul>
+                    {% for image in version.contenido.images.all %}
+                        <li>
+                            <img src="{{ image.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            
+            {% if version.contenido.videos.all %}
+                <h2>Videos:</h2>
+                <ul>
+                    {% for video in version.contenido.videos.all %}
+                        <li>
+                            <video controls width="400" height="300">
+                                <source src="{{ video.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if version.contenido.archivos.all %}
+                <h2>Archivos:</h2>
+                <ul>
+                    {% for archivo in version.contenido.archivos.all %}
+                        <li>
+                            <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name|filename }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

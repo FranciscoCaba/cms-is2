@@ -41,15 +41,45 @@ Formularios del Proyecto
 
 La clase ``CustomUserCreationForm`` es un formulario para la creacion de usuario.
 
+::
+
+   Posee los campos de = ['nombre de usuario', 'nombre ', 'apellido ', 'email', 'roll']
+
+
 La clase ``CustomUserChangeForm`` es un formulario para la edicion de usuario.
 
+::
+
+   Posee = ['nombre de usuario', 'nombre', 'apellido', 'email', 'contrasena1', 'contrasena1']
+
+
 La clase ``CustomAdminUserCreationForm`` es un formulario para la creacion de usuario desde el panel de administracion.
+   
+::
+
+   Posee los campos de = ['nombre de usuario', 'nombre', 'apellido']
+
 
 La clase ``CustomAdminUserChangeForm`` es un formulario para la edicion de usuario desde el panel de administracion.
 
+::
+
+   Posee los campos de = ['nombre de usuario', 'nombre', 'apellido']
+
+
 La clase ``GroupCreationForm`` es un formulario para la creacion de roles.
 
+::
+
+   Posee los campos de  = ['nombre', 'permisos']
+
+
 La clase ``GroupEditForm`` es un formulario para la edicion de roles.
+
+::
+
+   Posee los campos de  = ['nombre', 'permisos']
+
 
 .. automodule:: app.forms
    :members:
@@ -62,6 +92,15 @@ app.views module
 
 Vistas del Proyecto
 ~~~~~~~~~~~~~~~~~~~
+
+La clase ``PaginaNoEncontradaView`` es la vista que se genera al entrar a una url que no existe (error 404).
+
+::
+
+   hace un ``get(request, *args, **kwargs)``.
+   Necesita los permisos de = 'auth.delete_user'.
+   usa el template = 'activar_usuario.html'.
+
 
 La clase ``CustomTemplateView(TemplateView):`` es una vista base cuyo proposito es darle contexto a las vistas del usuario logeado.
    
@@ -87,17 +126,52 @@ El metodo ``group_list`` es una vista para listar los roles.
 
 La clase ``UserListView`` es la vista dedicada a listar todos los usuarios desde el panel de administracion.
 
+::
+
+   utiliza el objeto = 'user'.
+   utiliza el template = 'user_list.html'.
+
+
 La clase ``UserDetailView`` es la vista dedicada a la gestion de detalles de usuarios desde el panel de administracion.
 
+::
+
+   utiliza el objeto = 'user'.
+   utiliza el template = 'user_detail.html'.
+
+
 La clase ``UserCreateView`` es la vista dedicada a la creacion de usuario desde el panel de administracion.
+   
+::
+
+   utiliza el form = CustomAdminUserCreationForm.
+   Requiere el permiso  = 'auth.add_user'.
+   la url exitosa es = '/users/'.
+   el template que utiliza es = 'user_form.html'.
+
 
 La clase ``UserUpdateView`` es la vista dedicada para actualizar a los usuarios desde el panel de administracion.
 
+::
+
+   utiliza el form = CustomAdminUserChangeForm.
+   requiere del permiso = 'auth.change_user'.
+   la url exitosa es = '/users/'.
+   utiliza el template = 'user_form.html'.
+
+
 La clase ``DesactivarUsuarioView`` es la vista dedicada para dar de baja a un usuario desde el panel de administracion.
+
+::
+   
+   usa una funcion = ``get(request, *args, **kwargs)``.
+   Requiere del permiso = 'auth.delete_user'.
+   utiliza el template = 'desactivar_usuario.html.
+
 
 La clase ``ActivarUsuarioView`` es la vista dedicada para reactivar a un usuario desde el panel de administracion.
 
-La clase ``PaginaNoEncontradaView`` es la vista que se genera al entrar a una url que no existe (error 404).
+
 
 .. automodule:: app.views
    :members: 

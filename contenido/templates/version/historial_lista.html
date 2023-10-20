@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{%block titulo%}
+{% if modo == 'historial' %}
+Historial de cambios
+{% else %}
+Versiones de mis Contenidos
+{% endif %}
+{% endblock %}
+{% block contenido %}
+<div class="mx-5">
+    {% if modo == 'historial' %}
+    <h2 class="my-3">Historial de cambios</h2>
+    {% else %}
+    <h2 class="my-3">Versiones de mis Contenidos</h2>
+    {% endif %}
+    <table class="table table-bordered">
+      <thead>
+          <th>ContenidoID</th>
+          <th>Version</th>
+          <th>Titulo</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Usuario</th>
+          <th>Detalle</th>
+      </thead>
+      <tbody>
+          {% for versioncontenido in version_contenidos %}
+              <tr>
+                  <td>{{ versioncontenido.contenido.id }}</td>
+                  <td>{{ versioncontenido.version }}</td>
+                  <td>{{ versioncontenido.titulo }}</td>
+                  <td>{{ versioncontenido.fecha_modificacion }}</td>
+                  <td>{{ versioncontenido.estado }}</td>
+                  <td>{{ versioncontenido.user_modificacion.username }}</td>
+                  {% if versioncontenido.contenido.estado == 'Borrador' and modo != 'historial' %}
+                    <td class="text-center"><a class="btn btn-sm w-75 btn-primary" href="{% url 'editar-version' versioncontenido.id %}">Editar</a></td>
+                  {% else %}
+                    <td class="text-center"><a class="btn btn-sm w-75 btn-success" href="{% url 'detalle-historial' versioncontenido.id %}">Ver</a></td>
+                  {% endif %}
+              </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}

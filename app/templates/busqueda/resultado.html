@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{%block titulo%}Resultado de busqueda{% endblock %}
+{% block contenido %}
+<h1>Resultados de búsqueda para: "{{ query }}"</h1>
+    <hr>
+        {% if contenidos.count >= 1 %}
+        
+        <ul>
+        {% for item in contenidos %}
+            <li><h4><a href="{% url 'detalle_contenido' item.id %}">{{ item.titulo }}</a></h4>
+                 Categoría: <a href="{% url 'mostrar_contenidos' item.categoria.id %}">{{ item.categoria.nombre }}</a>
+                 | Autor: <a href="{% url 'detalle_autor' item.user.pk %}">{{ item.user.username }}</a> | Fecha: {{ item.fecha }}
+                <p>{{ item.resumen }}</p>
+            </li>
+        {% endfor %}
+        {% else %}
+        <h1>No se encontraron resultados</h1>
+        {% endif %}
+        </ul>
+    <hr>
+{% endblock %}

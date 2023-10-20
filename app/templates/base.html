@@ -84,7 +84,7 @@
               <a class="nav-link" href="{% url 'listar_revisiones' %}">Ver contenidos en revision</a>
             </li>
             {% endif %}
-            {% if perms.contenido.ver_revisiones %}
+            {% if perms.contenido.ver_a_publicar %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'list_a_publicar' %}">Ver contenidos a publicar</a>
             </li>
@@ -101,7 +101,12 @@
             {% endif %}
             {% if perms.contenido.add_contenido %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'contenido-version' %}">Historial de Versiones</a>
+                <a class="nav-link" href="{% url 'contenido-version' %}">Versiones de Mis Contenidos</a>
+              </li>
+            {% endif %}
+            {% if perms.contenido.ver_historial %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'contenido-historial' %}">Historial de Cambios</a>
               </li>
             {% endif %}
             </ul>
@@ -121,10 +126,14 @@
           </ul>
         {% endif %}
       </div>
+      <form class="form-inline" method="GET" action="{% url 'buscar_contenido' %}">
+        <input class="p-2 rounded-2 border" type="text" name="q" placeholder="Buscar...">
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
+      </form>
       {% if request.user.is_authenticated %}
       <div class="dropstart d-flex flex-row align-items-center me-4">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ user.username }}
+          {{ request.user.username }}
         </a>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
@@ -136,7 +145,6 @@
       </div>
       {% endif %}
   </nav>
-
   {% block contenido %}
   {% endblock %}
 

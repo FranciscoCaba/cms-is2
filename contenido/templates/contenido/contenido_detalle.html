@@ -1,7 +1,15 @@
 {% extends "base.html" %}
+{% load custom_filters %}
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
+{% if ncontenido.estado != 'Publicado' %}
+<div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
+    <div class="card-body">
+        <h1 class="text-center">Vista Previa de Contenido</h1>
+    </div>
+</div>
+{% endif %}
     <div class="contenido-detallado">
         <div class="contenido-title">
             <h1>{{ contenido.titulo }}</h1>
@@ -36,7 +44,19 @@
                     {% endfor %}
                 </ul>
             {% endif %}
+
+            {% if contenido.archivos.all %}
+                <h2>Archivos:</h2>
+                <ul>
+                    {% for archivo in contenido.archivos.all %}
+                        <li>
+                            <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name|filename }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
+        {% if contenido.estado == 'Publicado' %}
         <div class="contenido-interactions-data">
             <p>Likes: {{ contenido.likes.count }}</p>
         </div>
@@ -60,6 +80,7 @@
         <div class="contenido-comentarios">
             <p>No hay comentarios!</p>
         </div>
+        {% endif %}
     </div>
     <script>
         function copyToClipboard() {

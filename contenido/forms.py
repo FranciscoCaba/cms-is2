@@ -17,13 +17,15 @@ class ContenidoForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores', 'nota')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'nota': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'required': False, 'style': 'resize: none;'}),
         }
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,6 +33,7 @@ class ContenidoForm(forms.ModelForm):
             is_active=True,
             moderada=True,
         )
+        self.fields['nota'].label = "Nota para el siguiente usuario"
         if user.has_perm('contenido.puede_publicar_no_moderada'):
             self.fields['categoria'].queryset = Categoria.objects.filter(
                 is_active=True,
@@ -46,14 +49,28 @@ class ContenidoEditForm(forms.ModelForm):
 
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores', 'nota')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'nota': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'required': False, 'style': 'resize: none;'}),
         }
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(
+            is_active=True,
+            moderada=True,
+        )
+        self.fields['nota'].label = "Nota para el siguiente usuario"
+        if user.has_perm('contenido.puede_publicar_no_moderada'):
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                is_active=True,
+            )
  
 class CategoriaForm(forms.ModelForm):
 
@@ -87,13 +104,15 @@ class BorradorEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores', 'nota')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'nota': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'required': False, 'style': 'resize: none;'}),
         }
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -101,6 +120,7 @@ class BorradorEditForm(forms.ModelForm):
             is_active=True,
             moderada=True,
         )
+        self.fields['nota'].label = "Nota para el siguiente usuario"
         if user.has_perm('contenido.puede_publicar_no_moderada'):
             self.fields['categoria'].queryset = Categoria.objects.filter(
                 is_active=True,
@@ -116,13 +136,15 @@ class VersionContenidoEditForm(forms.ModelForm):
     
     class Meta:
         model = VersionContenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores', 'nota')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'nota': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'required': False, 'style': 'resize: none;'}),
         }
     def __init__(self, *args,  user_request=None,**kwargs):
         super().__init__(*args, **kwargs)
@@ -130,7 +152,7 @@ class VersionContenidoEditForm(forms.ModelForm):
             is_active=True,
             moderada=True,
         )
-        
+        self.fields['nota'].label = "Nota para el siguiente usuario"
         if user_request.has_perm('contenido.puede_publicar_no_moderada'):
             self.fields['categoria'].queryset = Categoria.objects.filter(
                 is_active=True,
@@ -146,13 +168,15 @@ class RechazadoEditForm(forms.ModelForm):
     
     class Meta:
         model = Contenido
-        fields = ('titulo', 'categoria', 'descripcion', 'solo_suscriptores')
+        fields = ('titulo', 'resumen', 'categoria', 'descripcion', 'solo_suscriptores', 'nota')
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'resumen': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.CharField(widget=CKEditorWidget()),
             'categoria': forms.Select(),
             'solo_suscriptores': forms.CheckboxInput(attrs={'class': 'form-control-2'}),
+            'nota': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'required': False, 'style': 'resize: none;'}),
         }
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -160,6 +184,7 @@ class RechazadoEditForm(forms.ModelForm):
             is_active=True,
             moderada=True,
         )
+        self.fields['nota'].label = "Nota para el siguiente usuario"
         if user.has_perm('contenido.puede_publicar_no_moderada'):
             self.fields['categoria'].queryset = Categoria.objects.filter(
                 is_active=True,

@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from contenido.models import Categoria, Contenido
 import lorem  # Esta es una biblioteca para generar texto aleatorio
 import random  # Para generar datos aleatorios
-
+from django.db.models import Q
 class Command(BaseCommand):
     help = 'Carga datos iniciales de Usuarios, Grupos, Categorías y Contenidos'
 
@@ -34,17 +34,39 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write('Cargando datos iniciales...')
 
+        # Obtener permisos
+        permisos = Permission.objects.all()
+
         # Crear grupos
         grupos = ['Suscriptor', 'Autor', 'Editor', 'Publicador', 'Administracion']
         for grupo in grupos:
             Group.objects.get_or_create(name=grupo)
+        
+        administracion = Group.objects.get(name='Administracion')
+        for permiso in permisos:
+            administracion.permissions.add(permiso)
+
+        autor = Group.objects.get(name='Autor')
+        autor.permissions.add(Permission.objects.get(codename='add_contenido'))
+        autor.permissions.add(Permission.objects.get(codename='ver_kanban'))
+
+        editor = Group.objects.get(name='Editor')
+        editor.permissions.add(Permission.objects.get(codename='ver_revisiones'))
+        editor.permissions.add(Permission.objects.get(codename='puede_editar_aceptar'))
+        editor.permissions.add(Permission.objects.get(codename='ver_todos_kanban'))
+
+        publicador = Group.objects.get(name='Publicador')
+        publicador.permissions.add(Permission.objects.get(codename='ver_a_publicar'))
+        publicador.permissions.add(Permission.objects.get(codename='puede_publicar_rechazar'))
+        publicador.permissions.add(Permission.objects.get(codename='ver_todos_kanban'))
 
         # Crear usuarios y asignarlos a grupos
         usuarios = {
             'Derlis': 'Suscriptor',
             'Osmani': 'Autor',
             'Fran': 'Editor',
-            'Jimmy': 'Publicador'
+            'Jimmy': 'Publicador',
+            'admin': 'Administracion'
         }
 
         for nombre_usuario, nombre_grupo in usuarios.items():
@@ -59,6 +81,9 @@ class Command(BaseCommand):
             grupo = Group.objects.get(name=nombre_grupo)
             user.groups.add(grupo)
 
+        fran = User.objects.get(username='fran')
+        fran.user_permissions.add(Permission.objects.get(codename='puede_publicar_no_moderada'))
+
         # Crear categorías
         categorias = ['Deporte', 'Ciencia', 'Cultura', 'Politica', 'Informatica']
         for categoria in categorias:
@@ -69,9 +94,9 @@ class Command(BaseCommand):
         
         # Crear contenidos
         for categoria in Categoria.objects.all():
-            for i in range(10):
+            for i in range(4):
                 titulo = lorem.sentence()
-
+                resumen = ' '.join([lorem.sentence() for _ in range(3)])
                 # Generar descripción en formato HTML aleatorio con etiquetas
                 descripcion = self.generate_random_html_text()
                 user = users[i] if i < len(users) else users[i % len(users)]
@@ -79,6 +104,7 @@ class Command(BaseCommand):
                     categoria=categoria,
                     user=user,
                     titulo=titulo,
+                    resumen=resumen,
                     descripcion=descripcion,
                     is_active=True,
                     estado='Publicado',

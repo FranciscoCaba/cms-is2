@@ -17,7 +17,7 @@
                         <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' contenido.categoria.pk %}">{{ contenido.categoria }}</a> | {{ contenido.fecha }}</p>
                     </div>
                     <div class="portlet-body">
-                        {{ contenido.descripcion | safe }}
+                        {{ contenido.resumen }}
                     </div>
                 </li>
             {% endfor %}
