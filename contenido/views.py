@@ -428,8 +428,9 @@ class ContenidoVersionListView(LoginRequiredMixin, ListView):
     context_object_name = 'version_contenidos'
 
     def get_queryset(self):
+        micontenido = Contenido.objects.filter(user = self.request.user)
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return VersionContenido.objects.all().order_by('-contenido_id', 'version')
+        return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
     
 
 
