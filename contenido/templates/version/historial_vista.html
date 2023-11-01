@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_filters %}
 {%block titulo%}Detalle Historial{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
@@ -74,10 +75,10 @@
         </div>
         <div class="contenido-body">
             {{ version.descripcion | safe }}
-            {% if contenido.images.all %}
+            {% if version.contenido.images.all %}
                 <h2>Imágenes:</h2>
                 <ul>
-                    {% for image in contenido.images.all %}
+                    {% for image in version.contenido.images.all %}
                         <li>
                             <img src="{{ image.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
                         </li>
@@ -86,15 +87,26 @@
             {% endif %}
 
             
-            {% if contenido.videos.all %}
+            {% if version.contenido.videos.all %}
                 <h2>Videos:</h2>
                 <ul>
-                    {% for video in contenido.videos.all %}
+                    {% for video in version.contenido.videos.all %}
                         <li>
                             <video controls width="400" height="300">
                                 <source src="{{ video.video.url }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if version.contenido.archivos.all %}
+                <h2>Archivos:</h2>
+                <ul>
+                    {% for archivo in version.contenido.archivos.all %}
+                        <li>
+                            <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name|filename }}</a>
                         </li>
                     {% endfor %}
                 </ul>

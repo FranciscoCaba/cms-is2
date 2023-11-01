@@ -225,6 +225,7 @@ def publicar_contenido(request, pk):
         content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
         context = {
             'titulo': contenido.titulo,
+            'nota': contenido.nota,
             'content_url': content_url,   
         }      
         html_template = 'notificaciones/publicado.html'
