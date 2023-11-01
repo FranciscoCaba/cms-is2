@@ -3,7 +3,7 @@
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
-{% if ncontenido.estado != 'Publicado' %}
+{% if contenido.estado != 'Publicado' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
     <div class="card-body">
         <h1 class="text-center">Vista Previa de Contenido</h1>

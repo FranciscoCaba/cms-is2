@@ -46,6 +46,9 @@ class Contenido(models.Model):
         # Guardar una nueva versión de Contenido antes de cada modificación
         super().save(*args)
 
+    def save_version(self, *args, **kwargs):
+        super().save(*args)
+
         user = kwargs.get('user', None)
 
         VersionContenido.objects.create(
@@ -60,7 +63,6 @@ class Contenido(models.Model):
             nota=self.nota,
             version=1  # La primera versión siempre es 1
         )
-
 
     def __str__(self):
         return self.titulo
