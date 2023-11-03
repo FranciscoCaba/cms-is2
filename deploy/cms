@@ -4,7 +4,7 @@ server {
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /staticfiles/ {
-        root /home/derlis/proyecto/cms-is2;
+        root /home/francisco/Desktop/proyecto/cms-is2;
     }
 
     location / {
