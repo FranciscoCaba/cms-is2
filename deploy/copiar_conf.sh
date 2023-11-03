@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Copia de archivos de configuracion gunicorn
-sudo cp 'gunicorn.socket' 'etc/systemd/system/'
-sudo cp 'gunicorn.service' 'etc/systemd/system/'
+sudo cp 'gunicorn.socket' '/etc/systemd/system/'
+sudo cp 'gunicorn.service' '/etc/systemd/system/'
 
 # Activamos el servicio
 sudo systemctl start gunicorn.socket
