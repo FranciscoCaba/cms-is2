@@ -59,6 +59,7 @@
         {% if contenido.estado == 'Publicado' %}
         <div class="contenido-interactions-data">
             <p>Likes: {{ contenido.likes.count }}</p>
+            <p>Veces compartido: {{ contenido.compartidos }}</p>
         </div>
         <div class="contenido-buttons">
             {% if user.is_authenticated %}
@@ -75,7 +76,10 @@
             {% else %}
                 <a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para dar/quitar like.</a>
             {% endif %}
-            <button class="w-100 interaction-button" type="button" id="copy-button" onclick="copyToClipboard()">Compartir!</button>
+            <form class="w-100" action="{% url 'compartir_contenido' contenido.id %}" method="post">
+                {% csrf_token %}
+                <button class="w-100 interaction-button" id="copy-button" type="submit">Compartir</button>
+            </form>         
         </div>
         <div class="contenido-comentarios">
             <p>No hay comentarios!</p>
@@ -83,13 +87,15 @@
         {% endif %}
     </div>
     <script>
-        function copyToClipboard() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(function() {
-                alert('URL copiada al portapapeles: ' + url);
-            }, function() {
-                alert('No se pudo copiar la URL al portapapeles.');
-            });
-        }
+        document.getElementById('copy-button').addEventListener('click', () => {
+            const currentURL = window.location.href;
+            const tempInput = document.createElement('input');
+            tempInput.value = currentURL;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('URL copiado al portapapeles: ' + currentURL);
+        });
     </script>
 {% endblock %}
