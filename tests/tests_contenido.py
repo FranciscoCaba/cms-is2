@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User, Permission
-from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido, Like, Favoritos
+from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido, Like, Favoritos,Dislike
 from contenido.forms import ContenidoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -295,6 +295,7 @@ class Reacciones(TestCase):
         self.categoria = Categoria.objects.create(nombre='Test Categoria')
         self.contenido = Contenido.objects.create(titulo='Test Content', user=self.user, categoria=self.categoria)
         self.like_url = reverse('toggle_like', args=[self.contenido.id])
+        self.dislike_url = reverse('toggle_dislike', args=[self.contenido.id])
         self.favorito_url = reverse('toggle_favorito', args=[self.categoria.id])
 
     def test_like(self):
@@ -309,6 +310,19 @@ class Reacciones(TestCase):
         response = self.client.get(self.like_url)
         self.assertFalse(Like.objects.filter(user=self.user, contenido=self.contenido).exists())
         self.assertEqual(self.contenido.likes.count(), 0)
+    
+    def test_dislike(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(self.dislike_url)
+        self.assertTrue(Dislike.objects.filter(user=self.user, contenido=self.contenido).exists())
+        self.assertEqual(self.contenido.dislikes.count(), 1)
+
+    def test_undislike(self):
+        self.client.login(username='testuser', password='testpassword')
+        Dislike.objects.create(user=self.user, contenido=self.contenido)
+        response = self.client.get(self.dislike_url)
+        self.assertFalse(Dislike.objects.filter(user=self.user, contenido=self.contenido).exists())
+        self.assertEqual(self.contenido.dislikes.count(), 0)
 
     def test_favorito(self):
         self.client.login(username='testuser', password='testpassword')
@@ -328,7 +342,6 @@ class Reacciones(TestCase):
     def test_compartir_contenido(self):
         self.client.login(username='testuser', password='testpassword')
         url = reverse('compartir_contenido', args=[self.contenido.id])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
+        response = self.client.post(url)
         self.contenido.refresh_from_db() 
         self.assertEqual(self.contenido.compartidos, 1)

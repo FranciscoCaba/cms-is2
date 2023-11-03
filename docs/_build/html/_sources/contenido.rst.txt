@@ -140,6 +140,8 @@ La clase ``Cotenido`` es el modelo de contenido que importa RichTextField de CKE
 
    descripcion: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
 
+   compartidos: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
+
    estado: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
 
    fecha: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
@@ -153,6 +155,10 @@ La clase ``Cotenido`` es el modelo de contenido que importa RichTextField de CKE
    like_set: Acceso al gestor de objetos relacionados en el lado inverso de una relación de muchos a uno.
 
    likes: Acceso al gestor de objetos relacionados en los lados directo e inverso de una relación de muchos a muchos.
+
+   dislike: Acceso al gestor de objetos relacionados en los lados directo e inverso de una relación de muchos a muchos.
+
+   visitas: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
 
    nota: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
 
@@ -236,7 +242,21 @@ La clase ``Like`` es el modelo para dar likes a los contenidos.
 
    Los campos que posee son:
 
-   contenido: Accessor to the related object on the forward side of a many-to-one or one-to-one (via ForwardOneToOneDescriptor subclass) relation.
+   contenido: "Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).
+   
+   created_ad: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
+
+   id: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
+
+   user: Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase ForwardOneToOneDescriptor).
+
+La clase ``Dislike`` es el modelo para dar likes a los contenidos.
+
+::
+
+   Los campos que posee son:
+
+   contenido: "Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).
    
    created_ad: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
 
@@ -245,13 +265,15 @@ La clase ``Like`` es el modelo para dar likes a los contenidos.
    user: Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase ForwardOneToOneDescriptor).
 
 
+
+
 La clase ``Image`` es el modelo para insertar imagenes en el texto y guardarlas en la nube.
 
 ::
 
    Los campos que posee son:
 
-   contenido: Accessor to the related object on the forward side of a many-to-one or one-to-one (via ForwardOneToOneDescriptor subclass) relation.
+   contenido: "Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).
    
    id: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
 
@@ -260,6 +282,44 @@ La clase ``Image`` es el modelo para insertar imagenes en el texto y guardarlas 
 
 
 La clase ``Video`` es el modelo para insertar videos en el texto y guardarlas en la nube.
+
+::
+
+   Los campos que posee son:
+
+   contenido: "Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).
+   
+   id: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
+
+   video: Similar al FileDescriptor, pero para ImageFields. La única diferencia es asignar el ancho/alto al campo width_field/height_field, si es apropiado.
+
+
+La clase ``Archivos`` es el modelo para insertar archivos en el texto y guardarlas en la nube.
+
+::
+
+   Los campos que posee son:
+
+   contenido: "Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).
+   
+   id: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
+
+   archivo: Similar al FileDescriptor, pero para ImageFields. La única diferencia es asignar el ancho/alto al campo width_field/height_field, si es apropiado.
+
+La clase ``Comentario`` es el modelo para insertar comentarios en el texto.
+
+::
+
+   Los campos que posee son:
+
+   contenido: "Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).
+
+   id: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
+
+   texto: Un envoltorio para un campo de carga aplazada. Cuando el valor se lee de este objeto por primera vez, se ejecuta la consulta.
+
+   user: Acceso al objeto relacionado en el lado directo de una relación de muchos a uno o de uno a uno (a través de una subclase de ForwardOneToOneDescriptor).
+
 
 .. automodule:: contenido.models
    :members:
@@ -275,8 +335,10 @@ Urls de Contenido
 ::
 
    urlpatterns = [
+
       path('crear', login_required(views.ContenidoFormView.as_view()) , name='contenido-crear'),
       path('version', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
+      path('historial', login_required(views.ContenidoHistorialListView.as_view()) , name='contenido-historial'),
       path('categoria/crear', login_required(views.CategoriaFormView.as_view()), name='categoria-crear'),
       path('categoria', views.CategoriaListView.as_view(), name='categoria-list'),
       path('categoria/<int:pk>/', views.CategoriaDetailView.as_view(), name='categoria-detail'),
@@ -297,11 +359,15 @@ Urls de Contenido
       path('rechazados/', views.ContenidoRechazadoListView.as_view(), name='rechazados_lista'),
 
       path('contenido/<int:contenido_id>/toggle-like/', views.toggle_like, name='toggle_like'),
+      path('contenido/<int:contenido_id>/toggle-dislike/', views.toggle_dislike, name='toggle_dislike'),
       path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
+      path('contenido/<int:categoria_id>/toggle-favorito/', views.toggle_favorito, name='toggle_favorito'),
+      path('contenido/<int:contenido_id>/compartir/', views.compartir_contenido, name='compartir_contenido'),
 
       path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido'),
       path('delete_image/<int:image_id>/', views.delete_image, name='delete_image'),
       path('delete_video/<int:video_id>/', views.delete_video, name='delete_video'),
+      path('delete_archivo/<int:archivo_id>/', views.delete_archivo, name='delete_archivo'),
 
       path('autor/<int:pk>/', views.detalle_autor, name='detalle_autor'),
 
@@ -310,10 +376,15 @@ Urls de Contenido
 
       path('borrador/<int:pk>/editar/', views.EditarBorradorView.as_view(), name='editar-borrador'),
       path('version/<int:version_id>/editar/', views.editar_version, name='editar-version'),
+      path('historial/<int:version_id>/', views.detalle_historial, name='detalle-historial'),
       path('rechazado/<int:pk>/editar/', views.EditarRechazadoView.as_view(), name='editar-rechazado'),
+
+      path('qr_code/', views.generate_qr_code, name='generate_qr_code'),
 
       path('error/', views.error403, name='error403'),
    ]
+
+
 
 
 contenido.views module
@@ -523,6 +594,8 @@ La funcion ``detalle_contenido`` es la encargada de mostrar el detalle de los co
 
 La funcion ``toggle_like`` es la funcion encargada de dar o quitar el like en una publicacion.
 
+La funcion ``toggle_dislike`` es la funcion encargada de dar o quitar el dislike en una publicacion.
+
 La clase ``EditarContenidoView`` es la vista para editar el contenido en revision.
 
 ::
@@ -614,6 +687,39 @@ La clase ``UnContenidoApublicarView`` es la vista para un contenido a publicar
    modelo Contenido
 
    utiliza el template = 'contenido/contenido_a_publicar.html'
+
+
+
+La funcion ``detalle_historial`` es la encargada de mostrar la vista del historial de versiones.
+
+La funcion ``toggle_favorito`` es la encargada de seguir categorias favoritas.
+
+La funcion ``compartir_contenido`` se utiliza para compartir un contenido generando un url en el portapapeles.
+
+La funcion ``generate_qr_code`` es la encargada de proporcionar el codigo QR para utilizarlo.
+
+::
+
+   - Primero se obtiene la URL actual
+   current_url = request.META['HTTP_REFERER']
+
+   - Luego crea un objeto QRCode
+   qr = qrcode.QRCode
+
+   - Agrega la URL actual al objeto QRCode
+   qr.add_data(current_url)
+   qr.make(fit=True)
+
+   - Crea una imagen del código QR
+   img = qr.make_image(fill_color="black", back_color="white")
+
+   - Guarda la imagen en un BytesIO
+   buffer = BytesIO()
+   img.save(buffer, format="PNG")
+   mage_file = File(buffer)
+
+   - Renderiza la imagen en la respuesta HTTP
+   return HttpResponse(image_file, content_type="image/png")
 
 
 
