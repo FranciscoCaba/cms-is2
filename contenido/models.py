@@ -27,6 +27,7 @@ class Contenido(models.Model):
     resumen = models.CharField(max_length=250, default = '')
     descripcion = RichTextUploadingField(null=True,config_name='default')
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
+    dislikes = models.ManyToManyField(User, through='Dislike', related_name='contenido_dislikes')
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
     solo_suscriptores = models.BooleanField(default=False)
@@ -119,6 +120,14 @@ class Like(models.Model):
 
     def __str__(self):
         return f'Like de {self.user.username} a {self.contenido.titulo}'
+
+class Dislike(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Dislike de {self.user.username} a {self.contenido.titulo}'
     
 class Image(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='images')

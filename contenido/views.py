@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like,VersionContenido, Image, Video, Archivos
+from .models import Categoria, Contenido, Like,Dislike ,VersionContenido, Image, Video, Archivos
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -299,10 +299,13 @@ def detalle_contenido(request, pk):
 
     if request.user.is_authenticated:
         user_likes_contenido = request.user.contenido_likes.filter(id=contenido.id).exists()
+        user_dislikes_contenido = request.user.contenido_dislikes.filter(id=contenido.id).exists()
     else:
         user_likes_contenido = False
+        user_dislikes_contenido = False
+    
 
-    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido})
+    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido,'user_dislikes_contenido': user_dislikes_contenido})
 
 def error403(request):
     return render(request, 'error/forbidden.html')
@@ -313,22 +316,57 @@ def toggle_like(request, contenido_id):
     if request.user.is_authenticated:
         try:
             # Intenta obtener el like existente del usuario para este contenido
+            dislike = Dislike.objects.get(contenido=contenido, user=request.user)
+            dislike.delete()  # Elimina el dislike existente     
+            messages.success(request, 'DisLike eliminado correctamente.')
+        except Dislike.DoesNotExist:
+            messages.success(request, 'Dislike eliminado correctamente.')
+        try:
+            # Intenta obtener el like existente del usuario para este contenido
             like = Like.objects.get(contenido=contenido, user=request.user)
-            # Si el like existe, elimínalo (quitar like)
-            like.delete()
+            like.delete()  # Elimina el dislike existente     
             messages.success(request, 'Like eliminado correctamente.')
         except Like.DoesNotExist:
             # Si el like no existe, créalo (dar like)
             Like.objects.create(contenido=contenido, user=request.user)
             messages.success(request, 'Like agregado correctamente.')
-        
         # No es necesario incrementar/decrementar el contador de likes aquí
+
 
         return redirect('detalle_contenido', pk=contenido.id)
     else:
         messages.error(request, 'Debes estar autenticado para dar/quitar like.')
         return redirect('detalle_contenido', pk=contenido.id)
+
+def toggle_dislike(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
     
+    if request.user.is_authenticated:
+        try:
+            # Intenta obtener el like existente del usuario para este contenido
+            like = Like.objects.get(contenido=contenido, user=request.user)
+            like.delete()  # Elimina el dislike existente     
+            messages.success(request, 'Like eliminado correctamente.')
+        except Like.DoesNotExist:
+            messages.success(request, 'Like eliminado correctamente.')
+        try:
+            # Intenta obtener el like existente del usuario para este contenido
+            dislike = Dislike.objects.get(contenido=contenido, user=request.user)
+            dislike.delete()  # Elimina el dislike existente     
+            messages.success(request, 'Dislike eliminado correctamente.')
+        except Dislike.DoesNotExist:
+            # Si el like no existe, créalo (dar like)
+            Dislike.objects.create(contenido=contenido, user=request.user)
+            messages.success(request, 'Dislike agregado correctamente.')
+        # No es necesario incrementar/decrementar el contador de likes aquí
+        
+       
+        return redirect('detalle_contenido', pk=contenido.id)
+    else:
+        messages.error(request, 'Debes estar autenticado para dar/quitar like.')
+        return redirect('detalle_contenido', pk=contenido.id)
+    
+
 class EditarContenidoView(UpdateView, PermissionRequiredMixin):
     model = Contenido
     permission_required = 'contenido.change_contenido'
