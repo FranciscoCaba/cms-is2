@@ -13,6 +13,7 @@ from django.core.mail import send_mail,EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+
 # Create your views here.
 
 class ContenidoFormView(PermissionRequiredMixin, CreateView):
@@ -290,16 +291,21 @@ class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, Li
         # Obtener los contenidos en estado "rechazado" del usuario actual
         return Contenido.objects.filter(user=self.request.user, estado='Rechazado').order_by('-fecha')
 
+
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
     if contenido.solo_suscriptores and not request.user.is_authenticated:
         return redirect('error403')
     
+    if contenido.estado == 'Publicado':
+        contenido.visitas += 1
+        contenido.save()
+
     if request.user.is_authenticated:
         user_likes_contenido = request.user.contenido_likes.filter(id=contenido.id).exists()
     else:
         user_likes_contenido = False
-    
+
     return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido})
 
 def error403(request):
