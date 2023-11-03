@@ -75,6 +75,7 @@
 <span class="kn">from</span> <span class="nn">ckeditor.fields</span> <span class="kn">import</span> <span class="n">RichTextField</span>
 <span class="kn">from</span> <span class="nn">ckeditor_uploader.fields</span> <span class="kn">import</span> <span class="n">RichTextUploadingField</span>
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
 <span class="kn">from</span> <span class="nn">django.utils.text</span> <span class="kn">import</span> <span class="n">Truncator</span>
 <span class="kn">from</span> <span class="nn">django.core.files.storage</span> <span class="kn">import</span> <span class="n">default_storage</span> 
 <span class="kn">from</span> <span class="nn">cloudinary_storage.storage</span> <span class="kn">import</span> <span class="n">VideoMediaCloudinaryStorage</span><span class="p">,</span> <span class="n">RawMediaCloudinaryStorage</span>
@@ -129,6 +130,12 @@
 <a class="viewcode-back" href="../../contenido.html#contenido.forms.Contenido.save">[docs]</a>
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># Guardar una nueva versión de Contenido antes de cada modificación</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Contenido.save_version">
+<a class="viewcode-back" href="../../contenido.html#contenido.forms.Contenido.save_version">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
         <span class="n">user</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -145,7 +152,6 @@
             <span class="n">nota</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nota</span><span class="p">,</span>
             <span class="n">version</span><span class="o">=</span><span class="mi">1</span>  <span class="c1"># La primera versión siempre es 1</span>
         <span class="p">)</span></div>
-
 
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -166,9 +172,14 @@
             <span class="p">(</span><span class="s1">&#39;ver_versiones&#39;</span><span class="p">,</span> <span class="s1">&#39;Ver versiones&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;ver_todos_versiones&#39;</span><span class="p">,</span> <span class="s1">&#39;Ver todos las versiones&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;ver_historial&#39;</span><span class="p">,</span> <span class="s1">&#39;Ver historial&#39;</span><span class="p">),</span>
-        <span class="p">]</span></div>
-
+        <span class="p">]</span>
     
+<div class="viewcode-block" id="Contenido.get_absolute_url">
+<a class="viewcode-back" href="../../contenido.html#contenido.forms.Contenido.get_absolute_url">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">})</span></div>
+</div>
+
 
 <div class="viewcode-block" id="VersionContenido">
 <a class="viewcode-back" href="../../contenido.html#contenido.forms.VersionContenido">[docs]</a>
