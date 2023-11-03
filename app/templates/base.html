@@ -84,7 +84,7 @@
               <a class="nav-link" href="{% url 'listar_revisiones' %}">Ver contenidos en revision</a>
             </li>
             {% endif %}
-            {% if perms.contenido.ver_revisiones %}
+            {% if perms.contenido.ver_a_publicar %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'list_a_publicar' %}">Ver contenidos a publicar</a>
             </li>
@@ -99,7 +99,7 @@
               <a class="nav-link" href="{% url 'all_kanban' %}">Ver Kanban de Todo</a>
             </li>
             {% endif %}
-            {% if perms.contenido.add_contenido %}
+            {% if perms.contenido.ver_versiones %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'contenido-version' %}">Historial de Versiones</a>
               </li>

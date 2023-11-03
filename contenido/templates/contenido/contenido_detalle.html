@@ -2,6 +2,7 @@
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
+    <img src="{% url 'generate_qr_code' %}" alt="Compartir!">
     <div class="contenido-detallado">
         <div class="contenido-title">
             <h1>{{ contenido.titulo }}</h1>
