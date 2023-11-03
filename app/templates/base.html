@@ -99,7 +99,7 @@
               <a class="nav-link" href="{% url 'all_kanban' %}">Ver Kanban de Todo</a>
             </li>
             {% endif %}
-            {% if perms.contenido.add_contenido %}
+            {% if perms.contenido.ver_versiones %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'contenido-version' %}">Versiones de Mis Contenidos</a>
               </li>

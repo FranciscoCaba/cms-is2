@@ -42,5 +42,7 @@ urlpatterns = [
     path('historial/<int:version_id>/', views.detalle_historial, name='detalle-historial'),
     path('rechazado/<int:pk>/editar/', views.EditarRechazadoView.as_view(), name='editar-rechazado'),
 
+    path('qr_code/', views.generate_qr_code, name='generate_qr_code'),
+
     path('error/', views.error403, name='error403'),
 ]
