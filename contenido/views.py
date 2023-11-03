@@ -3,12 +3,12 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like,VersionContenido, Image, Video, Archivos
+from .models import Categoria, Contenido, Like,VersionContenido, Image, Video, Archivos, Favoritos
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseForbidden, HttpResponse
+from django.http import HttpResponseForbidden, HttpResponse,JsonResponse
 from django.core.mail import send_mail,EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -150,8 +150,12 @@ class MostrarContenidosView(View):
 
     def get(self, request, pk):
         categoria = get_object_or_404(Categoria, pk=pk)
+        if request.user.is_authenticated:
+            user_favorito_categoria = request.user.categoria_favoritos.filter(id=categoria.id).exists()
+        else:
+            user_favorito_categoria = False
         contenidos = Contenido.objects.filter(categoria=categoria, is_active=True, estado='Publicado').order_by('-fecha')
-        context = {'categoria': categoria, 'contenidos': contenidos}
+        context = {'categoria': categoria, 'contenidos': contenidos, 'user_favorito_categoria': user_favorito_categoria}
         return render(request, self.template_name, context)
     
 
@@ -605,6 +609,26 @@ class ContenidoHistorialListView(PermissionRequiredMixin, LoginRequiredMixin, Li
 def detalle_historial(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
     return render(request, 'version/historial_vista.html', {'version': version})
+
+def toggle_favorito(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+    if request.user.is_authenticated:
+        try:
+            favorito = Favoritos.objects.get(categoria=categoria, user=request.user)
+            favorito.delete()
+        except Favoritos.DoesNotExist:
+            Favoritos.objects.create(categoria=categoria, user=request.user)
+    else:
+        messages.error(request, 'Debes estar autenticado para seguir una categoria.')
+        return redirect('mostrar_contenidos', pk=categoria.id)
+    return redirect('mostrar_contenidos', pk=categoria.id)
+
+def compartir_contenido(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
+    contenido.compartidos += 1
+    contenido.save()
+    response_data = {'message': 'URL copiado al portapapeles'}
+    return JsonResponse(response_data)
 
 def generate_qr_code(request):
     # Obtiene la URL actual

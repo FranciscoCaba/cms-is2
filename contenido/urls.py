@@ -26,6 +26,8 @@ urlpatterns = [
 
     path('contenido/<int:contenido_id>/toggle-like/', views.toggle_like, name='toggle_like'),
     path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
+    path('contenido/<int:categoria_id>/toggle-favorito/', views.toggle_favorito, name='toggle_favorito'),
+    path('contenido/<int:contenido_id>/compartir/', views.compartir_contenido, name='compartir_contenido'),
 
     path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido'),
     path('delete_image/<int:image_id>/', views.delete_image, name='delete_image'),

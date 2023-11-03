@@ -15,6 +15,7 @@ class Categoria(models.Model):
     nombre = models.CharField(max_length=50)
     moderada = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    seguidores=models.ManyToManyField(User,through='Favoritos',related_name='categoria_favoritos')
 
     def __str__(self):
         return self.nombre
@@ -32,6 +33,7 @@ class Contenido(models.Model):
     solo_suscriptores = models.BooleanField(default=False)
     nota = models.TextField(blank=True, null=True)
     visitas = models.PositiveIntegerField(default=0)
+    compartidos = models.IntegerField(default=0)
 
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
@@ -137,5 +139,8 @@ class Archivos(models.Model):
 class Comentario(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    texto = models.TextField() 
+    texto = models.TextField()
+
+class Favoritos(models.Model):
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
