@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseForbidden, HttpResponse
+from django.http import HttpResponseForbidden, HttpResponse,JsonResponse
 from django.core.mail import send_mail,EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -619,5 +619,5 @@ def compartir_contenido(request, contenido_id):
     contenido = get_object_or_404(Contenido, pk=contenido_id)
     contenido.compartidos += 1
     contenido.save()
-
-    return redirect('detalle_contenido', pk=contenido_id)
+    response_data = {'message': 'URL copiado al portapapeles'}
+    return JsonResponse(response_data)
