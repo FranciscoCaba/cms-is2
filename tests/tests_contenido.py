@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User, Permission
-from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido
+from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido, Like, Favoritos
 from contenido.forms import ContenidoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -204,27 +204,31 @@ class EstadoChangeTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.user.user_permissions.add(Permission.objects.get(codename='puede_publicar_rechazar'))
+        self.user.user_permissions.add(Permission.objects.get(codename='puede_editar_aceptar'))
         categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
         self.contenido = Contenido.objects.create(titulo='Test Contenido',categoria_id=categoria.id ,user=self.user, estado='En revisión')
 
     def test_apublicar_contenido(self):
         self.client.login(username='testuser', password='testpassword')
         url = reverse('a-publicar', args=[self.contenido.pk])
-        response = self.client.get(url)
+        note = "Test"
+        response = self.client.post(url, {'nota': note})
         self.contenido.refresh_from_db()  
         self.assertEqual(self.contenido.estado, 'A publicar')
 
     def test_publicar_contenido(self):
         self.client.login(username='testuser', password='testpassword')
         url = reverse('publicar_contenido', args=[self.contenido.pk])
-        response = self.client.get(url)
+        note = "Test"
+        response = self.client.post(url, {'nota': note})
         self.contenido.refresh_from_db()  
         self.assertEqual(self.contenido.estado, 'Publicado')
 
     def test_rechazar_contenido(self):
         self.client.login(username='testuser', password='testpassword')
         url = reverse('rechazar_contenido', args=[self.contenido.pk])
-        response = self.client.get(url)
+        note = "Test"
+        response = self.client.post(url, {'nota': note})
         self.contenido.refresh_from_db() 
         self.assertEqual(self.contenido.estado, 'Rechazado')
 
@@ -284,3 +288,47 @@ class EditVersionTests(TestCase):
         self.assertEqual(edited_version.titulo, 'Edited Title', 'Titulo incorrecto')
         self.assertEqual(edited_version.resumen, 'Edited Resumen', 'Resumen incorrecto')
         self.assertEqual(edited_version.descripcion, 'Edited Description', 'Descripción incorrecta')
+
+class Reacciones(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.categoria = Categoria.objects.create(nombre='Test Categoria')
+        self.contenido = Contenido.objects.create(titulo='Test Content', user=self.user, categoria=self.categoria)
+        self.like_url = reverse('toggle_like', args=[self.contenido.id])
+        self.favorito_url = reverse('toggle_favorito', args=[self.categoria.id])
+
+    def test_like(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(self.like_url)
+        self.assertTrue(Like.objects.filter(user=self.user, contenido=self.contenido).exists())
+        self.assertEqual(self.contenido.likes.count(), 1)
+
+    def test_unlike(self):
+        self.client.login(username='testuser', password='testpassword')
+        Like.objects.create(user=self.user, contenido=self.contenido)
+        response = self.client.get(self.like_url)
+        self.assertFalse(Like.objects.filter(user=self.user, contenido=self.contenido).exists())
+        self.assertEqual(self.contenido.likes.count(), 0)
+
+    def test_favorito(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(self.favorito_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Favoritos.objects.filter(user=self.user, categoria=self.categoria).exists())
+        self.assertEqual(self.categoria.seguidores.count(), 1)
+
+    def test_unfavorito(self):
+        self.client.login(username='testuser', password='testpassword')
+        Favoritos.objects.create(user=self.user, categoria=self.categoria)
+        response = self.client.get(self.favorito_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Favoritos.objects.filter(user=self.user, categoria=self.categoria).exists())
+        self.assertEqual(self.categoria.seguidores.count(), 0)
+
+    def test_compartir_contenido(self):
+        self.client.login(username='testuser', password='testpassword')
+        url = reverse('compartir_contenido', args=[self.contenido.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.contenido.refresh_from_db() 
+        self.assertEqual(self.contenido.compartidos, 1)
