@@ -13,3 +13,4 @@ python-decouple==3.8
 python-magic==0.4.27
 django-storages==1.14
 Pillow==9.0.1
+django-comments-xtd==2.9.10
