@@ -4,7 +4,6 @@
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
-    <img src="{% url 'generate_qr_code' %}" alt="Compartir!">
 {% if contenido.estado != 'Publicado' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
     <div class="card-body">
@@ -62,6 +61,8 @@
         {% get_comment_count for contenido as comment_count %}
         <div class="contenido-interactions-data d-flex justify-content-around">
             <p>Likes: {{ contenido.likes.count }}</p>
+            <p>Dislikes: {{ contenido.dislikes.count }}</p>
+            <p>Visualizaciones: {{ contenido.visitas }}</p>
             <p>Comentarios: {{ comment_count }}</p>
             <p>Veces compartido: {{ contenido.compartidos }}</p>
         </div>
@@ -88,9 +89,31 @@
                 </button>
                 </form>
             {% else %}
-                <a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para dar/quitar like.</a>
+                <button class="w-100 interaction-button"><a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para dar/quitar like.</a></button>
             {% endif %}
-            <button class="w-100 interaction-button" type="button" id="copy-button" onclick="shareContent( '{{ contenido.id }}' )">Compartir!</button>     
+            <button class="w-100 interaction-button" type="button" id="copy-button" onclick="shareContent( '{{ contenido.id }}' )" data-bs-toggle="modal" data-bs-target="#qrModal">Compartir!</button>     
+            
+            <!-- Modal -->
+            <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="qrModalLabel">Enlace Generado</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img class="w-100 mx-auto" src="{% url 'generate_qr_code' %}" alt="Compartir!">
+                            <p>
+                                URL copiado al portapapeles:<br/><a id="enlace-compartir"></a>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
         <div class="contenido-comentarios">
             {% if user.is_authenticated %}
@@ -130,7 +153,9 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert(`URL copiado al portapapeles: ${currentURL}`);
+                    const enlaceCompartir = document.getElementById('enlace-compartir');
+                    enlaceCompartir.textContent = `${currentURL}`;
+                    enlaceCompartir.href = `${currentURL}`;
                     const tempInput = document.createElement('input');
                     tempInput.value = currentURL;
                     document.body.appendChild(tempInput);
