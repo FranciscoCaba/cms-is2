@@ -16,6 +16,7 @@ class Categoria(models.Model):
     nombre = models.CharField(max_length=50)
     moderada = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    seguidores=models.ManyToManyField(User,through='Favoritos',related_name='categoria_favoritos')
 
     def __str__(self):
         return self.nombre
@@ -28,11 +29,13 @@ class Contenido(models.Model):
     resumen = models.CharField(max_length=250, default = '')
     descripcion = RichTextUploadingField(null=True,config_name='default')
     likes = models.ManyToManyField(User, through='Like', related_name='contenido_likes')
+    dislikes = models.ManyToManyField(User, through='Dislike', related_name='contenido_dislikes')
     is_active = models.BooleanField(default=True)
     fecha = models.DateTimeField(default=timezone.now)
     solo_suscriptores = models.BooleanField(default=False)
     nota = models.TextField(blank=True, null=True)
     visitas = models.PositiveIntegerField(default=0)
+    compartidos = models.IntegerField(default=0)
 
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
@@ -83,6 +86,8 @@ class Contenido(models.Model):
             ('puede_editar_aceptar', 'Puede editar o aceptar'),
             ('ver_todos_borradores', 'Ver todos los borradores'),
             ('puede_publicar_no_moderada', 'Puede publicar en categoria no moderada'),
+            ('ver_versiones', 'Ver versiones'),
+            ('ver_todos_versiones', 'Ver todos las versiones'),
             ('ver_historial', 'Ver historial'),
         ]
     
@@ -124,6 +129,14 @@ class Like(models.Model):
 
     def __str__(self):
         return f'Like de {self.user.username} a {self.contenido.titulo}'
+
+class Dislike(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Dislike de {self.user.username} a {self.contenido.titulo}'
     
 class Image(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='images')
@@ -140,5 +153,8 @@ class Archivos(models.Model):
 class Comentario(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    texto = models.TextField() 
+    texto = models.TextField()
+
+class Favoritos(models.Model):
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

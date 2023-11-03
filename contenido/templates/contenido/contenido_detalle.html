@@ -4,6 +4,7 @@
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
+    <img src="{% url 'generate_qr_code' %}" alt="Compartir!">
 {% if contenido.estado != 'Publicado' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
     <div class="card-body">
@@ -62,6 +63,7 @@
         <div class="contenido-interactions-data d-flex justify-content-around">
             <p>Likes: {{ contenido.likes.count }}</p>
             <p>Comentarios: {{ comment_count }}</p>
+            <p>Veces compartido: {{ contenido.compartidos }}</p>
         </div>
         <div class="contenido-buttons">
             {% if user.is_authenticated %}
@@ -75,10 +77,20 @@
                         {% endif %}
                     </button>
                 </form>
+                <form class="w-100" action="{% url 'toggle_dislike' contenido.id %}" method="post">
+                    {% csrf_token %}
+                <button class="w-100 interaction-button" type="submit">
+                    {% if user_dislikes_contenido %}
+                        Quitar Dislike
+                    {% else %}
+                        Dar Dislike
+                    {% endif %}
+                </button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para dar/quitar like.</a>
             {% endif %}
-            <button class="w-100 interaction-button" type="button" id="copy-button" onclick="copyToClipboard()">Compartir!</button>
+            <button class="w-100 interaction-button" type="button" id="copy-button" onclick="shareContent( '{{ contenido.id }}' )">Compartir!</button>     
         </div>
         <div class="contenido-comentarios">
             {% if user.is_authenticated %}
@@ -104,13 +116,42 @@
         {% endif %}
     </div>
     <script>
-        function copyToClipboard() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(function() {
-                alert('URL copiada al portapapeles: ' + url);
-            }, function() {
-                alert('No se pudo copiar la URL al portapapeles.');
+        function shareContent(contenidoId) {
+            const compartirUrl = `/contenido/contenido/${contenidoId}/compartir/`;
+            const csrfToken = getCookie('csrftoken');
+            const currentURL = window.location.href;
+            fetch(compartirUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`URL copiado al portapapeles: ${currentURL}`);
+                    const tempInput = document.createElement('input');
+                    tempInput.value = currentURL;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                } else {
+                    console.error('Failed to update share count.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
             });
+        }
+    
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) {
+                return parts.pop().split(';').shift();
+            }
         }
     </script>
 {% endblock %}
