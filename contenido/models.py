@@ -8,6 +8,8 @@ from django.utils.text import Truncator
 from django.core.files.storage import default_storage 
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage, RawMediaCloudinaryStorage
 from cloudinary_storage.validators import validate_video
+
+
 # Create your models here.
 class Categoria(models.Model):
     id = models.BigAutoField(primary_key=True, serialize=True)
@@ -30,6 +32,7 @@ class Contenido(models.Model):
     fecha = models.DateTimeField(default=timezone.now)
     solo_suscriptores = models.BooleanField(default=False)
     nota = models.TextField(blank=True, null=True)
+    visitas = models.PositiveIntegerField(default=0)
 
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
