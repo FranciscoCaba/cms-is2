@@ -49,16 +49,24 @@ class Command(BaseCommand):
         autor = Group.objects.get(name='Autor')
         autor.permissions.add(Permission.objects.get(codename='add_contenido'))
         autor.permissions.add(Permission.objects.get(codename='ver_kanban'))
+        autor.permissions.add(Permission.objects.get(codename='ver_borradores'))
+        autor.permissions.add(Permission.objects.get(codename='ver_rechazados'))
+        autor.permissions.add(Permission.objects.get(codename='ver_versiones'))
+
 
         editor = Group.objects.get(name='Editor')
         editor.permissions.add(Permission.objects.get(codename='ver_revisiones'))
         editor.permissions.add(Permission.objects.get(codename='puede_editar_aceptar'))
         editor.permissions.add(Permission.objects.get(codename='ver_todos_kanban'))
+        editor.permissions.add(Permission.objects.get(codename='ver_versiones'))
+        editor.permissions.add(Permission.objects.get(codename='ver_todos_versiones'))
 
         publicador = Group.objects.get(name='Publicador')
         publicador.permissions.add(Permission.objects.get(codename='ver_a_publicar'))
         publicador.permissions.add(Permission.objects.get(codename='puede_publicar_rechazar'))
         publicador.permissions.add(Permission.objects.get(codename='ver_todos_kanban'))
+        publicador.permissions.add(Permission.objects.get(codename='ver_versiones'))
+        publicador.permissions.add(Permission.objects.get(codename='ver_todos_versiones'))
 
         # Crear usuarios y asignarlos a grupos
         usuarios = {

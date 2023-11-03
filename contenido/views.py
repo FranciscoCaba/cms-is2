@@ -12,7 +12,9 @@ from django.http import HttpResponseForbidden, HttpResponse,JsonResponse
 from django.core.mail import send_mail,EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-
+from io import BytesIO
+import qrcode
+from django.core.files import File
 
 # Create your views here.
 
@@ -627,3 +629,31 @@ def compartir_contenido(request, contenido_id):
     contenido.save()
     response_data = {'message': 'URL copiado al portapapeles'}
     return JsonResponse(response_data)
+
+def generate_qr_code(request):
+    # Obtiene la URL actual
+    current_url = request.META['HTTP_REFERER']
+    print(current_url)
+    # Crea un objeto QRCode
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+
+    # Agrega la URL actual al objeto QRCode
+    qr.add_data(current_url)
+    qr.make(fit=True)
+
+    # Crea una imagen del código QR
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    # Guarda la imagen en un BytesIO
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    image_file = File(buffer)
+
+    # Renderiza la imagen en la respuesta HTTP
+    return HttpResponse(image_file, content_type="image/png")
+    
