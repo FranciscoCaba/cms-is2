@@ -1,8 +1,8 @@
 from .settings import *
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['cms.local']
+ALLOWED_HOSTS = ['cms.local', 'localhost','0.0.0.0']
 
 DATABASES = {
     'default': {
