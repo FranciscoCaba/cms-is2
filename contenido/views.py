@@ -593,14 +593,24 @@ class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, List
     permission_required = 'contenido.add_contenido'
     context_object_name = 'version_contenidos'
 
-    def get_queryset(self):
-        micontenido = Contenido.objects.filter(user = self.request.user)
+    def get_queryset(self, **kwargs):
+        contenido_id = self.kwargs.get('contenido_id')
+        if contenido_id:
+            micontenido = Contenido.objects.filter(user = self.request.user, id=contenido_id)
+            return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
+        else:
+            micontenido = Contenido.objects.filter(user = self.request.user)
+            return micontenido
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['modo'] = 'versiones'
+        contenido_id = self.kwargs.get('contenido_id')
+        print(contenido_id)
+        if not contenido_id:
+            context['modo'] = 'contenidos'
+        else:
+            context['modo'] = 'versiones'
         return context
 def editar_version(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)

@@ -4,7 +4,7 @@ Requires=gunicorn.socket
 After=network.target
 
 [Service]
-User=derlis
+User=francisco
 Group=www-data
 WorkingDirectory=/home/francisco/Desktop/proyecto/cms-is2/
 ExecStart=/home/francisco/Desktop/proyecto/venv/bin/gunicorn \

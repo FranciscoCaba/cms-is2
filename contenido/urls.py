@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('crear', login_required(views.ContenidoFormView.as_view()) , name='contenido-crear'),
     path('version', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
+    path('version/<int:contenido_id>/', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
     path('historial', login_required(views.ContenidoHistorialListView.as_view()) , name='contenido-historial'),
     path('categoria/crear', login_required(views.CategoriaFormView.as_view()), name='categoria-crear'),
     path('categoria', views.CategoriaListView.as_view(), name='categoria-list'),
