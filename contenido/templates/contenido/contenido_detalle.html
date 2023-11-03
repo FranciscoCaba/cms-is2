@@ -74,6 +74,16 @@
                         {% endif %}
                     </button>
                 </form>
+                <form class="w-100" action="{% url 'toggle_dislike' contenido.id %}" method="post">
+                    {% csrf_token %}
+                <button class="w-100 interaction-button" type="submit">
+                    {% if user_dislikes_contenido %}
+                        Quitar Dislike
+                    {% else %}
+                        Dar Dislike
+                    {% endif %}
+                </button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para dar/quitar like.</a>
             {% endif %}

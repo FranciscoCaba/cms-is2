@@ -25,6 +25,7 @@ urlpatterns = [
     path('rechazados/', views.ContenidoRechazadoListView.as_view(), name='rechazados_lista'),
 
     path('contenido/<int:contenido_id>/toggle-like/', views.toggle_like, name='toggle_like'),
+    path('contenido/<int:contenido_id>/toggle-dislike/', views.toggle_dislike, name='toggle_dislike'),
     path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
     path('contenido/<int:categoria_id>/toggle-favorito/', views.toggle_favorito, name='toggle_favorito'),
     path('contenido/<int:contenido_id>/compartir/', views.compartir_contenido, name='compartir_contenido'),
