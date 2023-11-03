@@ -3,6 +3,7 @@ from django.contrib.auth.models import User,Permission
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
+from django.urls import reverse_lazy
 from django.utils.text import Truncator
 from django.core.files.storage import default_storage 
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage, RawMediaCloudinaryStorage
@@ -52,6 +53,9 @@ class Contenido(models.Model):
         # Guardar una nueva versión de Contenido antes de cada modificación
         super().save(*args)
 
+    def save_version(self, *args, **kwargs):
+        super().save(*args)
+
         user = kwargs.get('user', None)
 
         VersionContenido.objects.create(
@@ -66,7 +70,6 @@ class Contenido(models.Model):
             nota=self.nota,
             version=1  # La primera versión siempre es 1
         )
-
 
     def __str__(self):
         return self.titulo
@@ -88,6 +91,8 @@ class Contenido(models.Model):
             ('ver_historial', 'Ver historial'),
         ]
     
+    def get_absolute_url(self, **kwargs):
+        return reverse_lazy('detalle_contenido', kwargs={'pk': self.id})
 
 class VersionContenido(models.Model):
     id = models.BigAutoField(primary_key=True, serialize=True)

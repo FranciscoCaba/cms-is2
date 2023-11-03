@@ -75,13 +75,13 @@
 <span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">ContenidoForm</span><span class="p">,</span> <span class="n">CategoriaForm</span><span class="p">,</span> <span class="n">CategoriaEditForm</span><span class="p">,</span> <span class="n">ContenidoEditForm</span><span class="p">,</span> <span class="n">BorradorEditForm</span><span class="p">,</span> <span class="n">RechazadoEditForm</span><span class="p">,</span> <span class="n">VersionContenidoEditForm</span>
 <span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">CreateView</span>
 <span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">ListView</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">,</span> <span class="n">View</span>
-<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Categoria</span><span class="p">,</span> <span class="n">Contenido</span><span class="p">,</span> <span class="n">Like</span><span class="p">,</span><span class="n">VersionContenido</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Video</span>
-<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Categoria</span><span class="p">,</span> <span class="n">Contenido</span><span class="p">,</span> <span class="n">Like</span><span class="p">,</span><span class="n">VersionContenido</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Video</span><span class="p">,</span> <span class="n">Archivos</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span><span class="p">,</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span><span class="p">,</span> <span class="n">permission_required</span>
 <span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseForbidden</span>
-<span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="kn">import</span> <span class="n">send_mail</span>
+<span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="kn">import</span> <span class="n">send_mail</span><span class="p">,</span><span class="n">EmailMessage</span>
 <span class="kn">from</span> <span class="nn">django.template.loader</span> <span class="kn">import</span> <span class="n">render_to_string</span>
 <span class="kn">from</span> <span class="nn">django.utils.html</span> <span class="kn">import</span> <span class="n">strip_tags</span>
 
@@ -99,36 +99,59 @@
 <a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoFormView.form_valid">[docs]</a>
     <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
         <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
-        <span class="k">if</span>  <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
-                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;En revisión&#39;</span>
-                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>      
-                <span class="p">}</span>      
-                <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/en_revision.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-                <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span><span class="n">message</span><span class="p">,</span><span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,[</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
-                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>      
-                <span class="p">}</span>      
-                <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/publicado.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-                <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span><span class="n">message</span><span class="p">,</span><span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,[</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="c1"># Busca el nombre &#39;borradorcito&#39; entre los atributos del elemento para distinguir el boton</span>
         <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
             <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Borrador&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;En revisión&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
         <span class="n">contenido</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
-            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>      
+        <span class="k">if</span>  <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
+                <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>
+                    <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>
                 <span class="p">}</span>      
-            <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/borrador.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-            <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span><span class="n">message</span><span class="p">,</span><span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,[</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/en_revision.html&#39;</span>
+                <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>
+                    <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>
+                <span class="p">}</span>      
+                <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/publicado_no_moderada.html&#39;</span>
+                <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>
+                    <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>
+                <span class="p">}</span>      
+            <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/borrador.html&#39;</span>
+            <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+            <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
             <span class="n">Image</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">video</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;videos&#39;</span><span class="p">):</span>
             <span class="n">Video</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">video</span><span class="o">=</span><span class="n">video</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">archivo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;archivos&#39;</span><span class="p">):</span>
+            <span class="n">Archivos</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">archivo</span><span class="o">=</span><span class="n">archivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span></div>
 
     
@@ -306,20 +329,31 @@
 
 <div class="viewcode-block" id="apublicar_contenido">
 <a class="viewcode-back" href="../../contenido.html#contenido.views.apublicar_contenido">[docs]</a>
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s1">&#39;contenido.puede_editar_aceptar&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">apublicar_contenido</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="n">contenido</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Contenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
-
-    <span class="c1"># Cambiar el estado del contenido a &quot;A publicar&quot;</span>
-    <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;A publicar&#39;</span>
-    <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>      
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">nota</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nota&#39;</span><span class="p">)</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">nota</span> <span class="o">=</span> <span class="n">nota</span>
+        <span class="c1"># Cambiar el estado del contenido a &quot;A publicar&quot;</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;A publicar&#39;</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">content_url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>
+            <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>    
         <span class="p">}</span>      
-    <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/a_publicar.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-    <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span><span class="n">message</span><span class="p">,</span><span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/a_publicar.html&#39;</span>
+        <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+        <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 
-    <span class="c1"># Redirigir a la lista de revisiones</span>
-    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;listar_revisiones&#39;</span><span class="p">)</span></div>
+        <span class="c1"># Redirigir a la lista de revisiones</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;listar_revisiones&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;contenido/dar_nota_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;contenido&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="p">,</span> <span class="s1">&#39;opcion&#39;</span><span class="p">:</span> <span class="s1">&#39;revision&#39;</span><span class="p">})</span></div>
 
 
 <div class="viewcode-block" id="publicar_contenido">
@@ -328,17 +362,28 @@
 <span class="k">def</span> <span class="nf">publicar_contenido</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="n">contenido</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Contenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
-    <span class="c1"># Cambiar el estado del contenido a &quot;Publicado&quot;</span>
-    <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
-    <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>      
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">nota</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nota&#39;</span><span class="p">)</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">nota</span> <span class="o">=</span> <span class="n">nota</span>
+        <span class="c1"># Cambiar el estado del contenido a &quot;Publicado&quot;</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">content_url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>
+            <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>   
         <span class="p">}</span>      
-    <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/publicado.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-    <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span><span class="n">message</span><span class="p">,</span><span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/publicado.html&#39;</span>
+        <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+        <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 
-    <span class="c1"># Redirigir a la lista de a publicar</span>
-    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;list_a_publicar&#39;</span><span class="p">)</span></div>
+        <span class="c1"># Redirigir a la lista de a publicar</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;list_a_publicar&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;contenido/dar_nota_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;contenido&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="p">,</span> <span class="s1">&#39;opcion&#39;</span><span class="p">:</span> <span class="s1">&#39;publicar&#39;</span><span class="p">})</span></div>
 
 
 <div class="viewcode-block" id="rechazar_contenido">
@@ -347,22 +392,27 @@
 <span class="k">def</span> <span class="nf">rechazar_contenido</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="n">contenido</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Contenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
-    <span class="c1"># Cambiar el estado del contenido a &quot;Rechazado&quot;</span>
-    <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Rechazado&#39;</span>
-    <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
-        <span class="n">nota</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;razon_rechazo&#39;</span><span class="p">)</span>
+        <span class="n">nota</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nota&#39;</span><span class="p">)</span>
         <span class="n">contenido</span><span class="o">.</span><span class="n">nota</span> <span class="o">=</span> <span class="n">nota</span>
-        <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># Cambiar el estado del contenido a &quot;Rechazado&quot;</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Rechazado&#39;</span>
+        <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">content_url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
         <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>  
-            <span class="s1">&#39;razon_rechazo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">nota</span><span class="p">,</span>    
+            <span class="s1">&#39;nota&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">nota</span><span class="p">,</span>   
+            <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span> 
         <span class="p">}</span>      
-        <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/rechazado.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-        <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span><span class="n">message</span><span class="p">,</span><span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/rechazado.html&#39;</span>
+        <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+        <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;list_a_publicar&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;contenido/razon_rechazo_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;contenido&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="p">})</span></div>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;contenido/dar_nota_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;contenido&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="p">,</span> <span class="s1">&#39;opcion&#39;</span><span class="p">:</span> <span class="s1">&#39;rechazar&#39;</span><span class="p">})</span></div>
 
 
 <div class="viewcode-block" id="ContenidoBorradorListView">
@@ -460,11 +510,22 @@
 
         <span class="k">for</span> <span class="n">video</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;videos&#39;</span><span class="p">):</span>
             <span class="n">Video</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="p">,</span> <span class="n">video</span><span class="o">=</span><span class="n">video</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">archivo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;archivos&#39;</span><span class="p">):</span>
+            <span class="n">Archivos</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="p">,</span> <span class="n">archivo</span><span class="o">=</span><span class="n">archivo</span><span class="p">)</span>
         
         <span class="n">contenido</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;listar_revisiones&#39;</span><span class="p">))</span></div>
+
+    
+<div class="viewcode-block" id="EditarContenidoView.get_form_kwargs">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.EditarContenidoView.get_form_kwargs">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_form_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form_kwargs</span><span class="p">()</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">return</span> <span class="n">kwargs</span></div>
 </div>
 
 
@@ -480,28 +541,45 @@
 <a class="viewcode-back" href="../../contenido.html#contenido.views.EditarBorradorView.form_valid">[docs]</a>
     <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
         <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
-        <span class="k">if</span>  <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
-                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;En revisión&#39;</span>
-                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span> <span class="p">}</span>      
-                <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/en_revision.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-                <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span> <span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">]</span>  <span class="p">,</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
-                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span> <span class="p">}</span>      
-                <span class="n">message</span> <span class="o">=</span> <span class="n">strip_tags</span><span class="p">(</span><span class="n">render_to_string</span><span class="p">(</span><span class="s1">&#39;notificaciones/publicado.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span>
-                <span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;Cambio de estado de publicacion&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span> <span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">]</span>  <span class="p">,</span> <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="c1"># Busca el nombre &#39;borradorcito&#39; entre los atributos del elemento para distinguir el boton</span>
         <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
             <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Borrador&#39;</span>
-
+        <span class="k">if</span> <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;En revisión&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
         <span class="n">contenido</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">if</span>  <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
+                <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>  
+                    <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>    
+                <span class="p">}</span>      
+                <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/en_revision.html&#39;</span>
+                <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span><span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,}</span>      
+                <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/publicado_no_moderada.html&#39;</span>
+                <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
             <span class="n">Image</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">video</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;videos&#39;</span><span class="p">):</span>
             <span class="n">Video</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">video</span><span class="o">=</span><span class="n">video</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">archivo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;archivos&#39;</span><span class="p">):</span>
+            <span class="n">Archivos</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">archivo</span><span class="o">=</span><span class="n">archivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;borradores_lista&#39;</span><span class="p">))</span></div>
 
         
@@ -526,21 +604,56 @@
 <a class="viewcode-back" href="../../contenido.html#contenido.views.EditarRechazadoView.form_valid">[docs]</a>
     <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
         <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
-        <span class="k">if</span>  <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Borrador&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
                 <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;En revisión&#39;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Publicado&#39;</span>
-        <span class="c1"># Busca el nombre &#39;borradorcito&#39; entre los atributos del elemento para distinguir el boton</span>
-        <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
-            <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;Borrador&#39;</span>
         <span class="n">contenido</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-
+        <span class="k">if</span>  <span class="s1">&#39;crear&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">moderada</span> <span class="p">:</span>
+                <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>  
+                    <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>    
+                <span class="p">}</span>      
+                <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/en_revision.html&#39;</span>
+                <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span><span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,}</span>      
+                <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/publicado_no_moderada.html&#39;</span>
+                <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+        <span class="c1"># Busca el nombre &#39;borradorcito&#39; entre los atributos del elemento para distinguir el boton</span>
+        <span class="k">if</span> <span class="s1">&#39;borradorcito&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">content_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span><span class="p">]))</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;titulo&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">titulo</span><span class="p">,</span>      
+                    <span class="s1">&#39;content_url&#39;</span><span class="p">:</span> <span class="n">content_url</span><span class="p">,</span>
+                <span class="p">}</span>      
+            <span class="n">html_template</span> <span class="o">=</span> <span class="s1">&#39;notificaciones/borrador.html&#39;</span>
+            <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="n">html_template</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;Cambio de estado de publicación&#39;</span>
+            <span class="n">message</span><span class="o">=</span><span class="n">EmailMessage</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">html_message</span><span class="p">,</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">content_subtype</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
             <span class="n">Image</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">video</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;videos&#39;</span><span class="p">):</span>
             <span class="n">Video</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">video</span><span class="o">=</span><span class="n">video</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">archivo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;archivos&#39;</span><span class="p">):</span>
+            <span class="n">Archivos</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido</span><span class="p">,</span> <span class="n">archivo</span><span class="o">=</span><span class="n">archivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;rechazados_lista&#39;</span><span class="p">))</span></div>
 
         
@@ -612,27 +725,56 @@
             <span class="n">edit_url</span> <span class="o">=</span> <span class="s1">&#39;editar-borrador&#39;</span>
         <span class="k">elif</span> <span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;Publicado&#39;</span> <span class="ow">or</span> <span class="s1">&#39;En revisión&#39;</span><span class="p">:</span>
             <span class="n">edit_url</span> <span class="o">=</span> <span class="s1">&#39;editar-contenido&#39;</span>
+        <span class="k">elif</span> <span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;Rechazado&#39;</span><span class="p">:</span>
+            <span class="n">edit_url</span> <span class="o">=</span> <span class="s1">&#39;editar-rechazado&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">edit_url</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">content_pk</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="delete_archivo">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.delete_archivo">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_archivo</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">archivo_id</span><span class="p">):</span>
+    <span class="n">archivo</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Archivos</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">archivo_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">==</span> <span class="n">archivo</span><span class="o">.</span><span class="n">contenido</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+        <span class="n">content_pk</span> <span class="o">=</span> <span class="n">archivo</span><span class="o">.</span><span class="n">contenido</span><span class="o">.</span><span class="n">pk</span>
+        <span class="n">estado</span> <span class="o">=</span> <span class="n">archivo</span><span class="o">.</span><span class="n">contenido</span><span class="o">.</span><span class="n">estado</span>
+        <span class="n">archivo</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;Borrador&#39;</span><span class="p">:</span>
+            <span class="n">edit_url</span> <span class="o">=</span> <span class="s1">&#39;editar-borrador&#39;</span>
+        <span class="k">elif</span> <span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;Publicado&#39;</span> <span class="ow">or</span> <span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;En revisión&#39;</span><span class="p">:</span>  <span class="c1"># Fix the &#39;or&#39; condition</span>
+            <span class="n">edit_url</span> <span class="o">=</span> <span class="s1">&#39;editar-contenido&#39;</span>
+        <span class="k">elif</span> <span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;Rechazado&#39;</span><span class="p">:</span>
+            <span class="n">edit_url</span> <span class="o">=</span> <span class="s1">&#39;editar-rechazado&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">edit_url</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">content_pk</span><span class="p">)</span></div>
 
 
+
 <div class="viewcode-block" id="ContenidoVersionListView">
 <a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoVersionListView">[docs]</a>
-<span class="k">class</span> <span class="nc">ContenidoVersionListView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ContenidoVersionListView</span><span class="p">(</span><span class="n">PermissionRequiredMixin</span><span class="p">,</span> <span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">VersionContenido</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;version/version_lista.html&#39;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;version/historial_lista.html&#39;</span>
+    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;contenido.add_contenido&#39;</span>
     <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;version_contenidos&#39;</span>
 
 <div class="viewcode-block" id="ContenidoVersionListView.get_queryset">
 <a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoVersionListView.get_queryset">[docs]</a>
     <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">micontenido</span> <span class="o">=</span> <span class="n">Contenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
         <span class="c1"># Obtener los contenidos en estado &quot;borrador&quot; del usuario actual</span>
-        <span class="k">return</span> <span class="n">VersionContenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-contenido_id&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">)</span></div>
-</div>
+        <span class="k">return</span> <span class="n">VersionContenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">contenido__in</span> <span class="o">=</span> <span class="n">micontenido</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-contenido_id&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">)</span></div>
 
     
-
+<div class="viewcode-block" id="ContenidoVersionListView.get_context_data">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoVersionListView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;modo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;versiones&#39;</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
 
 <div class="viewcode-block" id="editar_version">
 <a class="viewcode-back" href="../../contenido.html#contenido.views.editar_version">[docs]</a>
@@ -645,19 +787,54 @@
             <span class="n">nueva_version</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;Borrador&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">video</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;videos&#39;</span><span class="p">):</span>
+                <span class="n">Video</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">nueva_version</span><span class="o">.</span><span class="n">contenido</span><span class="p">,</span> <span class="n">video</span><span class="o">=</span><span class="n">video</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">archivo</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s1">&#39;archivos&#39;</span><span class="p">):</span>
+                <span class="n">Archivos</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">nueva_version</span><span class="o">.</span><span class="n">contenido</span><span class="p">,</span> <span class="n">archivo</span><span class="o">=</span><span class="n">archivo</span><span class="p">)</span>
             <span class="n">contenido</span> <span class="o">=</span> <span class="n">version</span><span class="o">.</span><span class="n">contenido</span>
             <span class="n">contenido</span><span class="o">.</span><span class="n">titulo</span> <span class="o">=</span> <span class="n">nueva_version</span><span class="o">.</span><span class="n">titulo</span>
             <span class="n">contenido</span><span class="o">.</span><span class="n">resumen</span> <span class="o">=</span> <span class="n">nueva_version</span><span class="o">.</span><span class="n">resumen</span>
             <span class="n">contenido</span><span class="o">.</span><span class="n">descripcion</span> <span class="o">=</span> <span class="n">nueva_version</span><span class="o">.</span><span class="n">descripcion</span>
             <span class="n">contenido</span><span class="o">.</span><span class="n">categoria</span> <span class="o">=</span> <span class="n">nueva_version</span><span class="o">.</span><span class="n">categoria</span>
             <span class="n">contenido</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="n">nueva_version</span><span class="o">.</span><span class="n">estado</span>
-            <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-
+            <span class="n">contenido</span><span class="o">.</span><span class="n">nota</span> <span class="o">=</span> <span class="n">nueva_version</span><span class="o">.</span><span class="n">nota</span>
+            <span class="n">contenido</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;contenido-version&#39;</span><span class="p">))</span>  <span class="c1"># Redirigir a la lista de versiones</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">form</span> <span class="o">=</span> <span class="n">VersionContenidoEditForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">user_request</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;version/version_editar.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">})</span></div>
+
+    
+<div class="viewcode-block" id="ContenidoHistorialListView">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoHistorialListView">[docs]</a>
+<span class="k">class</span> <span class="nc">ContenidoHistorialListView</span><span class="p">(</span><span class="n">PermissionRequiredMixin</span><span class="p">,</span> <span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">VersionContenido</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;version/historial_lista.html&#39;</span>
+    <span class="n">permission_required</span> <span class="o">=</span> <span class="s1">&#39;contenido.ver_historial&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;version_contenidos&#39;</span>
+
+<div class="viewcode-block" id="ContenidoHistorialListView.get_queryset">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoHistorialListView.get_queryset">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Obtener los contenidos en estado &quot;borrador&quot; del usuario actual</span>
+        <span class="k">return</span> <span class="n">VersionContenido</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-fecha_modificacion&#39;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="ContenidoHistorialListView.get_context_data">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.ContenidoHistorialListView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;modo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;historial&#39;</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+    
+<div class="viewcode-block" id="detalle_historial">
+<a class="viewcode-back" href="../../contenido.html#contenido.views.detalle_historial">[docs]</a>
+<span class="k">def</span> <span class="nf">detalle_historial</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">version_id</span><span class="p">):</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">VersionContenido</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">version_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;version/historial_vista.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">})</span></div>
 
 </pre></div>
 

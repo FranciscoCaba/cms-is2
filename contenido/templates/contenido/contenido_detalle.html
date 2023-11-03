@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load comments %}
 {% load custom_filters %}
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
     <img src="{% url 'generate_qr_code' %}" alt="Compartir!">
-{% if ncontenido.estado != 'Publicado' %}
+{% if contenido.estado != 'Publicado' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
     <div class="card-body">
         <h1 class="text-center">Vista Previa de Contenido</h1>
@@ -58,8 +59,10 @@
             {% endif %}
         </div>
         {% if contenido.estado == 'Publicado' %}
-        <div class="contenido-interactions-data">
+        {% get_comment_count for contenido as comment_count %}
+        <div class="contenido-interactions-data d-flex justify-content-around">
             <p>Likes: {{ contenido.likes.count }}</p>
+            <p>Comentarios: {{ comment_count }}</p>
             <p>Veces compartido: {{ contenido.compartidos }}</p>
         </div>
         <div class="contenido-buttons">
@@ -90,7 +93,25 @@
             <button class="w-100 interaction-button" type="button" id="copy-button" onclick="shareContent( '{{ contenido.id }}' )">Compartir!</button>     
         </div>
         <div class="contenido-comentarios">
-            <p>No hay comentarios!</p>
+            {% if user.is_authenticated %}
+            <div class="mb-5">
+                {% render_comment_form for contenido %}
+            </div>
+            {% else %}
+            <div class="py-4 text-center">
+                <a href="{% url 'login' %}?next={{ request.path }}"><b>Inicia sesión para publicar un comentario.</b></a>
+            </div>
+            {% endif %}
+            <hr/>
+            {% if comment_count %}
+            <div class="comments">
+                {% render_comment_list for contenido %}
+            </div>
+            {% else %}
+            <div class="py-4 text-center">
+                No hay comentarios.
+            </div>
+            {% endif %}
         </div>
         {% endif %}
     </div>
