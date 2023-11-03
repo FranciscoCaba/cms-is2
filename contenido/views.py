@@ -3,15 +3,18 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like,VersionContenido, Image, Video, Archivos
+from .models import Categoria, Contenido, Like,Dislike ,VersionContenido, Image, Video, Archivos, Favoritos
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse,JsonResponse
 from django.core.mail import send_mail,EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from io import BytesIO
+import qrcode
+from django.core.files import File
 
 # Create your views here.
 
@@ -32,7 +35,7 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             else:
                 form.instance.estado = 'Publicado'
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
@@ -147,8 +150,12 @@ class MostrarContenidosView(View):
 
     def get(self, request, pk):
         categoria = get_object_or_404(Categoria, pk=pk)
+        if request.user.is_authenticated:
+            user_favorito_categoria = request.user.categoria_favoritos.filter(id=categoria.id).exists()
+        else:
+            user_favorito_categoria = False
         contenidos = Contenido.objects.filter(categoria=categoria, is_active=True, estado='Publicado').order_by('-fecha')
-        context = {'categoria': categoria, 'contenidos': contenidos}
+        context = {'categoria': categoria, 'contenidos': contenidos, 'user_favorito_categoria': user_favorito_categoria}
         return render(request, self.template_name, context)
     
 
@@ -221,7 +228,7 @@ def publicar_contenido(request, pk):
         contenido.nota = nota
         # Cambiar el estado del contenido a "Publicado"
         contenido.estado = 'Publicado'
-        contenido.save(user=request.user)
+        contenido.save_version(user=request.user)
         content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
         context = {
             'titulo': contenido.titulo,
@@ -249,7 +256,7 @@ def rechazar_contenido(request, pk):
         contenido.nota = nota
         # Cambiar el estado del contenido a "Rechazado"
         contenido.estado = 'Rechazado'
-        contenido.save(user=request.user)
+        contenido.save_version(user=request.user)
         content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
         context = {
             'titulo': contenido.titulo,  
@@ -286,17 +293,25 @@ class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, Li
         # Obtener los contenidos en estado "rechazado" del usuario actual
         return Contenido.objects.filter(user=self.request.user, estado='Rechazado').order_by('-fecha')
 
+
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
     if contenido.solo_suscriptores and not request.user.is_authenticated:
         return redirect('error403')
     
+    if contenido.estado == 'Publicado':
+        contenido.visitas += 1
+        contenido.save()
+
     if request.user.is_authenticated:
         user_likes_contenido = request.user.contenido_likes.filter(id=contenido.id).exists()
+        user_dislikes_contenido = request.user.contenido_dislikes.filter(id=contenido.id).exists()
     else:
         user_likes_contenido = False
+        user_dislikes_contenido = False
     
-    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido})
+
+    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido,'user_dislikes_contenido': user_dislikes_contenido})
 
 def error403(request):
     return render(request, 'error/forbidden.html')
@@ -307,22 +322,57 @@ def toggle_like(request, contenido_id):
     if request.user.is_authenticated:
         try:
             # Intenta obtener el like existente del usuario para este contenido
+            dislike = Dislike.objects.get(contenido=contenido, user=request.user)
+            dislike.delete()  # Elimina el dislike existente     
+            messages.success(request, 'DisLike eliminado correctamente.')
+        except Dislike.DoesNotExist:
+            messages.success(request, 'Dislike eliminado correctamente.')
+        try:
+            # Intenta obtener el like existente del usuario para este contenido
             like = Like.objects.get(contenido=contenido, user=request.user)
-            # Si el like existe, elimínalo (quitar like)
-            like.delete()
+            like.delete()  # Elimina el dislike existente     
             messages.success(request, 'Like eliminado correctamente.')
         except Like.DoesNotExist:
             # Si el like no existe, créalo (dar like)
             Like.objects.create(contenido=contenido, user=request.user)
             messages.success(request, 'Like agregado correctamente.')
-        
         # No es necesario incrementar/decrementar el contador de likes aquí
+
 
         return redirect('detalle_contenido', pk=contenido.id)
     else:
         messages.error(request, 'Debes estar autenticado para dar/quitar like.')
         return redirect('detalle_contenido', pk=contenido.id)
+
+def toggle_dislike(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
     
+    if request.user.is_authenticated:
+        try:
+            # Intenta obtener el like existente del usuario para este contenido
+            like = Like.objects.get(contenido=contenido, user=request.user)
+            like.delete()  # Elimina el dislike existente     
+            messages.success(request, 'Like eliminado correctamente.')
+        except Like.DoesNotExist:
+            messages.success(request, 'Like eliminado correctamente.')
+        try:
+            # Intenta obtener el like existente del usuario para este contenido
+            dislike = Dislike.objects.get(contenido=contenido, user=request.user)
+            dislike.delete()  # Elimina el dislike existente     
+            messages.success(request, 'Dislike eliminado correctamente.')
+        except Dislike.DoesNotExist:
+            # Si el like no existe, créalo (dar like)
+            Dislike.objects.create(contenido=contenido, user=request.user)
+            messages.success(request, 'Dislike agregado correctamente.')
+        # No es necesario incrementar/decrementar el contador de likes aquí
+        
+       
+        return redirect('detalle_contenido', pk=contenido.id)
+    else:
+        messages.error(request, 'Debes estar autenticado para dar/quitar like.')
+        return redirect('detalle_contenido', pk=contenido.id)
+    
+
 class EditarContenidoView(UpdateView, PermissionRequiredMixin):
     model = Contenido
     permission_required = 'contenido.change_contenido'
@@ -341,7 +391,7 @@ class EditarContenidoView(UpdateView, PermissionRequiredMixin):
             Archivos.objects.create(contenido=form.instance, archivo=archivo)
         
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
 
         return redirect(reverse_lazy('listar_revisiones'))
     
@@ -367,7 +417,7 @@ class EditarBorradorView(UpdateView):
             else:
                 form.instance.estado = 'Publicado'
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
@@ -420,7 +470,7 @@ class EditarRechazadoView(UpdateView):
             else:
                 form.instance.estado = 'Publicado'
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
@@ -543,14 +593,24 @@ class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, List
     permission_required = 'contenido.add_contenido'
     context_object_name = 'version_contenidos'
 
-    def get_queryset(self):
-        micontenido = Contenido.objects.filter(user = self.request.user)
+    def get_queryset(self, **kwargs):
+        contenido_id = self.kwargs.get('contenido_id')
+        if contenido_id:
+            micontenido = Contenido.objects.filter(user = self.request.user, id=contenido_id)
+            return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
+        else:
+            micontenido = Contenido.objects.filter(user = self.request.user)
+            return micontenido
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['modo'] = 'versiones'
+        contenido_id = self.kwargs.get('contenido_id')
+        print(contenido_id)
+        if not contenido_id:
+            context['modo'] = 'contenidos'
+        else:
+            context['modo'] = 'versiones'
         return context
 def editar_version(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
@@ -572,7 +632,7 @@ def editar_version(request, version_id):
             contenido.categoria = nueva_version.categoria
             contenido.estado = nueva_version.estado
             contenido.nota = nueva_version.nota
-            contenido.save(user=request.user)
+            contenido.save_version(user=request.user)
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
         form = VersionContenidoEditForm(instance=version, user_request=request.user)
@@ -597,3 +657,51 @@ class ContenidoHistorialListView(PermissionRequiredMixin, LoginRequiredMixin, Li
 def detalle_historial(request, version_id):
     version = get_object_or_404(VersionContenido, pk=version_id)
     return render(request, 'version/historial_vista.html', {'version': version})
+
+def toggle_favorito(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+    if request.user.is_authenticated:
+        try:
+            favorito = Favoritos.objects.get(categoria=categoria, user=request.user)
+            favorito.delete()
+        except Favoritos.DoesNotExist:
+            Favoritos.objects.create(categoria=categoria, user=request.user)
+    else:
+        messages.error(request, 'Debes estar autenticado para seguir una categoria.')
+        return redirect('mostrar_contenidos', pk=categoria.id)
+    return redirect('mostrar_contenidos', pk=categoria.id)
+
+def compartir_contenido(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
+    contenido.compartidos += 1
+    contenido.save()
+    response_data = {'message': 'URL copiado al portapapeles'}
+    return JsonResponse(response_data)
+
+def generate_qr_code(request):
+    # Obtiene la URL actual
+    current_url = request.META['HTTP_REFERER']
+    print(current_url)
+    # Crea un objeto QRCode
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+
+    # Agrega la URL actual al objeto QRCode
+    qr.add_data(current_url)
+    qr.make(fit=True)
+
+    # Crea una imagen del código QR
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    # Guarda la imagen en un BytesIO
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    image_file = File(buffer)
+
+    # Renderiza la imagen en la respuesta HTTP
+    return HttpResponse(image_file, content_type="image/png")
+    

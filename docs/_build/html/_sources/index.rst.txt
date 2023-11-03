@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Bienvenido a la documentacion del cms-is2-eq01-v.1.3.0
+Bienvenido a la documentacion del cms-is2-eq01-v.1.4.0
 ======================================================
 Integrantes
  - Osmani Jose Mestre Riveros
@@ -31,6 +31,7 @@ Y ejecutando el comando  " pip install -r requirements.txt " estaremos instaland
  - python-magic==0.4.27
  - django-storages==1.14
  - Pillow==9.0.1
+ - qrcode==7.4.2
 
 que tambien son requisitos para poder correr correctamente el proyecto
 

@@ -15,6 +15,13 @@ Versiones de mis Contenidos
     {% endif %}
     <table class="table table-bordered">
       <thead>
+        {% if modo == 'contenidos' %}
+          <th>ContenidoID</th>
+          <th>Titulo</th>
+          <th>Estado</th>
+          <th>Usuario</th>
+          <th>Detalle</th>
+        {% else %}
           <th>ContenidoID</th>
           <th>Version</th>
           <th>Titulo</th>
@@ -22,10 +29,18 @@ Versiones de mis Contenidos
           <th>Estado</th>
           <th>Usuario</th>
           <th>Detalle</th>
+        {% endif %}
       </thead>
       <tbody>
           {% for versioncontenido in version_contenidos %}
               <tr>
+                {% if modo == 'contenidos' %}
+                  <td>{{ versioncontenido.id }}</td>
+                  <td>{{ versioncontenido.titulo }}</td>
+                  <td>{{ versioncontenido.estado }}</td>
+                  <td>{{ versioncontenido.user }}</td>
+                  <td class="text-center"><a class="btn btn-sm w-75 btn-success" href="{% url 'contenido-version' versioncontenido.id %}">Ver</a></td>
+                {% else %}
                   <td>{{ versioncontenido.contenido.id }}</td>
                   <td>{{ versioncontenido.version }}</td>
                   <td>{{ versioncontenido.titulo }}</td>
@@ -37,6 +52,7 @@ Versiones de mis Contenidos
                   {% else %}
                     <td class="text-center"><a class="btn btn-sm w-75 btn-success" href="{% url 'detalle-historial' versioncontenido.id %}">Ver</a></td>
                   {% endif %}
+                {% endif %}
               </tr>
           {% endfor %}
       </tbody>

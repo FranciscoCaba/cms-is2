@@ -1,7 +1,24 @@
 {% extends 'base.html' %}
 {%block titulo%}{{ categoria.nombre }}{% endblock %}
 {% block contenido %}
-<h1>Contenidos de la Categoría: {{ categoria.nombre }}</h1>
+<h1 style="display: flex; align-items: center;">
+    <span>Contenidos de la Categoría: {{ categoria.nombre }}</span>
+    <span style="margin-left: 10px;">Seguidores: {{ categoria.seguidores.count }}</span>
+    {% if user.is_authenticated %}
+        <form action="{% url 'toggle_favorito' categoria.id %}" method="post" style="margin-left: 10px;">
+            {% csrf_token %}
+            <button class="interaction-button" type="submit" style="font-size: 12px; padding: 4px 8px;">
+                {% if user_favorito_categoria %}
+                    Dejar de seguir categoria
+                {% else %}
+                    Seguir categoria
+                {% endif %}
+            </button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para seguir categoria.</a>
+    {% endif %}
+</h1>
 <ul class="contenido-list">
     {% for contenido in contenidos %}
         <li class="contenido-portlet">

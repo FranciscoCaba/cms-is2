@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('crear', login_required(views.ContenidoFormView.as_view()) , name='contenido-crear'),
     path('version', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
+    path('version/<int:contenido_id>/', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
     path('historial', login_required(views.ContenidoHistorialListView.as_view()) , name='contenido-historial'),
     path('categoria/crear', login_required(views.CategoriaFormView.as_view()), name='categoria-crear'),
     path('categoria', views.CategoriaListView.as_view(), name='categoria-list'),
@@ -25,7 +26,10 @@ urlpatterns = [
     path('rechazados/', views.ContenidoRechazadoListView.as_view(), name='rechazados_lista'),
 
     path('contenido/<int:contenido_id>/toggle-like/', views.toggle_like, name='toggle_like'),
+    path('contenido/<int:contenido_id>/toggle-dislike/', views.toggle_dislike, name='toggle_dislike'),
     path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
+    path('contenido/<int:categoria_id>/toggle-favorito/', views.toggle_favorito, name='toggle_favorito'),
+    path('contenido/<int:contenido_id>/compartir/', views.compartir_contenido, name='compartir_contenido'),
 
     path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido'),
     path('delete_image/<int:image_id>/', views.delete_image, name='delete_image'),
@@ -41,6 +45,8 @@ urlpatterns = [
     path('version/<int:version_id>/editar/', views.editar_version, name='editar-version'),
     path('historial/<int:version_id>/', views.detalle_historial, name='detalle-historial'),
     path('rechazado/<int:pk>/editar/', views.EditarRechazadoView.as_view(), name='editar-rechazado'),
+
+    path('qr_code/', views.generate_qr_code, name='generate_qr_code'),
 
     path('error/', views.error403, name='error403'),
 ]

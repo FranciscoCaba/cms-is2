@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'cloudinary_storage',
     'cloudinary',
     'accounts.apps.AccountsConfig',
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'storages',
     'ckeditor_uploader',
+    'django_comments',
+    'django_comments_xtd',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -96,6 +99,7 @@ WSGI_APPLICATION = 'cms_is2.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = []
 
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -164,10 +168,18 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'cmsis2eq01@gmail.com'  
 EMAIL_HOST_PASSWORD = 'gpvi mjlq mopw grde '
+
+
+#   COMENTARIOS
+
+COMMENTS_APP = 'django_comments_xtd'
+COMMENTS_XTD_MAX_THREAD_LEVEL = 0
+COMMENTS_XTD_CONFIRM_EMAIL = False
+
