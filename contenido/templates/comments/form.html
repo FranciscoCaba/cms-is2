@@ -1,0 +1,25 @@
+{% load comments %}
+
+<form method="POST" action="{% comment_form_target %}" onsubmit="post.disabled = true; return true;">
+  {% csrf_token %}
+  <fieldset>
+    <input type="hidden" name="next" value="{% url 'detalle_contenido' contenido.id %}" />
+    <div class="alert alert-danger" data-comment-element="errors" hidden></div>
+    {% for field in form %}
+      {% if field.is_hidden %}<div>{{ field }}</div>{% endif %}
+    {% endfor %}
+
+    <div style="display:none">{{ form.honeypot }}</div>
+
+    <div class="row justify-content-center my-3 form-group{% if 'comment' in form.errors %} has-danger{% endif %}">
+      <div class="col-10">{{ form.comment }}</div>
+    </div>
+
+  </fieldset>
+
+  <div class="row my-2 form-group">
+    <div class="d-flex justify-content-center">
+      <input type="submit" name="post" value="Enviar" class="btn btn-primary me-1" />
+    </div>
+  </div>
+</form>

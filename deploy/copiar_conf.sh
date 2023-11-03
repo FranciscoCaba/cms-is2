@@ -10,7 +10,7 @@ sudo systemctl enable gunicorn.socket
 
 # Configuracion de nginx
 sudo cp 'cms' '/etc/nginx/sites-available/'
-sudo ln -s /etc/nginx/sites-available/cms /etc/nginx/sites-enabled
+sudo ln -s /etc/nginx/sites-available/cms /etc/nginx/sites-enabled/
 
 # Reiniciamos nginx
 sudo systemctl restart nginx

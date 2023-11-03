@@ -6,8 +6,8 @@ After=network.target
 [Service]
 User=derlis
 Group=www-data
-WorkingDirectory=/home/derlis/proyecto/cms-is2/
-ExecStart=/home/derlis/proyecto/venv/bin/gunicorn \
+WorkingDirectory=/home/francisco/Desktop/proyecto/cms-is2/
+ExecStart=/home/francisco/Desktop/proyecto/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \

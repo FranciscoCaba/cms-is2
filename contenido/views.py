@@ -35,7 +35,7 @@ class ContenidoFormView(PermissionRequiredMixin, CreateView):
             else:
                 form.instance.estado = 'Publicado'
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
@@ -228,7 +228,7 @@ def publicar_contenido(request, pk):
         contenido.nota = nota
         # Cambiar el estado del contenido a "Publicado"
         contenido.estado = 'Publicado'
-        contenido.save(user=request.user)
+        contenido.save_version(user=request.user)
         content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
         context = {
             'titulo': contenido.titulo,
@@ -256,7 +256,7 @@ def rechazar_contenido(request, pk):
         contenido.nota = nota
         # Cambiar el estado del contenido a "Rechazado"
         contenido.estado = 'Rechazado'
-        contenido.save(user=request.user)
+        contenido.save_version(user=request.user)
         content_url = request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
         context = {
             'titulo': contenido.titulo,  
@@ -391,7 +391,7 @@ class EditarContenidoView(UpdateView, PermissionRequiredMixin):
             Archivos.objects.create(contenido=form.instance, archivo=archivo)
         
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
 
         return redirect(reverse_lazy('listar_revisiones'))
     
@@ -417,7 +417,7 @@ class EditarBorradorView(UpdateView):
             else:
                 form.instance.estado = 'Publicado'
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
@@ -470,7 +470,7 @@ class EditarRechazadoView(UpdateView):
             else:
                 form.instance.estado = 'Publicado'
         contenido = form.save(commit=False)
-        contenido.save(user=self.request.user)
+        contenido.save_version(user=self.request.user)
         if  'crear' in self.request.POST:
             if form.instance.categoria.moderada :
                 content_url = self.request.build_absolute_uri(reverse('detalle_contenido', args=[contenido.pk]))
@@ -622,7 +622,7 @@ def editar_version(request, version_id):
             contenido.categoria = nueva_version.categoria
             contenido.estado = nueva_version.estado
             contenido.nota = nueva_version.nota
-            contenido.save(user=request.user)
+            contenido.save_version(user=request.user)
             return redirect(reverse_lazy('contenido-version'))  # Redirigir a la lista de versiones
     else:
         form = VersionContenidoEditForm(instance=version, user_request=request.user)
