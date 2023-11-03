@@ -1,63 +1,130 @@
+<style>
+    .archivo-input-container {
+        margin-top: 10px; 
+    }
+</style>
 {% extends "base.html" %}
+{% load custom_filters %}
 {%block titulo%}Editar version{% endblock %}
 {% block contenido %}
 {% load crispy_forms_tags %}
-{% if version.contenido.estado == 'Borrador' %}
-<form method="post">
+<div class="card text-dark mx-auto mb-3 mt-3" style="width:60%;background-color: #f3b805;">
+    <div class="card-header" style="font-weight: bold;">Nota del Borrador</div>
+    <div class="card-body">
+        {% if version.contenido.nota != "" or version.contenido.nota != None %}
+            <p class="card-text">{{ version.nota }}</p>
+        {% else %}
+            <p class="card-text" style="font-style: italic;">Sin Nota</p>
+        {% endif %}
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="card mx-auto" style="width: 60%">
         <div class="card-body">
             <h4 class="card-title">Complete los campos:</h4>
             {{ form.media }}
             {{ form.as_p }}
+                       
+            <!--{% if contenido.images.all %}
+                <h2>Imágenes:</h2>
+                <ul>
+                    {% for image in contenido.images.all %}
+                        <li>
+                            <img src="{{ image.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
+                            <a href="{% url 'delete_image' image.pk %}">Eliminar</a>  
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}-->
+           
+            {% if version.contenido.videos.all %}
+                <h2>Videos:</h2>
+                <ul>
+                    {% for video in version.contenido.videos.all %}
+                        <li>
+                            <video controls width="400" height="300">
+                                <source src="{{ video.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <a href="{% url 'delete_video' video.pk %}">Eliminar</a>  
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if version.contenido.archivos.all %}
+                <h2>Archivos:</h2>
+                <ul>
+                    {% for archivo in version.contenido.archivos.all %}
+                        <li>
+                            <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name|filename }}</a>
+                            <a href="{% url 'delete_archivo' archivo.pk %}">Eliminar</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+           
+            <!--<div id="image-inputs">
+                <input type="file" name="images" accept="image/*" multiple>
+            </div>
+            <button type="button" id="add-image-input" class="btn btn-secondary">Agregar otra imagen</button>-->
+          
+            <div id="video-inputs">
+                <button type="button" id="add-video-input" class="btn btn-secondary">Agregar video</button>
+            </div>
+            
+            <div id="archivo-inputs" class="archivo-input-container">
+                <button type="button" id="add-archivo-input" class="btn btn-secondary">Agregar archivo</button>
+            </div>
+            
             <button type="submit" name="borradorcito" class="btn btn-secondary float-end">Guardar Borrador</button>
         </div>
     </div>
 </form>
-{% else %}
-<div class="contenido-detallado">
-    <div class="contenido-title">
-        <h1>{{ version.titulo }}</h1>
-    </div>
-    <div class="contenido-references">
-        <p>Autor: <a href="{% url 'detalle_autor' version.contenido.user.pk %}">{{ version.contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' version.contenido.categoria.pk %}">{{ version.categoria }}</a> | {{ version.fecha_modificacion }}</p>
-    </div>
-    <div class="contenido-body">
-        <h4>
-            Resumen:
-        </h4>
-        {{ version.contenido.resumen }}
-        <hr>
-        <h4>
-            Descripción:
-        </h4>
-        {{ version.descripcion | safe }}
-        {% if version.contenido.images.all %}
-            <h2>Imágenes:</h2>
-            <ul>
-                {% for image in version.contenido.images.all %}
-                    <li>
-                        <img src="{{ image.image.url }}" alt="{{ contenido.titulo }}" width="400" height="300">
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
 
-        
-        {% if version.contenido.videos.all %}
-            <h2>Videos:</h2>
-            <ul>
-                {% for video in version.contenido.videos.all %}
-                    <li>
-                        <video controls width="400" height="300">
-                            <source src="{{ video.video.url }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-</div>
-{% endif %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        /*const addImageInputButton = document.getElementById("add-image-input");
+        const imageInputsContainer = document.getElementById("image-inputs");
+
+        addImageInputButton.addEventListener("click", function () {
+            const newImageInput = document.createElement("input");
+            newImageInput.type = "file";
+            newImageInput.name = "images";
+            newImageInput.accept = "image/*";
+            newImageInput.multiple = true;
+
+            imageInputsContainer.appendChild(newImageInput);
+        });*/
+
+        const addVideoInputButton = document.getElementById("add-video-input");
+        const videoInputsContainer = document.getElementById("video-inputs");
+
+        addVideoInputButton.addEventListener("click", function () {
+            const newVideoInput = document.createElement("input");
+            newVideoInput.type = "file";
+            newVideoInput.name = "videos";
+            newVideoInput.accept = "video/*";
+            newVideoInput.multiple = true;
+            videoInputsContainer.appendChild(newVideoInput);
+            newVideoInput.click();
+            addVideoInputButton.textContent = "Agregar otro video";
+        });
+
+        const addArchivoInputButton = document.getElementById("add-archivo-input");
+        const archivoInputsContainer = document.getElementById("archivo-inputs");
+
+        addArchivoInputButton.addEventListener("click", function () {
+            const newArchivoInput = document.createElement("input");
+            newArchivoInput.type = "file";
+            newArchivoInput.name = "archivos";
+            newArchivoInput.accept = ".txt, .pdf";
+            newArchivoInput.multiple = true;
+            archivoInputsContainer.appendChild(newArchivoInput);
+            newArchivoInput.click();
+            addArchivoInputButton.textContent = "Agregar otro archivo";
+        });
+    });
+</script>
 {% endblock %}

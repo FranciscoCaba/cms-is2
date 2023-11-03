@@ -83,9 +83,9 @@
                         {% for contenido in contenidos %}
                         {% if contenido.estado == 'Rechazado' %}
                             {% if contenido.user == request.user %}
-                                <li class="titulo-contenido-kanban"><a href="{% url 'editar-rechazado' contenido.id %}">{{ contenido.titulo }}</a>(Ir a editar) <br/>Razon: {{ contenido.nota }}</li>
+                                <li class="titulo-contenido-kanban"><a href="{% url 'editar-rechazado' contenido.id %}">{{ contenido.titulo }}</a>(Ir a editar)</li>
                             {% else %}
-                                <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>(Vista Previa) <br/>Razon: {{ contenido.nota }}</li>
+                                <li class="titulo-contenido-kanban"><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>(Vista Previa)</li>
                             {% endif %}
                         {% endif %}
                         {% endfor %}

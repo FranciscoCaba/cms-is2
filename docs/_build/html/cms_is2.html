@@ -136,6 +136,15 @@
 <span class="p">]</span>
 </pre></div>
 </div>
+<p>Ruta donde se sube imagenes desde el ckeditor</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CKEDITOR_UPLOAD_PATH</span> <span class="o">=</span> <span class="s2">&quot;uploads/&quot;</span>
+<span class="n">CKEDITOR_CONFIGS</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;removePlugins&#39;</span><span class="p">:</span> <span class="s1">&#39;exportpdf&#39;</span><span class="p">,</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <p>Lineas necesarias para que funcione la libreria que se encarga de formatear
 los formularios:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CRISPY_ALLOWED_TEMPLATE_PACK</span> <span class="o">=</span> <span class="s1">&#39;bootstrap5&#39;</span>
@@ -249,6 +258,15 @@ seguridad de django ya que trabaja en conjunto con el:</p>
       <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span>
    <span class="p">}</span>
 <span class="p">}</span>
+</pre></div>
+</div>
+<p>Configuracion para enviar emails</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">EMAIL_BACKEND</span> <span class="o">=</span> <span class="s1">&#39;django.core.mail.backends.console.EmailBackend&#39;</span>
+<span class="n">EMAIL_HOST</span> <span class="o">=</span> <span class="s1">&#39;smtp.gmail.com&#39;</span>
+<span class="n">EMAIL_PORT</span> <span class="o">=</span> <span class="mi">587</span>
+<span class="n">EMAIL_USE_TLS</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">EMAIL_HOST_USER</span> <span class="o">=</span> <span class="s1">&#39;cmsis2eq01@gmail.com&#39;</span>
+<span class="n">EMAIL_HOST_PASSWORD</span> <span class="o">=</span> <span class="s1">&#39;gpvi mjlq mopw grde &#39;</span>
 </pre></div>
 </div>
 </section>

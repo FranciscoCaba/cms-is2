@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cambio de estado de publicacion</title>
-</head>
-<body>
-    <p>Tu publicacion {{ titulo }} ahora se encuentra en revisión.</p>
-</body>
-</html>
+{% extends "base_email.html" %}
+{% load static %}
+{% block titulo %}Cambio de estado de publicación {% endblock %}
+{% block contenido %}
+    Tu publicación {{ titulo }} ahora se encuentra en revisión.
+    Para ver tu contenido, sigue este enlace: <a href="{{ content_url }}">Ver contenido</a></p>
+{% endblock %}

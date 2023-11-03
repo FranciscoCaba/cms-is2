@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cambio de estado de publicacion</title>
-</head>
-<body>
-    <p>Tu publicacion {{ titulo }} ha sido rechazado por el publicador.</p>
-    <p>Razón de rechazo: {{ razon_rechazo }}</p>
-</body>
-</html>
+{% extends "base_email.html" %}
+{% load static %}
+{% block titulo %}Cambio de estado de publicación {% endblock %}
+{% block contenido %}
+    Tu publicacion {{ titulo }} ha sido rechazado por el publicador.
+    Razón de rechazo: {{ nota }}.
+    Para ver tu contenido, sigue este enlace: <a href="{{ content_url }}">Ver contenido</a></p>
+{% endblock %}
