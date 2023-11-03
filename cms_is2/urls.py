@@ -21,6 +21,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('buscar/', buscar_contenido, name='buscar_contenido'),
     path('resultados_busqueda/', resultados_busqueda, name='resultados_busqueda'),
+    re_path(r'^comments/', include('django_comments_xtd.urls')),
     re_path(r'^.*/$', PaginaNoEncontradaView.as_view(), name='pagina_no_encontrada'),
 ] 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
