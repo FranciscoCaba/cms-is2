@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-db_name="cms"
+db_name="cms_prod"
 db_user="cmsadmin"
 db_password="cmsadmin"
 
