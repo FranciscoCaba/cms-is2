@@ -296,6 +296,10 @@ class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, Li
 
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
+    
+    if not contenido.is_active:
+        return redirect('pagina_no_encontrada')
+
     if contenido.solo_suscriptores and not request.user.is_authenticated:
         return redirect('error403')
     
