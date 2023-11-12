@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like,Dislike ,VersionContenido, Image, Video, Archivos, Favoritos
+from .models import Categoria, Contenido, Like,Dislike ,VersionContenido, Image, Video, Archivos, Favoritos, Calificacion
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -310,8 +310,33 @@ def detalle_contenido(request, pk):
         user_likes_contenido = False
         user_dislikes_contenido = False
     
+    promedio_calificacion = contenido.obtener_promedio_calificacion()
+    cantidad_calificaciones = Calificacion.objects.filter(contenido=contenido).count()
+    calificacion = None
 
-    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido,'user_dislikes_contenido': user_dislikes_contenido})
+    if request.user.is_authenticated:
+        calificacion = Calificacion.objects.filter(contenido=contenido, usuario=request.user).first()
+        if request.method == 'POST':
+            # Manejar la calificación del usuario actual
+            estrellas = request.POST.get('estrellas')
+            
+            if calificacion:
+                # Si el usuario ya calificó, actualizar la calificación existente
+                calificacion.estrellas = estrellas
+                calificacion.save()
+            else:
+                # Si el usuario no ha calificado, crear una nueva calificación
+                Calificacion.objects.create(contenido=contenido, usuario=request.user, estrellas=estrellas)
+            
+            # Redirigir para evitar reenvío del formulario al recargar la página
+            return redirect('detalle_contenido', pk=pk)
+        calificacion = Calificacion.objects.filter(contenido=contenido, usuario=request.user).first().estrellas
+    
+    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido,
+    'user_likes_contenido': user_likes_contenido,  'user_dislikes_contenido': user_dislikes_contenido, 
+    'promedio_calificacion': promedio_calificacion,
+    'calificacion': calificacion,
+    'cantidad_calificaciones': cantidad_calificaciones})
 
 def error403(request):
     return render(request, 'error/forbidden.html')
