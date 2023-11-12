@@ -4,10 +4,10 @@
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
+<!-- Calificacion -->
 <p>Mi calificación: {{ calificacion|default:"Todavía no has calificado" }}</p>
 <p>Promedio de calificación: {{ promedio_calificacion|default:"No hay calificaciones aún" }}</p>
 <p>Cantidad de calificaciones: {{ cantidad_calificaciones }}</p>
-
 <form method="post" action="{% url 'detalle_contenido' pk=contenido.id %}">
     {% csrf_token %}
     <label for="estrellas">Calificar:</label>
@@ -21,6 +21,11 @@
     </select>
     <button type="submit">Calificar</button>
 </form>
+<!-- Desactivar -->
+<a href="{% url 'confirmar_desactivacion' pk=contenido.id %}">
+    <button>Desactivar Contenido</button>
+</a>
+<!--OFF -->
 {% if contenido.estado != 'Publicado' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
     <div class="card-body">

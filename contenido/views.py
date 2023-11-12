@@ -551,7 +551,7 @@ def detalle_autor(request, pk):
     autor = get_object_or_404(User, pk=pk)
 
     # Obtiene los contenidos relacionados al autor
-    contenidos = Contenido.objects.filter(user=autor,estado='Publicado').order_by('-fecha')
+    contenidos = Contenido.objects.filter(user=autor,estado='Publicado', is_active=True).order_by('-fecha')
 
     # Renderiza el template para mostrar los detalles del autor y sus contenidos
     return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})
@@ -731,4 +731,16 @@ def generate_qr_code(request):
 
     # Renderiza la imagen en la respuesta HTTP
     return HttpResponse(image_file, content_type="image/png")
-    
+
+@login_required
+def confirmar_desactivacion(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+
+    if request.method == 'POST':
+        # Si el usuario confirma la desactivación
+        contenido.is_active = False
+        contenido.save()
+
+        return redirect('index')  # Redirigir a donde desees después de la desactivación
+
+    return render(request, 'contenido/confirmar_desactivacion.html', {'contenido': contenido})
