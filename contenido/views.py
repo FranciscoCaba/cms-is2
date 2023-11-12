@@ -317,21 +317,23 @@ def detalle_contenido(request, pk):
     if request.user.is_authenticated:
         calificacion = Calificacion.objects.filter(contenido=contenido, usuario=request.user).first()
         if request.method == 'POST':
-            # Manejar la calificación del usuario actual
+            
             estrellas = request.POST.get('estrellas')
-            
+
             if calificacion:
-                # Si el usuario ya calificó, actualizar la calificación existente
-                calificacion.estrellas = estrellas
-                calificacion.save()
+                if estrellas != '0':
+                    calificacion.estrellas = estrellas
+                    calificacion.save()
+                else:
+                    calificacion.delete()
             else:
-                # Si el usuario no ha calificado, crear una nueva calificación
                 Calificacion.objects.create(contenido=contenido, usuario=request.user, estrellas=estrellas)
-            
-            # Redirigir para evitar reenvío del formulario al recargar la página
             return redirect('detalle_contenido', pk=pk)
-        calificacion = Calificacion.objects.filter(contenido=contenido, usuario=request.user).first().estrellas
+        if calificacion:
+            calificacion = calificacion.estrellas
+
     
+
     return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido,
     'user_likes_contenido': user_likes_contenido,  'user_dislikes_contenido': user_dislikes_contenido, 
     'promedio_calificacion': promedio_calificacion,
