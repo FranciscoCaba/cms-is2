@@ -19,7 +19,7 @@ urlpatterns = [
     path('', include('app.urls')),
     path('contenido/', include('contenido.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('resultados_busqueda/', resultados_busqueda, name='resultados_busqueda'),
+    path('buscar/', resultados_busqueda, name='resultados_busqueda'),
     re_path(r'^comments/', include('django_comments_xtd.urls')),
     re_path(r'^.*/$', PaginaNoEncontradaView.as_view(), name='pagina_no_encontrada'),
 ] 
