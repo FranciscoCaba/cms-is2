@@ -748,3 +748,12 @@ def confirmar_desactivacion(request, pk):
         return redirect('index')  # Redirigir a donde desees después de la desactivación
 
     return render(request, 'contenido/confirmar_desactivacion.html', {'contenido': contenido})
+
+def estadisticas(request):
+    # Obtiene el parámetro de orden desde la URL, si está presente
+    order_by = request.GET.get('order_by', 'id')  # Por defecto, ordena por id
+
+    # Obtiene los contenidos ordenados según el parámetro
+    contenidos = Contenido.objects.all().order_by(order_by)
+
+    return render(request, 'contenido/estadisticas.html', {'contenidos': contenidos, 'order_by': order_by})

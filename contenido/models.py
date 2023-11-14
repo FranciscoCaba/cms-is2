@@ -51,7 +51,10 @@ class Contenido(models.Model):
     
     reportado = models.BooleanField(default=False)
     def obtener_promedio_calificacion(self):
-        return self.calificaciones.aggregate(promedio=Avg('estrellas'))['promedio']
+        prom = self.calificaciones.aggregate(promedio=Avg('estrellas'))['promedio']
+        if prom is None:
+            prom = 'Sin calificaciones'
+        return prom
     
     def save(self, *args, **kwargs):
         # Guardar una nueva versión de Contenido antes de cada modificación
