@@ -111,6 +111,11 @@
                 <a class="nav-link" href="{% url 'contenido-historial' %}">Historial de Cambios</a>
               </li>
             {% endif %}
+            {% if perms.contenido.puede_ver_estadisticas %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'estadisticas' %}">Estadisticas</a>
+              </li>
+            {% endif %}
             </ul>
           </div>
         </div>
