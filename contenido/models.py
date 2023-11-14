@@ -98,8 +98,9 @@ class Contenido(models.Model):
             ('ver_versiones', 'Ver versiones'),
             ('ver_todos_versiones', 'Ver todos las versiones'),
             ('ver_historial', 'Ver historial'),
-            #('puede_calificar', 'Puede calificar'),
-            #('puede_inactivar_contenido', 'Puede inactivar contenido'),
+            ('puede_calificar', 'Puede calificar'),
+            ('puede_inactivar_contenido', 'Puede inactivar contenido'),
+            ('puede_ver_estadisticas', 'Puede ver estadísticas'),
         ]
     
     def get_absolute_url(self, **kwargs):
