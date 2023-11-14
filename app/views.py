@@ -42,7 +42,10 @@ class IndexView(CustomTemplateView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         user=self.request.user
-        context['categorias']=Categoria.objects.annotate(num_contenidos=Count('categoria'))
+        #context['categorias']=Categoria.objects.filter(is_active=True).annotate(num_contenidos=Count('categoria')).order_by('nombre')
+        context['categorias'] = Categoria.objects.filter(is_active=True).annotate(
+            num_contenidos=Count('categoria', filter=Q(categoria__estado='Publicado', categoria__is_active=True))
+        ).order_by('nombre')
         if(user.is_authenticated):
             context['contenidos'] = Contenido.objects.filter(estado='Publicado', is_active=True).order_by('-fecha')
         else:
