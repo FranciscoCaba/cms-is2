@@ -166,7 +166,7 @@ class ListarRevisionesView(PermissionRequiredMixin,ListView):
     context_object_name = 'por_revisar'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
+        return Contenido.objects.filter(estado='En revisión', is_active=True).order_by('-fecha')
     
 class ListarUnaRevisionView(PermissionRequiredMixin,ListView):
     model = Contenido
@@ -175,7 +175,7 @@ class ListarUnaRevisionView(PermissionRequiredMixin,ListView):
     context_object_name = 'por_revisar'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='En revisión', id=self.kwargs['pk']).order_by('-fecha')
+        return Contenido.objects.filter(estado='En revisión', id=self.kwargs['pk'], is_active=True).order_by('-fecha')
 
 class ContenidosApublicarView(ListView):
     model = Contenido
@@ -183,7 +183,7 @@ class ContenidosApublicarView(ListView):
     context_object_name = 'revisados'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='A publicar').order_by('-fecha')
+        return Contenido.objects.filter(estado='A publicar', is_active=True).order_by('-fecha')
     
 class UnContenidoApublicarView(ListView):
     model = Contenido
@@ -191,7 +191,7 @@ class UnContenidoApublicarView(ListView):
     context_object_name = 'revisados'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk']).order_by('-fecha')
+        return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk'], is_active=True).order_by('-fecha')
 
 @permission_required('contenido.puede_editar_aceptar')
 def apublicar_contenido(request, pk):
@@ -281,7 +281,7 @@ class ContenidoBorradorListView(PermissionRequiredMixin, LoginRequiredMixin, Lis
 
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Borrador').order_by('-fecha')
+        return Contenido.objects.filter(user=self.request.user, estado='Borrador', is_active=True).order_by('-fecha')
 
 class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Contenido
@@ -291,7 +291,7 @@ class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, Li
 
     def get_queryset(self):
         # Obtener los contenidos en estado "rechazado" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Rechazado').order_by('-fecha')
+        return Contenido.objects.filter(user=self.request.user, estado='Rechazado', is_active=True).order_by('-fecha')
 
 
 def detalle_contenido(request, pk):
@@ -562,12 +562,12 @@ def detalle_autor(request, pk):
 
 @permission_required('contenido.ver_kanban')
 def kanban_view(request):
-    contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
+    contexto={'contenidos': Contenido.objects.filter(user=request.user, is_active=True).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
 
 @permission_required('contenido.ver_todos_kanban')
 def all_kanban_view(request):
-    contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
+    contexto={'contenidos': Contenido.objects.all(is_active=True).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
 
 def delete_image(request, image_id):
@@ -627,10 +627,10 @@ class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, List
     def get_queryset(self, **kwargs):
         contenido_id = self.kwargs.get('contenido_id')
         if contenido_id:
-            micontenido = Contenido.objects.filter(user = self.request.user, id=contenido_id)
-            return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
+            micontenido = Contenido.objects.filter(user = self.request.user, id=contenido_id, is_active=True)
+            return VersionContenido.objects.filter(contenido__in = micontenido, is_active=True).order_by('-contenido_id', 'version')
         else:
-            micontenido = Contenido.objects.filter(user = self.request.user)
+            micontenido = Contenido.objects.filter(user = self.request.user, is_active=True)
             return micontenido
 
     
@@ -678,7 +678,7 @@ class ContenidoHistorialListView(PermissionRequiredMixin, LoginRequiredMixin, Li
 
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return VersionContenido.objects.all().order_by('-fecha_modificacion')
+        return VersionContenido.objects.all(is_active=True).order_by('-fecha_modificacion')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

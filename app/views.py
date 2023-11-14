@@ -223,7 +223,7 @@ def resultados_busqueda(request):
                                               | Q(descripcion__icontains=query)
                                               | Q(resumen__icontains=query)
                                               | Q(categoria__nombre__icontains=query)
-                                              | Q(user__username__icontains=query)).distinct()
+                                              | Q(user__username__icontains=query)).distinct().filter(is_active=True)
     else:
         query = ''    
     return render(request, 'busqueda/resultado.html', {'contenidos': contenidos, 'query': query})
