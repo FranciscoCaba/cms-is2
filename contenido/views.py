@@ -632,7 +632,7 @@ class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, List
         else:
             micontenido = Contenido.objects.filter(user = self.request.user)
             return micontenido
-        # Obtener los contenidos en estado "borrador" del usuario actual
+
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -749,11 +749,7 @@ def confirmar_desactivacion(request, pk):
 
     return render(request, 'contenido/confirmar_desactivacion.html', {'contenido': contenido})
 
+@login_required
 def estadisticas(request):
-    # Obtiene el parámetro de orden desde la URL, si está presente
-    order_by = request.GET.get('order_by', 'id')  # Por defecto, ordena por id
-
-    # Obtiene los contenidos ordenados según el parámetro
-    contenidos = Contenido.objects.all().order_by(order_by)
-
-    return render(request, 'contenido/estadisticas.html', {'contenidos': contenidos, 'order_by': order_by})
+    contenidos = Contenido.objects.filter(estado='Publicado', is_active=True).order_by('-fecha')
+    return render(request, 'contenido/estadisticas.html', {'contenidos': contenidos})
