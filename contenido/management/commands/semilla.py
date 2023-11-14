@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User, Group, Permission
-from contenido.models import Categoria, Contenido
+from contenido.models import Categoria, Contenido, Like, Dislike, Calificacion
 import lorem  # Esta es una biblioteca para generar texto aleatorio
 import random  # Para generar datos aleatorios
 from django.db.models import Q
@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def generate_random_html_text(self):
         #Genera texto aleatorio con etiquetas HTML aleatorias.
         
-        lorem_text = lorem.text()
+        lorem_text = ' '.join([lorem.sentence() for _ in range(6)])
         # Agregar etiquetas HTML aleatorias
         tags = ['<h1>', '</h1>', '<h2>', '</h2>', '<h3>', '</h3>', '<u>', '</u>', '<br>', '<br/>']
         random_tags = [random.choice(tags) for _ in range(3)]
@@ -67,6 +67,8 @@ class Command(BaseCommand):
         publicador.permissions.add(Permission.objects.get(codename='ver_todos_kanban'))
         publicador.permissions.add(Permission.objects.get(codename='ver_versiones'))
         publicador.permissions.add(Permission.objects.get(codename='ver_todos_versiones'))
+        publicador.permissions.add(Permission.objects.get(codename='puede_ver_estadisticas'))
+        
 
         # Crear usuarios y asignarlos a grupos
         usuarios = {
@@ -118,5 +120,28 @@ class Command(BaseCommand):
                     estado='Publicado',
                     reportado=False
                 )
+        
+        # Interacciones aleatorias
+        contenidos = Contenido.objects.all()
+        for contenido in contenidos:
+            for user in users:
+                # Likes y dislikes
+                roll = random.randint(0, 2)
+                if roll == 1:
+                    Like.objects.create(contenido=contenido, user=user)
+                elif roll == 2:
+                    Dislike.objects.create(contenido=contenido, user=user)
+                else:
+                    pass
+
+                # Calificaciones
+                roll = random.randint(1, 5)
+                roll2 = random.randint(0, 1)
+                if roll2 == 1:
+                    Calificacion.objects.create(contenido=contenido, usuario=user, estrellas=roll)
+            # Visitas
+            contenido.visitas = random.randint(0, 1000)
+            contenido.compartidos = random.randint(0, 10)
+            contenido.save()
 
         self.stdout.write(self.style.SUCCESS('Datos cargados exitosamente.'))
