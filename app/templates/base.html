@@ -128,9 +128,23 @@
           </ul>
         {% endif %}
       </div>
-      <form class="form-inline" method="GET" action="{% url 'buscar_contenido' %}">
-        <input class="p-2 rounded-2 border" type="text" name="q" placeholder="Buscar...">
-        <button class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
+      <form class="form-inline" method="GET" action="{% url 'resultados_busqueda' %}">
+        <div class="form-group">
+          <input class="p-2 rounded-2 border" type="text" name="q" placeholder="Buscar...">
+          <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="contenido" name="busqueda" value="contenido">
+          <label class="form-check-label" for="contenido">Contenido</label>
+          </div>
+          <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="categoria" name="busqueda" value="categoria">
+          <label class="form-check-label" for="categoria">Categoria</label>
+          </div>
+          <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="usuario" name="busqueda" value="usuario">
+          <label class="form-check-label" for="usuario">Usuario</label>
+          </div>
+          <button class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
+        </div>
       </form>
       {% if request.user.is_authenticated %}
       <div class="dropstart d-flex flex-row align-items-center me-4">

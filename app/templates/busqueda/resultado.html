@@ -4,7 +4,6 @@
 <h1>Resultados de búsqueda para: "{{ query }}"</h1>
     <hr>
         {% if contenidos.count >= 1 %}
-        
         <ul>
         {% for item in contenidos %}
             <li><h4><a href="{% url 'detalle_contenido' item.id %}">{{ item.titulo }}</a></h4>
@@ -13,6 +12,23 @@
                 <p>{{ item.resumen }}</p>
             </li>
         {% endfor %}
+        </ul>
+        {% elif categorias.count >= 1 %}
+        <ul>
+        {% for item in categorias %}
+            <li>
+                <h4><a href="{% url 'mostrar_contenidos' item.id %}">{{ item.nombre }}({{ categoria.num_contenidos }})</a></h4>
+            </li>
+        {% endfor %}
+        </ul>
+        {% elif usuarios.count >= 1 %}
+        <ul>
+        {% for item in usuarios %}
+            <li>
+                <h4><a href="{% url 'detalle_autor' item.id %}">{{ item.username }}</a></h4>
+            </li>
+        {% endfor %}
+        </ul>
         {% else %}
         <h1>No se encontraron resultados</h1>
         {% endif %}

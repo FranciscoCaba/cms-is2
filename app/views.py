@@ -42,14 +42,12 @@ class IndexView(CustomTemplateView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         user=self.request.user
-        #context['categorias']=Categoria.objects.filter(is_active=True).annotate(num_contenidos=Count('categoria')).order_by('nombre')
-        context['categorias'] = Categoria.objects.filter(is_active=True).annotate(
-            num_contenidos=Count('categoria', filter=Q(categoria__estado='Publicado', categoria__is_active=True))
-        ).order_by('nombre')
+        context['categorias']=Categoria.objects.filter(is_active=True).annotate(num_contenidos=Count('categoria',
+        filter=Q(categoria__estado='Publicado', categoria__is_active=True)))
         if(user.is_authenticated):
-            context['contenidos'] = Contenido.objects.filter(estado='Publicado', is_active=True).order_by('-fecha')
+            context['contenidos'] = Contenido.objects.filter(estado='Publicado', is_active=True, categoria__is_active=True).order_by('-fecha')
         else:
-            context['contenidos'] = Contenido.objects.filter(estado='Publicado', solo_suscriptores=False, is_active=True).order_by('-fecha')
+            context['contenidos'] = Contenido.objects.filter(estado='Publicado', solo_suscriptores=False, is_active=True, categoria__is_active=True).order_by('-fecha')
         return context
     
 def register(request):
@@ -208,25 +206,34 @@ class PaginaNoEncontradaView(View):
         return render(request, 'no_encontrada.html')
     
 
-def buscar_contenido(request):
-    query = request.GET.get('q')
-
-    if query:
-        # Redirige a la vista de resultados de búsqueda
-        return redirect(reverse('resultados_busqueda') + f'?q={query}')
-    else:
-        # Redirige a la vista de inicio
-        return redirect(reverse('resultados_busqueda'))
-
 def resultados_busqueda(request):
     query = request.GET.get('q')
+    modo = request.GET.get('busqueda')
+    print(modo)
     contenidos = ()
-    if query != None and query != ' ':
-        contenidos = Contenido.objects.filter(  Q(titulo__icontains=query)
-                                              | Q(descripcion__icontains=query)
-                                              | Q(resumen__icontains=query)
-                                              | Q(categoria__nombre__icontains=query)
-                                              | Q(user__username__icontains=query)).distinct().filter(is_active=True)
+    categorias = ()
+    usuarios = ()
+
+    if query:
+        if modo == 'contenido':
+            contenidos = Contenido.objects.filter(
+                Q(titulo__icontains=query) |
+                Q(descripcion__icontains=query) |
+                Q(resumen__icontains=query), is_active=True).distinct()
+        elif modo == 'categoria':
+            categorias = Categoria.objects.filter(
+                Q(nombre__icontains=query), is_active=True).distinct()
+        elif modo == 'usuario':
+            usuarios = User.objects.filter(
+                Q(username__icontains=query), is_active=True).distinct()
+        else:
+            contenidos = Contenido.objects.filter(
+                Q(titulo__icontains=query) |
+                Q(descripcion__icontains=query) |
+                Q(resumen__icontains=query) |
+                Q(categoria__nombre__icontains=query) |
+                Q(user__username__icontains=query), is_active=True).distinct()
     else:
-        query = ''    
-    return render(request, 'busqueda/resultado.html', {'contenidos': contenidos, 'query': query})
+        query = ''
+
+    return render(request, 'busqueda/resultado.html', {'contenidos': contenidos, 'categorias': categorias, 'usuarios': usuarios, 'query': query})
