@@ -17,7 +17,7 @@
         <ul>
         {% for item in categorias %}
             <li>
-                <h4><a href="{% url 'mostrar_contenidos' item.id %}">{{ item.nombre }}({{ categoria.num_contenidos }})</a></h4>
+                <h4><a href="{% url 'mostrar_contenidos' item.id %}">{{ item.nombre }}</a></h4>
             </li>
         {% endfor %}
         </ul>

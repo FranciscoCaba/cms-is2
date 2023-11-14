@@ -133,6 +133,7 @@
           </ul>
         {% endif %}
       </div>
+      <div>
       <form class="form-inline" method="GET" action="{% url 'resultados_busqueda' %}">
         <div class="form-group">
           <input class="p-2 rounded-2 border" type="text" name="q" placeholder="Buscar...">
@@ -151,6 +152,7 @@
           <button class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
         </div>
       </form>
+      </div>
       {% if request.user.is_authenticated %}
       <div class="dropstart d-flex flex-row align-items-center me-4">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -164,6 +166,8 @@
           <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
         </ul>
       </div>
+      {% else %}
+      <div></div>
       {% endif %}
   </nav>
   {% block contenido %}
