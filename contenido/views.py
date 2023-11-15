@@ -567,7 +567,7 @@ def kanban_view(request):
 
 @permission_required('contenido.ver_todos_kanban')
 def all_kanban_view(request):
-    contexto={'contenidos': Contenido.objects.all(is_active=True).order_by('-fecha')}
+    contexto={'contenidos': Contenido.objects.filter(is_active=True).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
 
 def delete_image(request, image_id):
@@ -628,7 +628,7 @@ class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, List
         contenido_id = self.kwargs.get('contenido_id')
         if contenido_id:
             micontenido = Contenido.objects.filter(user = self.request.user, id=contenido_id, is_active=True)
-            return VersionContenido.objects.filter(contenido__in = micontenido, is_active=True).order_by('-contenido_id', 'version')
+            return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
         else:
             micontenido = Contenido.objects.filter(user = self.request.user, is_active=True)
             return micontenido
@@ -678,7 +678,7 @@ class ContenidoHistorialListView(PermissionRequiredMixin, LoginRequiredMixin, Li
 
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return VersionContenido.objects.all(is_active=True).order_by('-fecha_modificacion')
+        return VersionContenido.objects.all().order_by('-fecha_modificacion')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -750,6 +750,31 @@ def confirmar_desactivacion(request, pk):
     return render(request, 'contenido/confirmar_desactivacion.html', {'contenido': contenido})
 
 @login_required
+@permission_required('contenido.puede_ver_estadisticas')
 def estadisticas(request):
     contenidos = Contenido.objects.filter(estado='Publicado', is_active=True).order_by('-fecha')
     return render(request, 'contenido/estadisticas.html', {'contenidos': contenidos})
+
+@login_required
+def megusta(request):
+    user = request.user
+    likes = Like.objects.filter(user=user)
+    ids = []
+    for like in likes:
+        ids.append(like.contenido.id)
+    
+    contenidos=Contenido.objects.filter(id__in=ids)
+    
+    return render(request, 'contenido/megustas.html', {'contenidos': contenidos})
+
+@login_required
+def seguidos(request):
+    user = request.user
+    seguidos = Favoritos.objects.filter(user=user)
+    ids = []
+    for seguido in seguidos:
+        ids.append(seguido.categoria.id)
+    
+    categorias=Categoria.objects.filter(id__in=ids)
+    
+    return render(request, 'contenido/seguidos.html', {'categorias': categorias})

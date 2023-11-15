@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block titulo %}Seguidos{% endblock %}
+{% block contenido %}
+{% if categorias.count > 0 %}
+<h1>Categorias seguidas:</h1>
+<ul>
+{% for categoria in categorias %}
+    <li>
+        <a href="{% url 'mostrar_contenidos' categoria.id %}">{{ categoria.nombre }}</a>
+    </li>
+{% endfor %}
+</ul>
+{% else %}
+<h1>Aún no sigues ninguna categoria</h1>
+{% endif %}
+{% endblock %}

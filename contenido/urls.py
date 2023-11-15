@@ -51,4 +51,7 @@ urlpatterns = [
     path('qr_code/', views.generate_qr_code, name='generate_qr_code'),
 
     path('error/', views.error403, name='error403'),
+
+    path('megusta/', views.megusta, name='megusta'),
+    path('seguidos/', views.seguidos, name='seguidos'),
 ]
