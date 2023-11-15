@@ -8,7 +8,7 @@ from django.utils.text import Truncator
 from django.core.files.storage import default_storage 
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage, RawMediaCloudinaryStorage
 from cloudinary_storage.validators import validate_video
-
+from django.db.models import Avg
 
 # Create your models here.
 class Categoria(models.Model):
@@ -37,6 +37,8 @@ class Contenido(models.Model):
     visitas = models.PositiveIntegerField(default=0)
     compartidos = models.IntegerField(default=0)
 
+
+
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
         ('revision', 'En revisión'),
@@ -48,7 +50,14 @@ class Contenido(models.Model):
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='En revisión')
     
     reportado = models.BooleanField(default=False)
-
+    def obtener_promedio_calificacion(self):
+        promedio = self.calificaciones.aggregate(promedio=Avg('estrellas'))['promedio']
+        if promedio is None:
+            promedio = 'Sin calificaciones'
+        else:
+            promedio = round(promedio, 3)
+        return promedio
+    
     def save(self, *args, **kwargs):
         # Guardar una nueva versión de Contenido antes de cada modificación
         super().save(*args)
@@ -89,6 +98,9 @@ class Contenido(models.Model):
             ('ver_versiones', 'Ver versiones'),
             ('ver_todos_versiones', 'Ver todos las versiones'),
             ('ver_historial', 'Ver historial'),
+            ('puede_calificar', 'Puede calificar'),
+            ('puede_inactivar_contenido', 'Puede inactivar contenido'),
+            ('puede_ver_estadisticas', 'Puede ver estadísticas'),
         ]
     
     def get_absolute_url(self, **kwargs):
@@ -158,3 +170,8 @@ class Comentario(models.Model):
 class Favoritos(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Calificacion(models.Model):
+    contenido = models.ForeignKey('Contenido', on_delete=models.CASCADE, related_name='calificaciones')
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    estrellas = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])

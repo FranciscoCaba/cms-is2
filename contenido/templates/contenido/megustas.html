@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block titulo %}Mis Likes{% endblock %}
+{% block contenido %}
+{% if contenidos.count > 0 %}
+<h1>Mis Likes</h1>
+<ul>
+{% for contenido in contenidos %}
+    <li>
+        <a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a>
+    </li>
+{% endfor %}
+</ul>
+{% else %}
+<h1>Aún no tienes Likes</h1>
+{% endif %}
+{% endblock %}
