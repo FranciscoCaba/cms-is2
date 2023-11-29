@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from .forms import ContenidoForm, CategoriaForm, CategoriaEditForm, ContenidoEditForm, BorradorEditForm, RechazadoEditForm, VersionContenidoEditForm
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView, UpdateView, View
-from .models import Categoria, Contenido, Like,Dislike ,VersionContenido, Image, Video, Archivos, Favoritos
+from .models import Categoria, Contenido, Like,Dislike ,VersionContenido, Image, Video, Archivos, Favoritos, Calificacion
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -166,7 +166,7 @@ class ListarRevisionesView(PermissionRequiredMixin,ListView):
     context_object_name = 'por_revisar'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='En revisión').order_by('-fecha')
+        return Contenido.objects.filter(estado='En revisión', is_active=True).order_by('-fecha')
     
 class ListarUnaRevisionView(PermissionRequiredMixin,ListView):
     model = Contenido
@@ -175,7 +175,7 @@ class ListarUnaRevisionView(PermissionRequiredMixin,ListView):
     context_object_name = 'por_revisar'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='En revisión', id=self.kwargs['pk']).order_by('-fecha')
+        return Contenido.objects.filter(estado='En revisión', id=self.kwargs['pk'], is_active=True).order_by('-fecha')
 
 class ContenidosApublicarView(ListView):
     model = Contenido
@@ -183,7 +183,7 @@ class ContenidosApublicarView(ListView):
     context_object_name = 'revisados'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='A publicar').order_by('-fecha')
+        return Contenido.objects.filter(estado='A publicar', is_active=True).order_by('-fecha')
     
 class UnContenidoApublicarView(ListView):
     model = Contenido
@@ -191,7 +191,7 @@ class UnContenidoApublicarView(ListView):
     context_object_name = 'revisados'
 
     def get_queryset(self):
-        return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk']).order_by('-fecha')
+        return Contenido.objects.filter(estado='A publicar', id=self.kwargs['pk'], is_active=True).order_by('-fecha')
 
 @permission_required('contenido.puede_editar_aceptar')
 def apublicar_contenido(request, pk):
@@ -281,7 +281,7 @@ class ContenidoBorradorListView(PermissionRequiredMixin, LoginRequiredMixin, Lis
 
     def get_queryset(self):
         # Obtener los contenidos en estado "borrador" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Borrador').order_by('-fecha')
+        return Contenido.objects.filter(user=self.request.user, estado='Borrador', is_active=True).order_by('-fecha')
 
 class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = Contenido
@@ -291,11 +291,15 @@ class ContenidoRechazadoListView(PermissionRequiredMixin, LoginRequiredMixin, Li
 
     def get_queryset(self):
         # Obtener los contenidos en estado "rechazado" del usuario actual
-        return Contenido.objects.filter(user=self.request.user, estado='Rechazado').order_by('-fecha')
+        return Contenido.objects.filter(user=self.request.user, estado='Rechazado', is_active=True).order_by('-fecha')
 
 
 def detalle_contenido(request, pk):
     contenido = get_object_or_404(Contenido, pk=pk)
+    
+    if not contenido.is_active:
+        return redirect('pagina_no_encontrada')
+
     if contenido.solo_suscriptores and not request.user.is_authenticated:
         return redirect('error403')
     
@@ -310,8 +314,35 @@ def detalle_contenido(request, pk):
         user_likes_contenido = False
         user_dislikes_contenido = False
     
+    promedio_calificacion = contenido.obtener_promedio_calificacion()
+    cantidad_calificaciones = Calificacion.objects.filter(contenido=contenido).count()
+    calificacion = None
 
-    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido, 'user_likes_contenido': user_likes_contenido,'user_dislikes_contenido': user_dislikes_contenido})
+    if request.user.is_authenticated:
+        calificacion = Calificacion.objects.filter(contenido=contenido, usuario=request.user).first()
+        if request.method == 'POST':
+            
+            estrellas = request.POST.get('estrellas')
+
+            if calificacion:
+                if estrellas != '0':
+                    calificacion.estrellas = estrellas
+                    calificacion.save()
+                else:
+                    calificacion.delete()
+            else:
+                Calificacion.objects.create(contenido=contenido, usuario=request.user, estrellas=estrellas)
+            return redirect('detalle_contenido', pk=pk)
+        if calificacion:
+            calificacion = calificacion.estrellas
+
+    
+
+    return render(request, 'contenido/contenido_detalle.html', {'contenido': contenido,
+    'user_likes_contenido': user_likes_contenido,  'user_dislikes_contenido': user_dislikes_contenido, 
+    'promedio_calificacion': promedio_calificacion,
+    'calificacion': calificacion,
+    'cantidad_calificaciones': cantidad_calificaciones})
 
 def error403(request):
     return render(request, 'error/forbidden.html')
@@ -524,19 +555,19 @@ def detalle_autor(request, pk):
     autor = get_object_or_404(User, pk=pk)
 
     # Obtiene los contenidos relacionados al autor
-    contenidos = Contenido.objects.filter(user=autor,estado='Publicado').order_by('-fecha')
+    contenidos = Contenido.objects.filter(user=autor,estado='Publicado', is_active=True).order_by('-fecha')
 
     # Renderiza el template para mostrar los detalles del autor y sus contenidos
     return render(request, 'autor/contenidos_autor.html', {'autor': autor, 'contenidos': contenidos})
 
 @permission_required('contenido.ver_kanban')
 def kanban_view(request):
-    contexto={'contenidos': Contenido.objects.filter(user=request.user).order_by('-fecha')}
+    contexto={'contenidos': Contenido.objects.filter(user=request.user, is_active=True).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
 
 @permission_required('contenido.ver_todos_kanban')
 def all_kanban_view(request):
-    contexto={'contenidos': Contenido.objects.all().order_by('-fecha')}
+    contexto={'contenidos': Contenido.objects.filter(is_active=True).order_by('-fecha')}
     return render(request, 'kanban.html', contexto)
 
 def delete_image(request, image_id):
@@ -596,12 +627,12 @@ class ContenidoVersionListView(PermissionRequiredMixin, LoginRequiredMixin, List
     def get_queryset(self, **kwargs):
         contenido_id = self.kwargs.get('contenido_id')
         if contenido_id:
-            micontenido = Contenido.objects.filter(user = self.request.user, id=contenido_id)
+            micontenido = Contenido.objects.filter(user = self.request.user, id=contenido_id, is_active=True)
             return VersionContenido.objects.filter(contenido__in = micontenido).order_by('-contenido_id', 'version')
         else:
-            micontenido = Contenido.objects.filter(user = self.request.user)
+            micontenido = Contenido.objects.filter(user = self.request.user, is_active=True)
             return micontenido
-        # Obtener los contenidos en estado "borrador" del usuario actual
+
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -704,4 +735,46 @@ def generate_qr_code(request):
 
     # Renderiza la imagen en la respuesta HTTP
     return HttpResponse(image_file, content_type="image/png")
+
+@login_required
+def confirmar_desactivacion(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+
+    if request.method == 'POST':
+        # Si el usuario confirma la desactivación
+        contenido.is_active = False
+        contenido.save()
+
+        return redirect('index')  # Redirigir a donde desees después de la desactivación
+
+    return render(request, 'contenido/confirmar_desactivacion.html', {'contenido': contenido})
+
+@login_required
+@permission_required('contenido.puede_ver_estadisticas')
+def estadisticas(request):
+    contenidos = Contenido.objects.filter(estado='Publicado', is_active=True).order_by('-fecha')
+    return render(request, 'contenido/estadisticas.html', {'contenidos': contenidos})
+
+@login_required
+def megusta(request):
+    user = request.user
+    likes = Like.objects.filter(user=user)
+    ids = []
+    for like in likes:
+        ids.append(like.contenido.id)
     
+    contenidos=Contenido.objects.filter(id__in=ids)
+    
+    return render(request, 'contenido/megustas.html', {'contenidos': contenidos})
+
+@login_required
+def seguidos(request):
+    user = request.user
+    seguidos = Favoritos.objects.filter(user=user)
+    ids = []
+    for seguido in seguidos:
+        ids.append(seguido.categoria.id)
+    
+    categorias=Categoria.objects.filter(id__in=ids)
+    
+    return render(request, 'contenido/seguidos.html', {'categorias': categorias})
