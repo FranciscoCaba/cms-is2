@@ -44,7 +44,9 @@ class IndexView(CustomTemplateView):
         user=self.request.user
         context['categorias']=Categoria.objects.filter(is_active=True).annotate(num_contenidos=Count('categoria',
         filter=Q(categoria__estado='Publicado', categoria__is_active=True)))
-        if(user.is_authenticated):
+        if(user.is_authenticated): 
+            context['categorias_favoritas'] = user.categoria_favoritos.all().annotate(num_contenidos=Count('categoria',
+            filter=Q(categoria__estado='Publicado', categoria__is_active=True)))
             context['contenidos'] = Contenido.objects.filter(estado='Publicado', is_active=True, categoria__is_active=True).order_by('-fecha')
         else:
             context['contenidos'] = Contenido.objects.filter(estado='Publicado', solo_suscriptores=False, is_active=True, categoria__is_active=True).order_by('-fecha')
