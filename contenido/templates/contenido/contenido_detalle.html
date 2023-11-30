@@ -4,28 +4,7 @@
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
-<!-- Calificacion -->
-<p>Mi calificación: {{ calificacion|default:"Todavía no has calificado" }}</p>
-<p>Promedio de calificación: {{ promedio_calificacion|default:"No hay calificaciones aún" }}</p>
-<p>Cantidad de calificaciones: {{ cantidad_calificaciones }}</p>
-<form method="post" action="{% url 'detalle_contenido' pk=contenido.id %}">
-    {% csrf_token %}
-    <label for="estrellas">Calificar:</label>
-    <select name="estrellas">
-        <option value="0" {% if calificacion == 0 %}selected{% endif %}>Sin calificar</option>
-        <option value="1" {% if calificacion == 1 %}selected{% endif %}>1 estrella</option>
-        <option value="2" {% if calificacion == 2 %}selected{% endif %}>2 estrellas</option>
-        <option value="3" {% if calificacion == 3 %}selected{% endif %}>3 estrellas</option>
-        <option value="4" {% if calificacion == 4 %}selected{% endif %}>4 estrellas</option>
-        <option value="5" {% if calificacion == 5 %}selected{% endif %}>5 estrellas</option>
-    </select>
-    <button type="submit">Calificar</button>
-</form>
-<!-- Desactivar -->
-<a href="{% url 'confirmar_desactivacion' pk=contenido.id %}">
-    <button>Desactivar Contenido</button>
-</a>
-<!--OFF -->
+
 {% if contenido.estado != 'Publicado' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
     <div class="card-body">
@@ -34,8 +13,9 @@
 </div>
 {% endif %}
     <div class="contenido-detallado">
-        <div class="contenido-title">
+        <div class="contenido-title d-flex justify-content-between align-items-center">
             <h1>{{ contenido.titulo }}</h1>
+            <a href="{% url 'confirmar_desactivacion' pk=contenido.id %}"><i class="bi-trash" title="Desactivar Contenido" style="cursor: pointer;"></i></a>
         </div>
         <div class="contenido-references">
             <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' contenido.categoria.pk %}">{{ contenido.categoria }}</a> | {{ contenido.fecha }}</p>
@@ -81,6 +61,27 @@
         </div>
         {% if contenido.estado == 'Publicado' %}
         {% get_comment_count for contenido as comment_count %}
+        <div class="ps-2 py-1" style="border-top: 2px solid black;">
+            <form class="d-flex gap-4 align-items-center" method="post" action="{% url 'detalle_contenido' pk=contenido.id %}">
+                {% csrf_token %}
+                <div>
+                    <label for="estrellas">Calificar:</label>
+                    <select name="estrellas">
+                        <option value="0" {% if calificacion == 0 %}selected{% endif %}>Sin calificar</option>
+                        <option value="1" {% if calificacion == 1 %}selected{% endif %}>1 estrella</option>
+                        <option value="2" {% if calificacion == 2 %}selected{% endif %}>2 estrellas</option>
+                        <option value="3" {% if calificacion == 3 %}selected{% endif %}>3 estrellas</option>
+                        <option value="4" {% if calificacion == 4 %}selected{% endif %}>4 estrellas</option>
+                        <option value="5" {% if calificacion == 5 %}selected{% endif %}>5 estrellas</option>
+                    </select>
+                    {% if calificacion %}
+                        <span style="font-weight: bold;color: red;">Calificado!</span>
+                    {% endif %}
+                </div>
+                <button class="btn btn-primary btn-sm" type="submit">Calificar</button>
+                <span>Calificación promedio: {{ promedio_calificacion|default:"No hay calificaciones aún" }} ( {{ cantidad_calificaciones }} calificacion(es) )</span>
+            </form>
+        </div>
         <div class="contenido-interactions-data d-flex justify-content-around">
             <p>Likes: {{ contenido.likes.count }}</p>
             <p>Dislikes: {{ contenido.dislikes.count }}</p>
