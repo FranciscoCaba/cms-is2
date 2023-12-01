@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block titulo %}Estadísticas de Contenidos{% endblock %}
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
+
+{% endblock %}
+{% block contenido %}
+<h1>Estadísticas de Contenidos</h1>
+
+  <table id="contenidoTable" class="display">
+    <thead>
+      <tr>
+        <th>Contenido</th>
+        <th>Autor</th>
+        <th>Visitas</th>
+        <th>Likes</th>
+        <th>Dislikes</th>
+        <th>Compartidos</th>
+        <th>Calificaciones</th>
+        <th>Promedio</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contenido in contenidos %}
+        <tr>
+          <td><a href="{% url 'detalle_contenido' contenido.id %}">{{ contenido.titulo }}</a></td>
+          <td><a href="{% url 'detalle_autor' contenido.user.id %}">{{ contenido.user }}</a></td>
+          <td>{{ contenido.visitas }}</td>
+          <td>{{ contenido.likes.count }}</td>
+          <td>{{ contenido.dislikes.count }}</td>
+          <td>{{ contenido.compartidos }}</td>
+          <td>{{ contenido.calificaciones.count }}</td>
+          <td>{{ contenido.obtener_promedio_calificacion|floatformat:2 }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script>
+    $(document).ready( function () {
+      $('#contenidoTable').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+        }
+      });
+    });
+  </script>  
+{% endblock %}

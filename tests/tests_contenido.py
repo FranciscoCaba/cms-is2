@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User, Permission
-from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido, Like, Favoritos,Dislike
+from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido, Like, Favoritos, Dislike, Calificacion
 from contenido.forms import ContenidoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -21,7 +21,7 @@ class ContenidoFormViewTests(TestCase):
         self.client = Client()
         self.client.login(username='testuser', password='testpassword')
 
-    def test_contenido_creation(self):
+    def test_contenido_creacion(self):
         categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
         data = {
             'titulo': 'Titulo',
@@ -37,7 +37,7 @@ class ContenidoFormViewTests(TestCase):
         self.assertEqual(created_contenido.categoria, categoria,'Categoria no existe')
         self.assertEqual(created_contenido.descripcion, 'Descripcion','Descripcion incorrecta')
 
-    def test_contenido_creation_creates_revision(self):
+    def test_contenido_creacion_crea_revision(self):
         categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
         data = {
             'titulo': 'Titulo',
@@ -52,7 +52,7 @@ class ContenidoFormViewTests(TestCase):
         self.assertIsNotNone(created_contenido, 'Contenido no creado')
         self.assertEqual(created_contenido.estado, 'En revisión', 'Estado del contenido incorrecto')
 
-    def test_contenido_creation_creates_borrador(self):
+    def test_contenido_creacion_crea_borrador(self):
         categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
         data = {
             'titulo': 'Titulo',
@@ -200,7 +200,7 @@ class ArchivosModelTest(TestCase):
         self.assertIsNotNone(archivo, 'Archivo no creado')
         self.assertEqual(archivo.contenido, self.contenido, 'Contenido incorrecto')
 
-class EstadoChangeTestCase(TestCase):
+class CambioEstadoTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.user.user_permissions.add(Permission.objects.get(codename='puede_publicar_rechazar'))
@@ -231,6 +231,14 @@ class EstadoChangeTestCase(TestCase):
         response = self.client.post(url, {'nota': note})
         self.contenido.refresh_from_db() 
         self.assertEqual(self.contenido.estado, 'Rechazado')
+
+    def test_confirmar_desactivacion(self):
+        self.client.login(username='testuser', password='testpassword')
+        url=reverse('confirmar_desactivacion', args=[self.contenido.pk])
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 302)  
+        self.contenido.refresh_from_db()
+        self.assertFalse(self.contenido.is_active)  
 
 class EmailTest(TestCase):
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
@@ -274,7 +282,7 @@ class EditVersionTests(TestCase):
         )
         return version
 
-    def test_edit_version_view(self):
+    def test_edit_version(self):
         version = self.create_version()
         data = {
             'titulo': 'Edited Title',
@@ -345,3 +353,41 @@ class Reacciones(TestCase):
         response = self.client.post(url)
         self.contenido.refresh_from_db() 
         self.assertEqual(self.contenido.compartidos, 1)
+
+class CalificacionTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+        self.categoria = Categoria.objects.create(nombre='Test Categoria')
+        self.contenido = Contenido.objects.create(titulo='Test Content', user=self.user, categoria=self.categoria)
+
+    def test_create_calificacion(self):
+        response = self.client.post(reverse('detalle_contenido', kwargs={'pk': self.contenido.id}), {'estrellas': '5'})
+        self.assertEqual(response.status_code, 302)  
+        calificacion = Calificacion.objects.filter(contenido=self.contenido, usuario=self.user).first()
+        self.assertIsNotNone(calificacion)  
+
+    def test_update_calificacion(self):
+        calificacion = Calificacion.objects.create(contenido=self.contenido, usuario=self.user, estrellas=4)
+        response = self.client.post(reverse('detalle_contenido', kwargs={'pk': self.contenido.id}), {'estrellas': '3'})
+        self.assertEqual(response.status_code, 302)  
+        calificacion.refresh_from_db()
+        self.assertEqual(calificacion.estrellas, 3)  
+
+    def test_delete_calificacion(self):
+        calificacion = Calificacion.objects.create(contenido=self.contenido, usuario=self.user, estrellas=4)
+        response = self.client.post(reverse('detalle_contenido', kwargs={'pk': self.contenido.id}), {'estrellas': '0'})
+        self.assertEqual(response.status_code, 302)  
+        calificacion_exists = Calificacion.objects.filter(contenido=self.contenido, usuario=self.user).exists()
+        self.assertFalse(calificacion_exists)  
+
+class EstadisticasTests(TestCase):
+    def setUp(self):
+        self.user_con_permiso = User.objects.create_user(username='userwithperm', password='testpassword')
+        self.user_con_permiso.user_permissions.add(Permission.objects.get(codename='puede_ver_estadisticas'))
+        self.user_without_permission = User.objects.create_user(username='userwithoutperm', password='testpassword')
+
+    def test_ver_pagina_estadisticas(self):
+        self.client.login(username='userwithperm', password='testpassword')
+        response = self.client.get(reverse('estadisticas'))
+        self.assertEqual(response.status_code, 200)  

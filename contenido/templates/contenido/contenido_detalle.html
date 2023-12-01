@@ -4,6 +4,7 @@
 {% load static %}
 {% block titulo %}Ver contenido{% endblock %}
 {% block contenido %}
+
 {% if contenido.estado != 'Publicado' %}
 <div class="card text-dark mx-auto mb-3 mt-3" style="width: 70%;background-color: #f73232;">
     <div class="card-body">
@@ -12,8 +13,20 @@
 </div>
 {% endif %}
     <div class="contenido-detallado">
-        <div class="contenido-title">
+        <div class="contenido-title d-flex justify-content-between align-items-center">
             <h1>{{ contenido.titulo }}</h1>
+            <div class="d-flex gap-5">
+                {% if perms.contenido.puede_destacar_contenido %}
+                    {% if not contenido.destacado %}
+                        <a href="{% url 'destacar_contenido' pk=contenido.id %}"><i class="bi-graph-up-arrow" title="Destacar Contenido" style="cursor: pointer;"></i></a>
+                    {% else %}
+                        <a href="{% url 'destacar_contenido' pk=contenido.id %}"><i class="bi-graph-down-arrow" title="Quitar destacado de Contenido" style="cursor: pointer;"></i></a>
+                    {% endif %}
+                {% endif %}
+                {% if perms.contenido.puede_inactivar_contenido %}
+                    <a href="{% url 'confirmar_desactivacion' pk=contenido.id %}"><i class="bi-trash" title="Desactivar Contenido" style="cursor: pointer;"></i></a>
+                {% endif %}
+            </div>
         </div>
         <div class="contenido-references">
             <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' contenido.categoria.pk %}">{{ contenido.categoria }}</a> | {{ contenido.fecha }}</p>
@@ -59,6 +72,29 @@
         </div>
         {% if contenido.estado == 'Publicado' %}
         {% get_comment_count for contenido as comment_count %}
+        <div class="ps-2 py-1" style="border-top: 2px solid black;">
+            <form class="d-flex gap-4 align-items-center" method="post" action="{% url 'detalle_contenido' pk=contenido.id %}">
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                <div>
+                    <label for="estrellas">Calificar:</label>
+                    <select name="estrellas">
+                        <option value="0" {% if calificacion == 0 %}selected{% endif %}>Sin calificar</option>
+                        <option value="1" {% if calificacion == 1 %}selected{% endif %}>1 estrella</option>
+                        <option value="2" {% if calificacion == 2 %}selected{% endif %}>2 estrellas</option>
+                        <option value="3" {% if calificacion == 3 %}selected{% endif %}>3 estrellas</option>
+                        <option value="4" {% if calificacion == 4 %}selected{% endif %}>4 estrellas</option>
+                        <option value="5" {% if calificacion == 5 %}selected{% endif %}>5 estrellas</option>
+                    </select>
+                    {% if calificacion %}
+                        <span style="font-weight: bold;color: red;">Calificado!</span>
+                    {% endif %}
+                </div>
+                <button class="btn btn-primary btn-sm" type="submit">Calificar</button>
+                {% endif %}
+                <span>Calificación promedio: {{ promedio_calificacion|default:"No hay calificaciones aún" }} ( {{ cantidad_calificaciones }} calificacion(es) )</span>
+            </form>
+        </div>
         <div class="contenido-interactions-data d-flex justify-content-around">
             <p>Likes: {{ contenido.likes.count }}</p>
             <p>Dislikes: {{ contenido.dislikes.count }}</p>
@@ -72,9 +108,9 @@
                     {% csrf_token %}
                     <button class="w-100 interaction-button" type="submit">
                         {% if user_likes_contenido %}
-                            Quitar Like
+                            <i class="bi-hand-thumbs-up-fill" style="color: forestgreen;" title="Quitar Like" style="cursor: pointer;"></i>
                         {% else %}
-                            Dar Like
+                            <i class="bi-hand-thumbs-up" title="Dar Like" style="cursor: pointer;"></i>
                         {% endif %}
                     </button>
                 </form>
@@ -82,9 +118,9 @@
                     {% csrf_token %}
                 <button class="w-100 interaction-button" type="submit">
                     {% if user_dislikes_contenido %}
-                        Quitar Dislike
+                        <i class="bi-hand-thumbs-down-fill" style="color: red;" title="Quitar Dislike" style="cursor: pointer;"></i>
                     {% else %}
-                        Dar Dislike
+                        <i class="bi-hand-thumbs-down" title="Dar Dislike" style="cursor: pointer;"></i>
                     {% endif %}
                 </button>
                 </form>

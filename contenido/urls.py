@@ -30,6 +30,9 @@ urlpatterns = [
     path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
     path('contenido/<int:categoria_id>/toggle-favorito/', views.toggle_favorito, name='toggle_favorito'),
     path('contenido/<int:contenido_id>/compartir/', views.compartir_contenido, name='compartir_contenido'),
+    path('contenido/<int:pk>/desactivar/', views.confirmar_desactivacion, name='confirmar_desactivacion'),
+    path('contenido/<int:pk>/destacar/', views.destacar_contenido, name='destacar_contenido'),
+    path('estadisticas/', views.estadisticas, name='estadisticas'),
 
     path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido'),
     path('delete_image/<int:image_id>/', views.delete_image, name='delete_image'),
@@ -49,4 +52,7 @@ urlpatterns = [
     path('qr_code/', views.generate_qr_code, name='generate_qr_code'),
 
     path('error/', views.error403, name='error403'),
+
+    path('megusta/', views.megusta, name='megusta'),
+    path('seguidos/', views.seguidos, name='seguidos'),
 ]

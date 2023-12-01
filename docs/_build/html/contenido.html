@@ -543,6 +543,10 @@ widgets = &#39;categoria&#39; objeto tipo Select,
 <span class="n">versiones</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span><span class="o">.</span>
 
 <span class="n">videos</span><span class="p">:</span> <span class="n">Acceso</span> <span class="n">al</span> <span class="n">gestor</span> <span class="n">de</span> <span class="n">objetos</span> <span class="n">relacionados</span> <span class="n">en</span> <span class="n">el</span> <span class="n">lado</span> <span class="n">inverso</span> <span class="n">de</span> <span class="n">una</span> <span class="n">relación</span> <span class="n">de</span> <span class="n">muchos</span> <span class="n">a</span> <span class="n">uno</span><span class="o">.</span>
+
+<span class="n">promedio</span> <span class="n">calificacion</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
+
+<span class="n">reportado</span><span class="p">:</span> <span class="n">Un</span> <span class="n">envoltorio</span> <span class="n">para</span> <span class="n">un</span> <span class="n">campo</span> <span class="n">de</span> <span class="n">carga</span> <span class="n">aplazada</span><span class="o">.</span> <span class="n">Cuando</span> <span class="n">se</span> <span class="n">lee</span> <span class="n">el</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">este</span> <span class="n">objeto</span> <span class="n">por</span> <span class="n">primera</span> <span class="n">vez</span><span class="p">,</span> <span class="n">se</span> <span class="n">ejecuta</span> <span class="n">la</span> <span class="n">consulta</span><span class="o">.</span>
 </pre></div>
 </div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">Categoria</span></code> es el modelo de categoria que posee un campo de moderacion.</p>
@@ -710,6 +714,84 @@ object the first time, the query is executed.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="contenido.models.Archivos.objects">
 <span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#contenido.models.Archivos.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="contenido.models.Calificacion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.models.</span></span><span class="sig-name descname"><span class="pre">Calificacion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contenido</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usuario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estrellas</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/models.html#Calificacion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.models.Calificacion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#contenido.models.Calificacion.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#contenido.models.Calificacion.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.contenido">
+<span class="sig-name descname"><span class="pre">contenido</span></span><a class="headerlink" href="#contenido.models.Calificacion.contenido" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.contenido_id">
+<span class="sig-name descname"><span class="pre">contenido_id</span></span><a class="headerlink" href="#contenido.models.Calificacion.contenido_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.estrellas">
+<span class="sig-name descname"><span class="pre">estrellas</span></span><a class="headerlink" href="#contenido.models.Calificacion.estrellas" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.get_estrellas_display">
+<span class="sig-name descname"><span class="pre">get_estrellas_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.IntegerField:</span> <span class="pre">estrellas&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#contenido.models.Calificacion.get_estrellas_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#contenido.models.Calificacion.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#contenido.models.Calificacion.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.usuario">
+<span class="sig-name descname"><span class="pre">usuario</span></span><a class="headerlink" href="#contenido.models.Calificacion.usuario" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Calificacion.usuario_id">
+<span class="sig-name descname"><span class="pre">usuario_id</span></span><a class="headerlink" href="#contenido.models.Calificacion.usuario_id" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -901,7 +983,7 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="contenido.models.Contenido">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.models.</span></span><span class="sig-name descname"><span class="pre">Contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resumen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fecha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solo_suscriptores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nota</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visitas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compartidos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estado</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reportado</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/models.html#Contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.models.Contenido" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contenido.models.</span></span><span class="sig-name descname"><span class="pre">Contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resumen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fecha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solo_suscriptores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nota</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visitas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compartidos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destacado</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">promedio_calificacion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estado</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reportado</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/models.html#Contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.models.Contenido" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="contenido.models.Contenido.DoesNotExist">
@@ -923,6 +1005,21 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="contenido.models.Contenido.archivos">
 <span class="sig-name descname"><span class="pre">archivos</span></span><a class="headerlink" href="#contenido.models.Contenido.archivos" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Contenido.calificaciones">
+<span class="sig-name descname"><span class="pre">calificaciones</span></span><a class="headerlink" href="#contenido.models.Contenido.calificaciones" title="Link to this definition"></a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -978,6 +1075,13 @@ object the first time, the query is executed.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="contenido.models.Contenido.descripcion">
 <span class="sig-name descname"><span class="pre">descripcion</span></span><a class="headerlink" href="#contenido.models.Contenido.descripcion" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Contenido.destacado">
+<span class="sig-name descname"><span class="pre">destacado</span></span><a class="headerlink" href="#contenido.models.Contenido.destacado" title="Link to this definition"></a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -1118,6 +1222,18 @@ object the first time, the query is executed.</p>
 <dt class="sig sig-object py" id="contenido.models.Contenido.objects">
 <span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#contenido.models.Contenido.objects" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contenido.models.Contenido.obtener_promedio_calificacion">
+<span class="sig-name descname"><span class="pre">obtener_promedio_calificacion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/models.html#Contenido.obtener_promedio_calificacion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.models.Contenido.obtener_promedio_calificacion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contenido.models.Contenido.promedio_calificacion">
+<span class="sig-name descname"><span class="pre">promedio_calificacion</span></span><a class="headerlink" href="#contenido.models.Contenido.promedio_calificacion" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="contenido.models.Contenido.reportado">
@@ -1731,6 +1847,7 @@ assigning the width/height to the width_field/height_field, if appropriate.</p>
 
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;crear&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">ContenidoFormView</span><span class="o">.</span><span class="n">as_view</span><span class="p">())</span> <span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contenido-crear&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">ContenidoVersionListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">())</span> <span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contenido-version&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;version/&lt;int:contenido_id&gt;/&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">ContenidoVersionListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">())</span> <span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contenido-version&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;historial&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">ContenidoHistorialListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">())</span> <span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contenido-historial&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;categoria/crear&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">CategoriaFormView</span><span class="o">.</span><span class="n">as_view</span><span class="p">()),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;categoria-crear&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;categoria&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">CategoriaListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;categoria-list&#39;</span><span class="p">),</span>
@@ -1756,6 +1873,9 @@ assigning the width/height to the width_field/height_field, if appropriate.</p>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">detalle_contenido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;detalle_contenido&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:categoria_id&gt;/toggle-favorito/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">toggle_favorito</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;toggle_favorito&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:contenido_id&gt;/compartir/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">compartir_contenido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;compartir_contenido&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:pk&gt;/desactivar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">confirmar_desactivacion</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;confirmar_desactivacion&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:pk&gt;/destacar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">destacar_contenido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;destacar_contenido&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;estadisticas/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">estadisticas</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;estadisticas&#39;</span><span class="p">),</span>
 
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contenido/&lt;int:pk&gt;/editar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">EditarContenidoView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editar-contenido&#39;</span><span class="p">),</span>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;delete_image/&lt;int:image_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">delete_image</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;delete_image&#39;</span><span class="p">),</span>
@@ -1775,6 +1895,9 @@ assigning the width/height to the width_field/height_field, if appropriate.</p>
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;qr_code/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">generate_qr_code</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;generate_qr_code&#39;</span><span class="p">),</span>
 
    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;error/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">error403</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;error403&#39;</span><span class="p">),</span>
+
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;megusta/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">megusta</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;megusta&#39;</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;seguidos/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">seguidos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;seguidos&#39;</span><span class="p">),</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -2031,6 +2154,14 @@ utiliza el template = &#39;contenido/rechazado_editar.html&#39;
 
 <span class="o">-</span> <span class="n">Renderiza</span> <span class="n">la</span> <span class="n">imagen</span> <span class="n">en</span> <span class="n">la</span> <span class="n">respuesta</span> <span class="n">HTTP</span>
 <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">image_file</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>La funcion <code class="docutils literal notranslate"><span class="pre">destacar_contenido</span></code> se utiliza para poder destacar un contenido.</p>
+<p>La funcion <code class="docutils literal notranslate"><span class="pre">megusta</span></code> muestra los contenidos a los cuales un usuario le dio like.</p>
+<p>La funcion <code class="docutils literal notranslate"><span class="pre">seguidos</span></code> muestra las categorias favoritas.</p>
+<p>La funcion <code class="docutils literal notranslate"><span class="pre">estadisticas</span></code> muestra las estadisticas de los contenidos del sistema.</p>
+<p>La funcion <code class="docutils literal notranslate"><span class="pre">confirmar_desactivacion</span></code> es la encargada de desactivar un contenido es decir borrado logico.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Comprueba</span> <span class="n">si</span> <span class="n">el</span> <span class="n">usuario</span> <span class="n">confirma</span> <span class="n">la</span> <span class="n">desactivacion</span> <span class="n">a</span> <span class="n">travez</span> <span class="n">de</span> <span class="n">un</span> <span class="n">metodo</span> <span class="n">post</span> <span class="n">y</span> <span class="n">luego</span> <span class="n">redirige</span><span class="o">.</span>
 </pre></div>
 </div>
 <dl class="py class" id="module-contenido.views">
@@ -2343,7 +2474,7 @@ utiliza el template = &#39;contenido/rechazado_editar.html&#39;
 
 <dl class="py method">
 <dt class="sig sig-object py" id="contenido.views.ContenidoVersionListView.get_queryset">
-<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#ContenidoVersionListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.ContenidoVersionListView.get_queryset" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#ContenidoVersionListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.ContenidoVersionListView.get_queryset" title="Link to this definition"></a></dt>
 <dd><p>Return the list of items for this view.</p>
 <p>The return value must be an iterable and may be an instance of
 <cite>QuerySet</cite> in which case <cite>QuerySet</cite> specific behavior will be enabled.</p>
@@ -2681,6 +2812,11 @@ utiliza el template = &#39;contenido/rechazado_editar.html&#39;
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="contenido.views.confirmar_desactivacion">
+<span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">confirmar_desactivacion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#confirmar_desactivacion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.confirmar_desactivacion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="contenido.views.delete_archivo">
 <span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">delete_archivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archivo_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#delete_archivo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.delete_archivo" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -2693,6 +2829,11 @@ utiliza el template = &#39;contenido/rechazado_editar.html&#39;
 <dl class="py function">
 <dt class="sig sig-object py" id="contenido.views.delete_video">
 <span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">delete_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#delete_video"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.delete_video" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="contenido.views.destacar_contenido">
+<span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">destacar_contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#destacar_contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.destacar_contenido" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -2721,6 +2862,11 @@ utiliza el template = &#39;contenido/rechazado_editar.html&#39;
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="contenido.views.estadisticas">
+<span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">estadisticas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#estadisticas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.estadisticas" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="contenido.views.generate_qr_code">
 <span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">generate_qr_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#generate_qr_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.generate_qr_code" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -2731,6 +2877,11 @@ utiliza el template = &#39;contenido/rechazado_editar.html&#39;
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="contenido.views.megusta">
+<span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">megusta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#megusta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.megusta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="contenido.views.publicar_contenido">
 <span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">publicar_contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#publicar_contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.publicar_contenido" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -2738,6 +2889,11 @@ utiliza el template = &#39;contenido/rechazado_editar.html&#39;
 <dl class="py function">
 <dt class="sig sig-object py" id="contenido.views.rechazar_contenido">
 <span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">rechazar_contenido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#rechazar_contenido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.rechazar_contenido" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="contenido.views.seguidos">
+<span class="sig-prename descclassname"><span class="pre">contenido.views.</span></span><span class="sig-name descname"><span class="pre">seguidos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/contenido/views.html#seguidos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#contenido.views.seguidos" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

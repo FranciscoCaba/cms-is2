@@ -31,6 +31,7 @@ pip install -r '../requirements.txt'
 # A la carpeta del proyecto
 cd ..
 python manage.py migrate --settings=cms_is2.produccion
+python manage.py semilla --settings=cms_is2.produccion
 python manage.py collectstatic --noinput --settings=cms_is2.produccion
 
 echo 'Desactivando el entorno virtual...'
