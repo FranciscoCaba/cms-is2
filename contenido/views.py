@@ -744,6 +744,15 @@ def confirmar_desactivacion(request, pk):
         # Si el usuario confirma la desactivación
         contenido.is_active = False
         contenido.save()
+        context = {
+            'titulo': contenido.titulo,
+        } 
+        html_template = 'notificaciones/inactivado.html'
+        html_message = render_to_string(html_template, context)
+        subject = 'Cambio de estado de publicación'
+        message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
+        message.content_subtype = 'html'
+        message.send()
 
         return redirect('index')  # Redirigir a donde desees después de la desactivación
 
