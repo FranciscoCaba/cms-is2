@@ -25,6 +25,8 @@ Y ejecutando el comando  " pip install -r requirements.txt " estaremos instaland
  - python-magic==0.4.27
  - django-storages==1.14
  - Pillow==9.0.1
+ - django-comments-xtd==2.9.10
+ - qrcode==7.4.2
  
 que tambien son requisitos para poder correr correctamente el proyecto
 

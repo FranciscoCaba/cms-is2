@@ -180,6 +180,12 @@ La clase ``Cotenido`` es el modelo de contenido que importa RichTextField de CKE
 
    videos: Acceso al gestor de objetos relacionados en el lado inverso de una relación de muchos a uno.
 
+   promedio calificacion: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
+
+   reportado: Un envoltorio para un campo de carga aplazada. Cuando se lee el valor de este objeto por primera vez, se ejecuta la consulta.
+
+
+
 
 
 La clase ``Categoria`` es el modelo de categoria que posee un campo de moderacion.
@@ -338,6 +344,7 @@ Urls de Contenido
 
       path('crear', login_required(views.ContenidoFormView.as_view()) , name='contenido-crear'),
       path('version', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
+      path('version/<int:contenido_id>/', login_required(views.ContenidoVersionListView.as_view()) , name='contenido-version'),
       path('historial', login_required(views.ContenidoHistorialListView.as_view()) , name='contenido-historial'),
       path('categoria/crear', login_required(views.CategoriaFormView.as_view()), name='categoria-crear'),
       path('categoria', views.CategoriaListView.as_view(), name='categoria-list'),
@@ -363,6 +370,9 @@ Urls de Contenido
       path('contenido/<int:pk>/', views.detalle_contenido, name='detalle_contenido'),
       path('contenido/<int:categoria_id>/toggle-favorito/', views.toggle_favorito, name='toggle_favorito'),
       path('contenido/<int:contenido_id>/compartir/', views.compartir_contenido, name='compartir_contenido'),
+      path('contenido/<int:pk>/desactivar/', views.confirmar_desactivacion, name='confirmar_desactivacion'),
+      path('contenido/<int:pk>/destacar/', views.destacar_contenido, name='destacar_contenido'),
+      path('estadisticas/', views.estadisticas, name='estadisticas'),
 
       path('contenido/<int:pk>/editar/', views.EditarContenidoView.as_view(), name='editar-contenido'),
       path('delete_image/<int:image_id>/', views.delete_image, name='delete_image'),
@@ -382,6 +392,9 @@ Urls de Contenido
       path('qr_code/', views.generate_qr_code, name='generate_qr_code'),
 
       path('error/', views.error403, name='error403'),
+
+      path('megusta/', views.megusta, name='megusta'),
+      path('seguidos/', views.seguidos, name='seguidos'),
    ]
 
 
@@ -720,6 +733,20 @@ La funcion ``generate_qr_code`` es la encargada de proporcionar el codigo QR par
 
    - Renderiza la imagen en la respuesta HTTP
    return HttpResponse(image_file, content_type="image/png")
+
+La funcion ``destacar_contenido`` se utiliza para poder destacar un contenido.
+
+La funcion ``megusta`` muestra los contenidos a los cuales un usuario le dio like.
+
+La funcion ``seguidos`` muestra las categorias favoritas.
+
+La funcion ``estadisticas`` muestra las estadisticas de los contenidos del sistema.
+
+La funcion ``confirmar_desactivacion`` es la encargada de desactivar un contenido es decir borrado logico.
+
+::
+
+   Comprueba si el usuario confirma la desactivacion a travez de un metodo post y luego redirige.
 
 
 

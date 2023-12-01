@@ -332,6 +332,11 @@ def detalle_contenido(request, pk):
                     calificacion.delete()
             else:
                 Calificacion.objects.create(contenido=contenido, usuario=request.user, estrellas=estrellas)
+            if contenido.obtener_promedio_calificacion() == 'Sin calificaciones':
+                contenido.promedio_calificacion = 0.0
+            else:
+                contenido.promedio_calificacion = contenido.obtener_promedio_calificacion()
+            contenido.save()
             return redirect('detalle_contenido', pk=pk)
         if calificacion:
             calificacion = calificacion.estrellas
