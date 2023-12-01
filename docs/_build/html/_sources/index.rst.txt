@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Bienvenido a la documentacion del cms-is2-eq01-v.1.4.0
+Bienvenido a la documentacion del cms-is2-eq01-v.1.5.0
 ======================================================
 Integrantes
  - Osmani Jose Mestre Riveros

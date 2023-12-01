@@ -36,8 +36,8 @@ class Contenido(models.Model):
     nota = models.TextField(blank=True, null=True)
     visitas = models.PositiveIntegerField(default=0)
     compartidos = models.IntegerField(default=0)
-
-
+    destacado = models.BooleanField(default=False)
+    promedio_calificacion = models.FloatField(default=0.0)
 
     ESTADO_CHOICES = (
         ('borrador', 'Borrador'), 
@@ -100,6 +100,7 @@ class Contenido(models.Model):
             ('ver_historial', 'Ver historial'),
             ('puede_calificar', 'Puede calificar'),
             ('puede_inactivar_contenido', 'Puede inactivar contenido'),
+            ('puede_destacar_contenido', 'Puede destacar contenido'),
             ('puede_ver_estadisticas', 'Puede ver estadísticas'),
         ]
     

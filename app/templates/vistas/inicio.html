@@ -23,8 +23,20 @@
             {% endfor %}
         </ul>
         <div class="inicio-categorias">
+            {% if request.user.is_authenticated %}
+                {% if categorias_favoritas %}
+                    <ul class="contenedor-categorias">
+                        <h3 class="categoria-titulo">Categorias Favoritas</h3>
+                        {% for categoria in categorias_favoritas %}
+                            <li>
+                                <a href="{% url 'mostrar_contenidos' categoria.id %}">{{ categoria.nombre }} ({{ categoria.num_contenidos }})</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
             <ul class="contenedor-categorias">
-                <li class="categoria-titulo"><h3>Categorias</h3></li>
+                <h3 class="categoria-titulo">Categorias</h3>
                 {% for categoria in categorias %}
                     <li>
                         <a href="{% url 'mostrar_contenidos' categoria.id %}">{{ categoria.nombre }} ({{ categoria.num_contenidos }})</a>

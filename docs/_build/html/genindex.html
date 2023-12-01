@@ -178,14 +178,20 @@
 </li>
       <li><a href="contenido.html#contenido.forms.BorradorEditForm.Meta">BorradorEditForm.Meta (class in contenido.forms)</a>
 </li>
-      <li><a href="app.html#app.views.buscar_contenido">buscar_contenido() (in module app.views)</a>
-</li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.models.Calificacion">Calificacion (class in contenido.models)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Calificacion.DoesNotExist">Calificacion.DoesNotExist</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Calificacion.MultipleObjectsReturned">Calificacion.MultipleObjectsReturned</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Contenido.calificaciones">calificaciones (contenido.models.Contenido attribute)</a>
+</li>
       <li><a href="contenido.html#contenido.models.Categoria">Categoria (class in contenido.models)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Categoria.categoria">categoria (contenido.models.Categoria attribute)</a>
@@ -240,6 +246,8 @@
 </li>
       <li><a href="contenido.html#contenido.views.compartir_contenido">compartir_contenido() (in module contenido.views)</a>
 </li>
+      <li><a href="contenido.html#contenido.views.confirmar_desactivacion">confirmar_desactivacion() (in module contenido.views)</a>
+</li>
       <li>
     contenido
 
@@ -252,6 +260,8 @@
       <li><a href="contenido.html#contenido.models.Archivos.contenido">contenido (contenido.models.Archivos attribute)</a>
 
       <ul>
+        <li><a href="contenido.html#contenido.models.Calificacion.contenido">(contenido.models.Calificacion attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.models.Comentario.contenido">(contenido.models.Comentario attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.models.Dislike.contenido">(contenido.models.Dislike attribute)</a>
@@ -281,6 +291,8 @@
         <li><a href="contenido.html#module-contenido.models">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.Contenido.MultipleObjectsReturned">Contenido.MultipleObjectsReturned</a>
 </li>
       <li>
@@ -290,11 +302,11 @@
         <li><a href="contenido.html#module-contenido.views">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.models.Archivos.contenido_id">contenido_id (contenido.models.Archivos attribute)</a>
 
       <ul>
+        <li><a href="contenido.html#contenido.models.Calificacion.contenido_id">(contenido.models.Calificacion attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.models.Comentario.contenido_id">(contenido.models.Comentario attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.models.Dislike.contenido_id">(contenido.models.Dislike attribute)</a>
@@ -418,10 +430,10 @@
 </li>
       <li><a href="contenido.html#contenido.views.delete_archivo">delete_archivo() (in module contenido.views)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.html#app.views.delete_group">delete_group() (in module app.views)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.views.delete_image">delete_image() (in module contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.views.delete_video">delete_video() (in module contenido.views)</a>
@@ -436,6 +448,10 @@
         <li><a href="contenido.html#contenido.models.VersionContenido.descripcion">(contenido.models.VersionContenido attribute)</a>
 </li>
       </ul></li>
+      <li><a href="contenido.html#contenido.models.Contenido.destacado">destacado (contenido.models.Contenido attribute)</a>
+</li>
+      <li><a href="contenido.html#contenido.views.destacar_contenido">destacar_contenido() (in module contenido.views)</a>
+</li>
       <li><a href="contenido.html#contenido.views.detalle_autor">detalle_autor() (in module contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.views.detalle_contenido">detalle_contenido() (in module contenido.views)</a>
@@ -468,11 +484,13 @@
 </li>
       <li><a href="contenido.html#contenido.views.EditarContenidoView">EditarContenidoView (class in contenido.views)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.views.EditarRechazadoView">EditarRechazadoView (class in contenido.views)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="contenido.html#contenido.views.error403">error403() (in module contenido.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.views.estadisticas">estadisticas() (in module contenido.views)</a>
 </li>
       <li><a href="contenido.html#contenido.models.Contenido.estado">estado (contenido.models.Contenido attribute)</a>
 
@@ -481,6 +499,8 @@
 </li>
       </ul></li>
       <li><a href="contenido.html#contenido.models.Contenido.ESTADO_CHOICES">ESTADO_CHOICES (contenido.models.Contenido attribute)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Calificacion.estrellas">estrellas (contenido.models.Calificacion attribute)</a>
 </li>
       <li><a href="app.html#app.views.exit">exit() (in module app.views)</a>
 </li>
@@ -602,6 +622,8 @@
       </ul></li>
       <li><a href="contenido.html#contenido.models.Contenido.get_estado_display">get_estado_display() (contenido.models.Contenido method)</a>
 </li>
+      <li><a href="contenido.html#contenido.models.Calificacion.get_estrellas_display">get_estrellas_display() (contenido.models.Calificacion method)</a>
+</li>
       <li><a href="contenido.html#contenido.views.ContenidoFormView.get_form_kwargs">get_form_kwargs() (contenido.views.ContenidoFormView method)</a>
 
       <ul>
@@ -675,6 +697,8 @@
       <li><a href="contenido.html#contenido.models.Archivos.id">id (contenido.models.Archivos attribute)</a>
 
       <ul>
+        <li><a href="contenido.html#contenido.models.Calificacion.id">(contenido.models.Calificacion attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.models.Categoria.id">(contenido.models.Categoria attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.models.Comentario.id">(contenido.models.Comentario attribute)</a>
@@ -778,6 +802,8 @@
         <li><a href="contenido.html#contenido.forms.VersionContenidoEditForm.media">(contenido.forms.VersionContenidoEditForm property)</a>
 </li>
       </ul></li>
+      <li><a href="contenido.html#contenido.views.megusta">megusta() (in module contenido.views)</a>
+</li>
       <li><a href="app.html#app.forms.CustomAdminUserChangeForm.Meta.model">model (app.forms.CustomAdminUserChangeForm.Meta attribute)</a>
 
       <ul>
@@ -900,6 +926,8 @@
       <li><a href="contenido.html#contenido.models.Archivos.objects">objects (contenido.models.Archivos attribute)</a>
 
       <ul>
+        <li><a href="contenido.html#contenido.models.Calificacion.objects">(contenido.models.Calificacion attribute)</a>
+</li>
         <li><a href="contenido.html#contenido.models.Categoria.objects">(contenido.models.Categoria attribute)</a>
 </li>
         <li><a href="contenido.html#contenido.models.Comentario.objects">(contenido.models.Comentario attribute)</a>
@@ -919,6 +947,10 @@
         <li><a href="contenido.html#contenido.models.Video.objects">(contenido.models.Video attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="contenido.html#contenido.models.Contenido.obtener_promedio_calificacion">obtener_promedio_calificacion() (contenido.models.Contenido method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -971,6 +1003,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.html#app.views.ProfileView">ProfileView (class in app.views)</a>
 </li>
+      <li><a href="contenido.html#contenido.models.Contenido.promedio_calificacion">promedio_calificacion (contenido.models.Contenido attribute)</a>
+</li>
       <li><a href="contenido.html#contenido.views.publicar_contenido">publicar_contenido() (in module contenido.views)</a>
 </li>
   </ul></td>
@@ -1015,12 +1049,16 @@
 </li>
       <li><a href="contenido.html#contenido.models.Categoria.seguidores">seguidores (contenido.models.Categoria attribute)</a>
 </li>
+      <li><a href="contenido.html#contenido.views.seguidos">seguidos() (in module contenido.views)</a>
+</li>
       <li><a href="contenido.html#contenido.models.Contenido.solo_suscriptores">solo_suscriptores (contenido.models.Contenido attribute)</a>
 
       <ul>
         <li><a href="contenido.html#contenido.models.VersionContenido.solo_suscriptores">(contenido.models.VersionContenido attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="app.html#app.views.UserCreateView.success_url">success_url (app.views.UserCreateView attribute)</a>
 
       <ul>
@@ -1162,6 +1200,10 @@
       <li><a href="app.html#app.views.UserListView">UserListView (class in app.views)</a>
 </li>
       <li><a href="app.html#app.views.UserUpdateView">UserUpdateView (class in app.views)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Calificacion.usuario">usuario (contenido.models.Calificacion attribute)</a>
+</li>
+      <li><a href="contenido.html#contenido.models.Calificacion.usuario_id">usuario_id (contenido.models.Calificacion attribute)</a>
 </li>
   </ul></td>
 </tr></table>

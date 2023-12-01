@@ -332,6 +332,11 @@ def detalle_contenido(request, pk):
                     calificacion.delete()
             else:
                 Calificacion.objects.create(contenido=contenido, usuario=request.user, estrellas=estrellas)
+            if contenido.obtener_promedio_calificacion() == 'Sin calificaciones':
+                contenido.promedio_calificacion = 0.0
+            else:
+                contenido.promedio_calificacion = contenido.obtener_promedio_calificacion()
+            contenido.save()
             return redirect('detalle_contenido', pk=pk)
         if calificacion:
             calificacion = calificacion.estrellas
@@ -744,6 +749,15 @@ def confirmar_desactivacion(request, pk):
         # Si el usuario confirma la desactivación
         contenido.is_active = False
         contenido.save()
+        context = {
+            'titulo': contenido.titulo,
+        } 
+        html_template = 'notificaciones/inactivado.html'
+        html_message = render_to_string(html_template, context)
+        subject = 'Cambio de estado de publicación'
+        message=EmailMessage(subject, html_message, 'cmsis2eq01@gmail.com', [contenido.user.email])
+        message.content_subtype = 'html'
+        message.send()
 
         return redirect('index')  # Redirigir a donde desees después de la desactivación
 
@@ -778,3 +792,13 @@ def seguidos(request):
     categorias=Categoria.objects.filter(id__in=ids)
     
     return render(request, 'contenido/seguidos.html', {'categorias': categorias})
+
+@permission_required('contenido.puede_destacar_contenido')
+def destacar_contenido(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+    if contenido.destacado:
+        contenido.destacado = False
+    else:
+        contenido.destacado = True
+    contenido.save()
+    return redirect('detalle_contenido', pk=contenido.id)
