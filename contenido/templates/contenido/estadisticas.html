@@ -33,7 +33,7 @@
           <td>{{ contenido.dislikes.count }}</td>
           <td>{{ contenido.compartidos }}</td>
           <td>{{ contenido.calificaciones.count }}</td>
-          <td>{{ contenido.obtener_promedio_calificacion }}</td>
+          <td>{{ contenido.obtener_promedio_calificacion|floatformat:2 }}</td>
         </tr>
       {% endfor %}
     </tbody>
