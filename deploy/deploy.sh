@@ -12,6 +12,9 @@ mkdir ../staticfiles
 sudo apt update -y
 sudo apt install python3 python3-venv libpq-dev postgresql postgresql-contrib nginx curl -y
 
+# Nginx al firewall
+sudo ufw allow 'Nginx Full'
+
 # Ejecutar los comandos con sudo su postgres
 sudo su postgres <<EOF
 psql -c "CREATE DATABASE $db_name;"
@@ -30,8 +33,15 @@ pip install -r '../requirements.txt'
 
 # A la carpeta del proyecto
 cd ..
+
+# Migraciones, semilla y archivos estaticos
+python manage.py makemigrations --settings=cms_is2.produccion
 python manage.py migrate --settings=cms_is2.produccion
+python manage.py semilla --settings=cms_is2.produccion
 python manage.py collectstatic --noinput --settings=cms_is2.produccion
+
+# Abrirmos el firewall para el puerto 8000
+sudo ufw allow 8000
 
 echo 'Desactivando el entorno virtual...'
 deactivate
@@ -53,6 +63,3 @@ sudo ln -s /etc/nginx/sites-available/cms /etc/nginx/sites-enabled/
 
 # Reiniciamos nginx
 sudo systemctl restart nginx
-
-# Nginx al firewall
-sudo ufw allow 'Nginx Full'
