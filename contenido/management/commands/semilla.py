@@ -152,6 +152,10 @@ class Command(BaseCommand):
             # Visitas
             contenido.visitas = random.randint(0, 1000)
             contenido.compartidos = random.randint(0, 10)
+            if contenido.obtener_promedio_calificacion() == 'Sin calificaciones':
+                contenido.promedio_calificacion = 0.0
+            else:
+                contenido.promedio_calificacion = contenido.obtener_promedio_calificacion()
             contenido.save()
 
         self.stdout.write(self.style.SUCCESS('Datos cargados exitosamente.'))
