@@ -15,7 +15,9 @@
     <div class="contenido-detallado">
         <div class="contenido-title d-flex justify-content-between align-items-center">
             <h1>{{ contenido.titulo }}</h1>
-            <a href="{% url 'confirmar_desactivacion' pk=contenido.id %}"><i class="bi-trash" title="Desactivar Contenido" style="cursor: pointer;"></i></a>
+            {% if perms.contenido.puede_inactivar_contenido %}
+                <a href="{% url 'confirmar_desactivacion' pk=contenido.id %}"><i class="bi-trash" title="Desactivar Contenido" style="cursor: pointer;"></i></a>
+            {% endif %}
         </div>
         <div class="contenido-references">
             <p>Autor: <a href="{% url 'detalle_autor' contenido.user.pk %}">{{ contenido.user.username }}</a> | Categoría: <a href="{% url 'mostrar_contenidos' contenido.categoria.pk %}">{{ contenido.categoria }}</a> | {{ contenido.fecha }}</p>
@@ -64,6 +66,7 @@
         <div class="ps-2 py-1" style="border-top: 2px solid black;">
             <form class="d-flex gap-4 align-items-center" method="post" action="{% url 'detalle_contenido' pk=contenido.id %}">
                 {% csrf_token %}
+                {% if user.is_authenticated %}
                 <div>
                     <label for="estrellas">Calificar:</label>
                     <select name="estrellas">
@@ -79,6 +82,7 @@
                     {% endif %}
                 </div>
                 <button class="btn btn-primary btn-sm" type="submit">Calificar</button>
+                {% endif %}
                 <span>Calificación promedio: {{ promedio_calificacion|default:"No hay calificaciones aún" }} ( {{ cantidad_calificaciones }} calificacion(es) )</span>
             </form>
         </div>
