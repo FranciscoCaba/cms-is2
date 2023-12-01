@@ -1,24 +1,29 @@
 {% extends 'base.html' %}
 {% block titulo %}{{ categoria.nombre }}{% endblock %}
 {% block contenido %}
-<h1 style="display: flex; align-items: center;">
-    <span>Contenidos de la Categoría: {{ categoria.nombre }}</span>
-    <span style="margin-left: 55px; font-size: 30px;">Seguidores: {{ categoria.seguidores.count }}</span>
+<div class='my-4' style="margin-left: 10%;">
+    <h1 style="display: flex; align-items: center;">
+        <span>Contenidos de la Categoría: {{ categoria.nombre }}</span>
+    </h1>
+
     {% if user.is_authenticated %}
-        <form action="{% url 'toggle_favorito' categoria.id %}" method="post" style="margin-left: 10px;">
+        <form action="{% url 'toggle_favorito' categoria.id %}" method="post" class="d-inline">
             {% csrf_token %}
-            <button class="btn btn-primary btn-sm my-2 my-sm-0" type="submit">
-                {% if user_favorito_categoria %}
-                    Dejar de seguir categoria
-                {% else %}
-                    Seguir categoria
-                {% endif %}
+            <button class="interaction-button" type="submit" style="font-size: 12px; padding: 4px 8px;">
+            {% if user_favorito_categoria %}
+                Dejar de seguir categoria
+            {% else %}
+                Seguir categoria
+            {% endif %}
             </button>
         </form>
     {% else %}
-        <a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para seguir categoria.</a>
+        <button class='btn btn-primary d-inline'><a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión para seguir categoria.</a></button>
     {% endif %}
-</h1>
+
+    <span class="d-inline ms-4">Seguidores: {{ categoria.seguidores.count }}</span>
+</div>
+
 <ul class="contenido-list">
     {% for contenido in contenidos %}
         <li class="contenido-portlet">

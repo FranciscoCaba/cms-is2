@@ -20,10 +20,13 @@
 .contenedor-categorias {
     border: 2px solid black;
     border-radius: 10px;
-    list-style-type: none;
+    list-style-type: disc;
     width: 75%;
     padding: 4vh 2vw 6vh 2vw;
     margin: 3vh auto;
+    gap: 1.5vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .categoria-titulo {

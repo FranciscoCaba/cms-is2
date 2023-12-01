@@ -787,3 +787,13 @@ def seguidos(request):
     categorias=Categoria.objects.filter(id__in=ids)
     
     return render(request, 'contenido/seguidos.html', {'categorias': categorias})
+
+@permission_required('contenido.puede_destacar_contenido')
+def destacar_contenido(request, pk):
+    contenido = get_object_or_404(Contenido, pk=pk)
+    if contenido.destacado:
+        contenido.destacado = False
+    else:
+        contenido.destacado = True
+    contenido.save()
+    return redirect('detalle_contenido', pk=contenido.id)
