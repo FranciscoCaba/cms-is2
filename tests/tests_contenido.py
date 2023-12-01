@@ -21,7 +21,7 @@ class ContenidoFormViewTests(TestCase):
         self.client = Client()
         self.client.login(username='testuser', password='testpassword')
 
-    def test_contenido_creation(self):
+    def test_contenido_creacion(self):
         categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
         data = {
             'titulo': 'Titulo',
@@ -37,7 +37,7 @@ class ContenidoFormViewTests(TestCase):
         self.assertEqual(created_contenido.categoria, categoria,'Categoria no existe')
         self.assertEqual(created_contenido.descripcion, 'Descripcion','Descripcion incorrecta')
 
-    def test_contenido_creation_creates_revision(self):
+    def test_contenido_creacion_crea_revision(self):
         categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
         data = {
             'titulo': 'Titulo',
@@ -52,7 +52,7 @@ class ContenidoFormViewTests(TestCase):
         self.assertIsNotNone(created_contenido, 'Contenido no creado')
         self.assertEqual(created_contenido.estado, 'En revisión', 'Estado del contenido incorrecto')
 
-    def test_contenido_creation_creates_borrador(self):
+    def test_contenido_creacion_crea_borrador(self):
         categoria = Categoria.objects.create(nombre='Categoria',moderada=True,is_active=True)
         data = {
             'titulo': 'Titulo',
@@ -200,7 +200,7 @@ class ArchivosModelTest(TestCase):
         self.assertIsNotNone(archivo, 'Archivo no creado')
         self.assertEqual(archivo.contenido, self.contenido, 'Contenido incorrecto')
 
-class EstadoChangeTestCase(TestCase):
+class CambioEstadoTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.user.user_permissions.add(Permission.objects.get(codename='puede_publicar_rechazar'))
@@ -282,7 +282,7 @@ class EditVersionTests(TestCase):
         )
         return version
 
-    def test_edit_version_view(self):
+    def test_edit_version(self):
         version = self.create_version()
         data = {
             'titulo': 'Edited Title',
