@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User, Permission
-from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido, Like, Favoritos,Dislike
+from contenido.models import Contenido, Categoria, Image, Video, Archivos, VersionContenido, Like, Favoritos, Dislike, Calificacion
 from contenido.forms import ContenidoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -345,3 +345,30 @@ class Reacciones(TestCase):
         response = self.client.post(url)
         self.contenido.refresh_from_db() 
         self.assertEqual(self.contenido.compartidos, 1)
+
+class CalificacionTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+        self.categoria = Categoria.objects.create(nombre='Test Categoria')
+        self.contenido = Contenido.objects.create(titulo='Test Content', user=self.user, categoria=self.categoria)
+
+    def test_create_calificacion(self):
+        response = self.client.post(reverse('detalle_contenido', kwargs={'pk': self.contenido.id}), {'estrellas': '5'})
+        self.assertEqual(response.status_code, 302)  
+        calificacion = Calificacion.objects.filter(contenido=self.contenido, usuario=self.user).first()
+        self.assertIsNotNone(calificacion)  
+
+    def test_update_calificacion(self):
+        calificacion = Calificacion.objects.create(contenido=self.contenido, usuario=self.user, estrellas=4)
+        response = self.client.post(reverse('detalle_contenido', kwargs={'pk': self.contenido.id}), {'estrellas': '3'})
+        self.assertEqual(response.status_code, 302)  
+        calificacion.refresh_from_db()
+        self.assertEqual(calificacion.estrellas, 3)  
+
+    def test_delete_calificacion(self):
+        calificacion = Calificacion.objects.create(contenido=self.contenido, usuario=self.user, estrellas=4)
+        response = self.client.post(reverse('detalle_contenido', kwargs={'pk': self.contenido.id}), {'estrellas': '0'})
+        self.assertEqual(response.status_code, 302)  
+        calificacion_exists = Calificacion.objects.filter(contenido=self.contenido, usuario=self.user).exists()
+        self.assertFalse(calificacion_exists)  
