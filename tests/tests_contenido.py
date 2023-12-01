@@ -372,3 +372,14 @@ class CalificacionTests(TestCase):
         self.assertEqual(response.status_code, 302)  
         calificacion_exists = Calificacion.objects.filter(contenido=self.contenido, usuario=self.user).exists()
         self.assertFalse(calificacion_exists)  
+
+class EstadisticasTests(TestCase):
+    def setUp(self):
+        self.user_con_permiso = User.objects.create_user(username='userwithperm', password='testpassword')
+        self.user_con_permiso.user_permissions.add(Permission.objects.get(codename='puede_ver_estadisticas'))
+        self.user_without_permission = User.objects.create_user(username='userwithoutperm', password='testpassword')
+
+    def test_ver_pagina_estadisticas(self):
+        self.client.login(username='userwithperm', password='testpassword')
+        response = self.client.get(reverse('estadisticas'))
+        self.assertEqual(response.status_code, 200)  
