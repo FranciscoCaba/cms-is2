@@ -69,6 +69,8 @@ class Command(BaseCommand):
         publicador.permissions.add(Permission.objects.get(codename='ver_todos_versiones'))
         publicador.permissions.add(Permission.objects.get(codename='ver_historial'))
         publicador.permissions.add(Permission.objects.get(codename='puede_ver_estadisticas'))
+        publicador.permissions.add(Permission.objects.get(codename='puede_inactivar_contenido'))
+        publicador.permissions.add(Permission.objects.get(codename='puede_destacar_contenido'))
         
 
         # Crear usuarios y asignarlos a grupos

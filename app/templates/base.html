@@ -59,12 +59,12 @@
             {% endif %}
             {% if perms.auth.change_group and perms.auth.delete_group %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'group_list' %}">Administrar grupos</a>
+              <a class="nav-link" href="{% url 'group_list' %}">Administrar roles</a>
             </li>
             {% endif %}
             {% if perms.auth.add_group %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'create_group' %}">Crear grupo</a>
+              <a class="nav-link" href="{% url 'create_group' %}">Crear rol</a>
             </li>
             {% endif %}
             {% if perms.contenido.change_categoria and perms.contenido.delete_categoria %}
