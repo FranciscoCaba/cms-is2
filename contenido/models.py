@@ -59,12 +59,12 @@ class Contenido(models.Model):
         return promedio
     
     def save(self, *args, **kwargs):
+        # Guardar una nueva versión de Contenido antes de cada modificación
+        super().save(*args)
         if self.obtener_promedio_calificacion() == 'Sin calificaciones':
             self.promedio_calificacion = 0.0
         else:
             self.promedio_calificacion = self.obtener_promedio_calificacion()
-        # Guardar una nueva versión de Contenido antes de cada modificación
-        super().save(*args)
 
     def save_version(self, *args, **kwargs):
         super().save(*args)
