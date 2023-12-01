@@ -232,6 +232,14 @@ class EstadoChangeTestCase(TestCase):
         self.contenido.refresh_from_db() 
         self.assertEqual(self.contenido.estado, 'Rechazado')
 
+    def test_confirmar_desactivacion(self):
+        self.client.login(username='testuser', password='testpassword')
+        url=reverse('confirmar_desactivacion', args=[self.contenido.pk])
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 302)  
+        self.contenido.refresh_from_db()
+        self.assertFalse(self.contenido.is_active)  
+
 class EmailTest(TestCase):
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
     def test_send_email(self):
