@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {%block titulo%}Confirmar desactivacion{% endblock %}
 {% block contenido %}
-<h1>Confirmar Desactivación</h1>
-<p>¿Estás seguro de que deseas desactivar el contenido "{{ contenido.titulo }}"?</p>
-
-<form method="post" action="{% url 'confirmar_desactivacion' pk=contenido.id %}">
-    {% csrf_token %}
-    <button type="submit">Aceptar</button>
-    <a href="{% url 'detalle_contenido' pk=contenido.id %}">Cancelar</a>
-</form>
+<div class="card px-4 py-4 w-50 mx-auto">
+    <div class="card-title">
+        <h1>Confirmar Desactivación</h1>
+    </div>
+    <div class="card-body">
+        <p>¿Estás seguro de que deseas desactivar el contenido "{{ contenido.titulo }}"?</p>
+        
+        <form method="post" action="{% url 'confirmar_desactivacion' pk=contenido.id %}">
+            {% csrf_token %}
+            <button class="btn btn-primary fw-bold" type="submit">Aceptar</button>
+            <button class="btn btn-danger"><a class="text-white text-decoration-none fw-bold" href="{% url 'detalle_contenido' pk=contenido.id %}">Cancelar</a></button>
+        </form>
+    </div>
+</div>
 {% endblock %}
