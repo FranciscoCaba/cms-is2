@@ -723,6 +723,8 @@ La funcion ``generate_qr_code`` es la encargada de proporcionar el codigo QR par
 
 
 
+
+
 .. automodule:: contenido.views
    :members:
    :undoc-members:
