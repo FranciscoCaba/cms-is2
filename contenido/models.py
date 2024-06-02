@@ -84,6 +84,8 @@ class Contenido(models.Model):
         return self.titulo
     
     class Meta:
+        ordering = ['-destacado', '-promedio_calificacion', '-fecha']
+
         permissions = [
             ('ver_borradores', 'Ver borradores'),
             ('ver_rechazados', 'Ver rechazados'),
